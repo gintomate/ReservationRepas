@@ -2,32 +2,31 @@
 
 namespace App\Entity;
 
-use App\Repository\RepasRepository;
+use App\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RepasRepository::class)]
-class Repas
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    #[ORM\Column]
+    private ?float $sommeTotal = null;
 
-    #[ORM\ManyToOne(inversedBy: 'repas')]
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?TypeRepas $typeRepas = null;
+    private ?User $Utilisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'repas')]
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?JourReservation $jourReservation = null;
+    private ?SemaineReservation $semaine = null;
 
-    #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'repas')]
+    #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'reservation')]
     private Collection $repasReserves;
 
     public function __construct()
@@ -40,38 +39,38 @@ class Repas
         return $this->id;
     }
 
-    public function getDescription(): ?string
+    public function getSommeTotal(): ?float
     {
-        return $this->description;
+        return $this->sommeTotal;
     }
 
-    public function setDescription(string $description): static
+    public function setSommeTotal(float $sommeTotal): static
     {
-        $this->description = $description;
+        $this->sommeTotal = $sommeTotal;
 
         return $this;
     }
 
-    public function getTypeRepas(): ?TypeRepas
+    public function getUtilisateur(): ?User
     {
-        return $this->typeRepas;
+        return $this->Utilisateur;
     }
 
-    public function setTypeRepas(?TypeRepas $typeRepas): static
+    public function setUtilisateur(?User $Utilisateur): static
     {
-        $this->typeRepas = $typeRepas;
+        $this->Utilisateur = $Utilisateur;
 
         return $this;
     }
 
-    public function getJourReservation(): ?JourReservation
+    public function getSemaine(): ?SemaineReservation
     {
-        return $this->jourReservation;
+        return $this->semaine;
     }
 
-    public function setJourReservation(?JourReservation $jourReservation): static
+    public function setSemaine(?SemaineReservation $semaine): static
     {
-        $this->jourReservation = $jourReservation;
+        $this->semaine = $semaine;
 
         return $this;
     }
@@ -88,7 +87,7 @@ class Repas
     {
         if (!$this->repasReserves->contains($repasReserf)) {
             $this->repasReserves->add($repasReserf);
-            $repasReserf->setRepas($this);
+            $repasReserf->setReservation($this);
         }
 
         return $this;
@@ -98,8 +97,8 @@ class Repas
     {
         if ($this->repasReserves->removeElement($repasReserf)) {
             // set the owning side to null (unless already changed)
-            if ($repasReserf->getRepas() === $this) {
-                $repasReserf->setRepas(null);
+            if ($repasReserf->getReservation() === $this) {
+                $repasReserf->setReservation(null);
             }
         }
 
