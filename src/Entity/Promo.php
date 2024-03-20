@@ -22,8 +22,6 @@ class Promo
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateFin = null;
 
-    #[ORM\Column]
-    private ?int $numero = null;
 
     #[ORM\ManyToOne(inversedBy: 'promos')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,6 +29,9 @@ class Promo
 
     #[ORM\OneToMany(targetEntity: UserInfo::class, mappedBy: 'promo')]
     private Collection $userInfos;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nomPromo = null;
 
     public function __construct()
     {
@@ -66,17 +67,6 @@ class Promo
         return $this;
     }
 
-    public function getNumero(): ?int
-    {
-        return $this->numero;
-    }
-
-    public function setNumero(int $numero): static
-    {
-        $this->numero = $numero;
-
-        return $this;
-    }
 
     public function getSection(): ?Section
     {
@@ -116,6 +106,18 @@ class Promo
                 $userInfo->setPromo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNomPromo(): ?string
+    {
+        return $this->nomPromo;
+    }
+
+    public function setNomPromo(string $nomPromo): static
+    {
+        $this->nomPromo = $nomPromo;
 
         return $this;
     }

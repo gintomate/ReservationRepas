@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserInfoRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserInfoRepository::class)]
@@ -19,8 +20,7 @@ class UserInfo
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $age = null;
+  
 
     #[ORM\Column]
     private ?float $somme = null;
@@ -30,6 +30,12 @@ class UserInfo
 
     #[ORM\ManyToOne(inversedBy: 'userInfos')]
     private ?Promo $promo = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateDeNaissance = null;
+
+    #[ORM\Column]
+    private ?float $montantGlobal = null;
 
     public function getId(): ?int
     {
@@ -60,17 +66,7 @@ class UserInfo
         return $this;
     }
 
-    public function getAge(): ?int
-    {
-        return $this->age;
-    }
-
-    public function setAge(?int $age): static
-    {
-        $this->age = $age;
-
-        return $this;
-    }
+  
 
     public function getSomme(): ?float
     {
@@ -114,6 +110,30 @@ class UserInfo
     public function setPromo(?Promo $promo): static
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    public function getDateDeNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateDeNaissance;
+    }
+
+    public function setDateDeNaissance(\DateTimeInterface $dateDeNaissance): static
+    {
+        $this->dateDeNaissance = $dateDeNaissance;
+
+        return $this;
+    }
+
+    public function getMontantGlobal(): ?float
+    {
+        return $this->montantGlobal;
+    }
+
+    public function setMontantGlobal(float $montantGlobal): static
+    {
+        $this->montantGlobal = $montantGlobal;
 
         return $this;
     }

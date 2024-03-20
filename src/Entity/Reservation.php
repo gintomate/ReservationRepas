@@ -15,9 +15,7 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?float $sommeTotal = null;
-
+  
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $Utilisateur = null;
@@ -29,6 +27,9 @@ class Reservation
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'reservation')]
     private Collection $repasReserves;
 
+    #[ORM\Column]
+    private ?float $montantTotal = null;
+
     public function __construct()
     {
         $this->repasReserves = new ArrayCollection();
@@ -39,17 +40,7 @@ class Reservation
         return $this->id;
     }
 
-    public function getSommeTotal(): ?float
-    {
-        return $this->sommeTotal;
-    }
-
-    public function setSommeTotal(float $sommeTotal): static
-    {
-        $this->sommeTotal = $sommeTotal;
-
-        return $this;
-    }
+ 
 
     public function getUtilisateur(): ?User
     {
@@ -101,6 +92,18 @@ class Reservation
                 $repasReserf->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMontantTotal(): ?float
+    {
+        return $this->montantTotal;
+    }
+
+    public function setMontantTotal(float $montantTotal): static
+    {
+        $this->montantTotal = $montantTotal;
 
         return $this;
     }

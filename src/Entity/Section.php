@@ -15,11 +15,16 @@ class Section
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $intitule = null;
+
 
     #[ORM\OneToMany(targetEntity: Promo::class, mappedBy: 'Section')]
     private Collection $promos;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nomSection = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $abreviation = null;
 
     public function __construct()
     {
@@ -31,17 +36,7 @@ class Section
         return $this->id;
     }
 
-    public function getIntitule(): ?string
-    {
-        return $this->intitule;
-    }
-
-    public function setIntitule(string $intitule): static
-    {
-        $this->intitule = $intitule;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection<int, Promo>
@@ -69,6 +64,30 @@ class Section
                 $promo->setSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNomSection(): ?string
+    {
+        return $this->nomSection;
+    }
+
+    public function setNomSection(string $nomSection): static
+    {
+        $this->nomSection = $nomSection;
+
+        return $this;
+    }
+
+    public function getAbreviation(): ?string
+    {
+        return $this->abreviation;
+    }
+
+    public function setAbreviation(string $abreviation): static
+    {
+        $this->abreviation = $abreviation;
 
         return $this;
     }

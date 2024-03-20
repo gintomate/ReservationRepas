@@ -26,6 +26,9 @@ class JourReservation
     #[ORM\OneToMany(targetEntity: Repas::class, mappedBy: 'jourReservation')]
     private Collection $repas;
 
+    #[ORM\Column]
+    private ?bool $ferie = null;
+
     public function __construct()
     {
         $this->repas = new ArrayCollection();
@@ -86,6 +89,18 @@ class JourReservation
                 $repa->setJourReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isFerie(): ?bool
+    {
+        return $this->ferie;
+    }
+
+    public function setFerie(bool $ferie): static
+    {
+        $this->ferie = $ferie;
 
         return $this;
     }
