@@ -20,10 +20,7 @@ class UserInfo
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-  
 
-    #[ORM\Column]
-    private ?float $somme = null;
 
     #[ORM\OneToOne(mappedBy: 'userInfo', cascade: ['persist', 'remove'])]
     private ?User $user = null;
@@ -67,19 +64,6 @@ class UserInfo
     }
 
   
-
-    public function getSomme(): ?float
-    {
-        return $this->somme;
-    }
-
-    public function setSomme(float $somme): static
-    {
-        $this->somme = $somme;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
