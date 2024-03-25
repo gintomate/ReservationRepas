@@ -1,98 +1,113 @@
-{% extends 'base.html.twig' %} {% block title %}Gestion des Menus{% endblock %}
-{% block body %} {% include "nav/AdminNav.html.twig" %}
+{% extends 'base.html.twig' %} {% block title %}Gestion des Menus{% endblock
+%}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ 'menu.css' }}" />
+{% endblock %}{% block importmap %} {# do NOT call parent() #}
+
+{{ importmap(["app", "menu"]) }}
+{% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
+
+<main class="container">
 <h1>Créer un Menu</h1>
 
-<form action=""></form>
+<form action="" method="post">
+  <label for="">Semaine</label>
+  <select name="semaine" id="semaine"></select>
 
-<label for=""></label>
-<select name="" id=""></select>
-
-<div>
   <div>
-    <h3>Lundi</h3>
-    <input type="checkbox" name="" id="" />
     <div>
-      <h4>Déjeuner A</h4>
-      <input type="text" />
+      <h3>Lundi</h3>
+      <input type="hidden" name="day[lundi][ferie]" value="false">
+      <input type="checkbox" name="day[lundi][ferie]" id="" value="true" />
+      <div>
+        <h4>Déjeuner A</h4>
+        <input type="text" id="lundiDejA" name="day[lundi][dejeuner_a]" />
+      </div>
+      <div>
+        <h4>Déjeuner B</h4>
+        <input type="text" name="day[lundi][dejeuner_b]" />
+      </div>
+      <div>
+        <h4>Diner</h4>
+        <input type="text" name="day[lundi][diner]" />
+      </div>
     </div>
     <div>
-      <h4>Déjeuner B</h4>
-      <input type="text" />
+      <h3>Mardi</h3>
+      <input type="hidden" name="day[mardi][ferie]" value="false">
+      <input type="checkbox" name="day[mardi][ferie]" id="" value="true"/>
+      <div>
+        <h4>Petit Déjeuner</h4>
+        <input type="text" name="day[mardi][petit_dejeuner]" />
+      </div>
+      <div>
+        <h4>Déjeuner A</h4>
+        <input type="text" name="day[mardi][dejeuner_a]" />
+      </div>
+      <div>
+        <h4>Déjeuner B</h4>
+        <input type="text" name="day[mardi][dejeuner_b]" />
+      </div>
+      <div>
+        <h4>Diner</h4>
+        <input type="text" name="day[mardi][diner]" />
+      </div>
     </div>
     <div>
-      <h4>Diner</h4>
-      <input type="text" />
+      <h3>Mercredi</h3>
+      <input type="hidden" name="day[mercredi][ferie]" value="false">
+      <input type="checkbox" name="day[mercredi][ferie]" id="" value="true"/>
+      <div>
+        <h4>Petit Déjeuner</h4>
+        
+        <input type="text" name="day[mercredi][petit_dejeuner]" />
+      </div> 
+      </div>
+      <div>
+        <h4>Déjeuner A</h4>
+        <input type="text" name="day[mercredi][dejeuner_a]"
+      <div>
+        <h4>Déjeuner B</h4>
+        <input type="text" name="day[mercredi][dejeuner_b]" />
+      </div>
+      <div>
+        <h4>Diner</h4>
+        <input type="text" name="day[mercredi][diner]" />
+      </div>
+    </div>
+    <div>
+      <h3>Jeudi</h3>
+      <input type="hidden" name="day[jeudi][ferie]" value="false">
+      <input type="checkbox" name="day[jeudi][ferie]" id="" value="true"/>
+      <div>
+        <h4>Petit Déjeuner</h4>
+        <input type="text" name="day[jeudi][petit_dejeuner]" />
+      </div>
+      <div>
+        <h4>Déjeuner A</h4>
+        <input type="text" name="day[jeudi][dejeuner_a]" />
+      </div>
+      <div>
+        <h4>Déjeuner B</h4>
+        <input type="text" name="day[jeudi][dejeuner_b]" />
+      </div>
+      <div>
+        <h4>Diner</h4>
+        <input type="text" name="day[jeudi][diner]" />
+      </div>
+    </div>
+    <div>
+      <h3>Vendredi</h3>
+      <input type="hidden" name="day[vendredi][ferie]" value="false">
+      <input type="checkbox" name="day[vendredi][ferie]" id="" value="true" />
+      <div>
+        <h4>Petit Déjeuner</h4>
+       
+        <input type="text" name="day[vendredi][petit_dejeuner]" />
+      </div>
     </div>
   </div>
-  <div>
-    <h3>Mardi</h3>
-    <input type="checkbox" name="" id="" />
-    <div>
-      <h4>Petit Déjeuner</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner A</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner B</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Diner</h4>
-      <input type="text" />
-    </div>
-  </div>
-  <div>
-    <h3>Mercredi</h3>
-    <input type="checkbox" name="" id="" />
-    <div>
-      <h4>Petit Déjeuner</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner A</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner B</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Diner</h4>
-      <input type="text" />
-    </div>
-  </div>
-  <div>
-    <h3>Jeudi</h3>
-    <input type="checkbox" name="" id="" />
-    <div>
-      <h4>Petit Déjeuner</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner A</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Déjeuner B</h4>
-      <input type="text" />
-    </div>
-    <div>
-      <h4>Diner</h4>
-      <input type="text" />
-    </div>
-  </div>
-  <div>
-    <h3>Vendredi</h3>
-    <input type="checkbox" name="" id="" />
-    <div>
-      <h4>Petit Déjeuner</h4>
-      <input type="text" />
-    </div>
-  </div>
-</div>
-<button type="submit">Valider</button>
+  <button type="submit">Valider</button>
 </form>
+</main>
 {% endblock %}
