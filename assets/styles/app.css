@@ -1,3 +1,15 @@
+:root {
+  --main-color: #323250;
+  --secondary-color: #00e68c;
+  --tertiary-color: #ffbe00;
+}
+
 body {
-    background-color: skyblue;
+  background-color: white;
+}
+nav {
+  background-color: var(--secondary-color);
+}
+main {
+  background-color: var(--main-color);
 }

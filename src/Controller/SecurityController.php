@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
@@ -46,5 +47,20 @@ class SecurityController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('/connection', name: 'login')]
 
+    public function login(AuthenticationUtils $authenticationUtils): Response {
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('security/login.html.twig', [
+            'controller_name' => 'LoginController',
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
+    }
+    #[Route('/deconnection', name: 'logout')]
+
+    public function logout(){
+
+    }
 }

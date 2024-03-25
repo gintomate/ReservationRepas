@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %} {% block title %}Accueil - Connection{% endblock
+%} {% block body %} {% include "nav/AccueilNav.html.twig" %}
+<h1>Connection</h1>
+<main>
+    <form action="{{ path('login') }}" method="post">
+    <label for="username">Identifiant *</label
+    ><input type="text" id="username" name="_username"/><label for="password"
+      >Mot de Passe *</label
+    ><input type="text" id="password" name="_password" />
+    <a href="">Mot de passe oublié ?</a>
+    <button type="submit">Se connecter</button>
+  </form>
+  {% if error %}
+  <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+</main>
+{% endblock %}
