@@ -107,6 +107,9 @@
       </div>
     </div>
   </div>
+  {% for error in errors %}
+    <li>{{ error.message }}</li>
+{% endfor %}
   <button type="submit">Valider</button>
 </form>
 </main>
