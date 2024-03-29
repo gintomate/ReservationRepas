@@ -3,10 +3,10 @@ endblock %} {% block body %} {% include "nav/AccueilNav.html.twig" %}
 <main class="container ">
   <div><h1 class="bg-alert">Afpar à la Carte</h1></div>
   <div>
-    <div><img src="" alt="" /></div>
+    <div><img src="{{ asset('image/afparLogo.jpg') }}" alt="" /></div>
     <div>
       <h2>Bienvenue sur le site de l'Afpar</h2>
-      <button>Se Connecter</button>
+      <a href="{{path('login')}}"><button>Se Connecter</button></a>
     </div>
   </div>
 </main>

@@ -1,0 +1,22 @@
+<nav class="d-flex flex-row">
+  <a href="{{ path('app_accueil') }}"
+    ><img src="{{ asset('image/afparLogoDroit.png') }}" alt=""
+  /></a>
+  <div class="d-flex flex-row" id="nav-link">
+    <div class="dropdown">
+      <a href="" class="d-flex flex-column"
+        >Réserver mes Repas</a
+      >
+    </div>
+  </div>
+  <div class="dropdown">
+    <a href="# ">Consulter mes Reservations</a>
+  </div>
+  <div class="dropdown">
+    <a href="#" class="d-flex flex-column">Consulter mon Profil</a>
+  </div>
+  <div id="userBadge">
+    {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}
+  </div>
+  <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
+</nav>

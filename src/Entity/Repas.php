@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RepasRepository::class)]
@@ -15,15 +16,19 @@ class Repas
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank (
-        message : "Tous les champs non férié doivent étre remplies.")]
+    #[Assert\NotBlank(
+        message: "Tous les champs non férié doivent étre remplies."
+    )]
+    #[Groups(['reservation'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation'])]
     private ?TypeRepas $typeRepas = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]

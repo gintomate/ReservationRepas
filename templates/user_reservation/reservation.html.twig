@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %} {% block title %}Réservation de Repas{% endblock
+%} {% block importmap %}  <script> var tarifReduit = false; tarifReduit = {{tarifReduit|json_encode|raw}}</script>  {{ importmap(["app", "reservation"]) }}{% endblock %}{%
+block body %} {% include "nav/UserNav.html.twig" %}
+<main>
+
+  <h1>Réserver un Repas</h1>
+  <form action="">
+    <div id="semaineContainer" ->
+      <label for="semaine">Réserver pour la Semaine: </label>
+      <select name="semaine" id="semaine"></select>
+    </div>
+    <div id="menuContainer">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="jourContainer">
+          <h3>Lundi</h3>
+          <div class="repas green">
+            <h4>Petit Déjeuner</h4>
+            <p class="lundi"></p>
+          </div>
+          <div class="repas grey">
+            <h4>Déjeuner A</h4>
+            <p name="day[lundi][dejeuner_a]" class="lundi"></p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Déjeuner B</h4>
+            <p class="lundi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Diner</h4>
+            <p class="lundi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Mardi</h3>
+          <div class="repas grey">
+            <h4>Petit Déjeuner</h4>
+            <p class="mardi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Déjeuner A</h4>
+            <p class="mardi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Déjeuner B</h4>
+            <p class="mardi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Diner</h4>
+            <p class="mardi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Mercredi</h3>
+          <div class="repas green">
+            <h4>Petit Déjeuner</h4>
+            <p class="mercredi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Déjeuner A</h4>
+            <p class="mercredi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Déjeuner B</h4>
+            <p class="mercredi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Diner</h4>
+            <p class="mercredi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Jeudi</h3>
+          <div class="repas grey">
+            <h4>Petit Déjeuner</h4>
+            <p class="jeudi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Déjeuner A</h4>
+            <p class="jeudi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Déjeuner B</h4>
+            <p class="jeudi">Placeholder</p>
+            <input type="radio" name="" class="" value="" />
+          </div>
+          <div class="repas green">
+            <h4>Diner</h4>
+            <p class="jeudi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Vendredi</h3>
+          <div class="repas green">
+            <h4>Petit Déjeuner</h4>
+            <p class="vendredi">Placeholder</p>
+            <input type="checkbox" name="" class="" value="" />
+          </div>
+          <div class="repas grey">
+            <h4>Déjeuner A</h4>
+          </div>
+          <div class="repas green">
+            <h4>Déjeuner B</h4>
+          </div>
+          <div class="repas grey">
+            <h4>Diner</h4>
+          </div>
+        </div>
+      </div>
+      <button type="submit">Valider</button>
+    </div>
+  </form>
+</main>
+
+{% endblock %}

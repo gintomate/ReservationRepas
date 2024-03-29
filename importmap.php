@@ -41,6 +41,14 @@ return [
         'path' => './assets/menu.js',
         'entrypoint' => true,
     ],
+    'registration' => [
+        'path' => './assets/registration.js',
+        'entrypoint' => true,
+    ],
+    'reservation' => [
+        'path' => './assets/userReservation.js',
+        'entrypoint' => true,
+    ],
     'axios' => [
         'version' => '1.6.8',
     ],

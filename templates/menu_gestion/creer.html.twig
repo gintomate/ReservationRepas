@@ -1,116 +1,291 @@
-{% extends 'base.html.twig' %} {% block title %}Gestion des Menus{% endblock
-%}
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ 'menu.css' }}" />
-{% endblock %}{% block importmap %} {# do NOT call parent() #}
+{% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %} {%
+block importmap %} {# do NOT call parent() #}
 
 {{ importmap(["app", "menu"]) }}
 {% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
 
-<main class="container">
-<h1>Créer un Menu</h1>
+<main >
+  <h1>Créer un Menu</h1>
 
-<form action="" method="post">
-  <label for="">Semaine</label>
-  <select name="semaine" id="semaine"></select>
-
-  <div>
-    <div>
-      <h3>Lundi</h3>
-      <input type="hidden" name="day[lundi][ferie]" value="false">
-      <input type="checkbox" name="day[lundi][ferie]" id="" value="true" />
-      <div>
-        <h4>Déjeuner A</h4>
-        <input type="text" id="lundiDejA" name="day[lundi][dejeuner_a]" />
+  <form method="post">
+    <div id="semaineContainer" ->
+      <label for="semaine">Créer un menu pour la Semaine: </label>
+      <select name="semaine" id="semaine"></select>
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+      <div class="cardMenu">
+        <h3>Lundi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[lundi][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[lundi][ferie]"
+            class="lundi"
+            value="true"
+        /></label>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            id="lundiDejA"
+            name="day[lundi][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[lundi][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[lundi][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          ></textarea>
+        </div>
       </div>
-      <div>
-        <h4>Déjeuner B</h4>
-        <input type="text" name="day[lundi][dejeuner_b]" />
+      <div class="cardMenu">
+        <h3>Mardi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[mardi][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[mardi][ferie]"
+            class="mardi"
+            value="true"
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[mardi][petit_dejeuner]"
+            placeholder="Petit Déjeuner"
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="mardi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[mardi][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[mardi][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            name="day[mardi][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          ></textarea>
+        </div>
       </div>
-      <div>
-        <h4>Diner</h4>
-        <input type="text" name="day[lundi][diner]" />
+      <div class="cardMenu">
+        <h3>Mercredi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[mercredi][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[mercredi][ferie]"
+            class="mercredi"
+            value="true"
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[mercredi][petit_dejeuner]"
+            placeholder="Petit Déjeuner"
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="mercredi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[mercredi][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[mercredi][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[mercredi][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          ></textarea>
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Jeudi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[jeudi][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[jeudi][ferie]"
+            class="jeudi"
+            value="true"
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[jeudi][petit_dejeuner]"
+            placeholder="Petit Déjeuner"
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="jeudi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[jeudi][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[jeudi][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          ></textarea>
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[jeudi][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          ></textarea>
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Vendredi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[vendredi][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[vendredi][ferie]"
+            class="vendredi"
+            value="true"
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[vendredi][petit_dejeuner]"
+            placeholder="Petit Déjeuner"
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="vendredi"
+          ></textarea>
+        </div>
       </div>
     </div>
-    <div>
-      <h3>Mardi</h3>
-      <input type="hidden" name="day[mardi][ferie]" value="false">
-      <input type="checkbox" name="day[mardi][ferie]" id="" value="true"/>
-      <div>
-        <h4>Petit Déjeuner</h4>
-        <input type="text" name="day[mardi][petit_dejeuner]" />
-      </div>
-      <div>
-        <h4>Déjeuner A</h4>
-        <input type="text" name="day[mardi][dejeuner_a]" />
-      </div>
-      <div>
-        <h4>Déjeuner B</h4>
-        <input type="text" name="day[mardi][dejeuner_b]" />
-      </div>
-      <div>
-        <h4>Diner</h4>
-        <input type="text" name="day[mardi][diner]" />
-      </div>
+    <div  role="alert" id="errorMsg"></div>
+    <div class="text-end">
+      <button type="reset" class="btnCreer" id="btnReset">Annuler</button>
+      <button type="submit" class="btnCreer" id="btnValider">Valider</button>
     </div>
-    <div>
-      <h3>Mercredi</h3>
-      <input type="hidden" name="day[mercredi][ferie]" value="false">
-      <input type="checkbox" name="day[mercredi][ferie]" id="" value="true"/>
-      <div>
-        <h4>Petit Déjeuner</h4>
-        
-        <input type="text" name="day[mercredi][petit_dejeuner]" />
-      </div> 
-      </div>
-      <div>
-        <h4>Déjeuner A</h4>
-        <input type="text" name="day[mercredi][dejeuner_a]"
-      <div>
-        <h4>Déjeuner B</h4>
-        <input type="text" name="day[mercredi][dejeuner_b]" />
-      </div>
-      <div>
-        <h4>Diner</h4>
-        <input type="text" name="day[mercredi][diner]" />
-      </div>
-    </div>
-    <div>
-      <h3>Jeudi</h3>
-      <input type="hidden" name="day[jeudi][ferie]" value="false">
-      <input type="checkbox" name="day[jeudi][ferie]" id="" value="true"/>
-      <div>
-        <h4>Petit Déjeuner</h4>
-        <input type="text" name="day[jeudi][petit_dejeuner]" />
-      </div>
-      <div>
-        <h4>Déjeuner A</h4>
-        <input type="text" name="day[jeudi][dejeuner_a]" />
-      </div>
-      <div>
-        <h4>Déjeuner B</h4>
-        <input type="text" name="day[jeudi][dejeuner_b]" />
-      </div>
-      <div>
-        <h4>Diner</h4>
-        <input type="text" name="day[jeudi][diner]" />
-      </div>
-    </div>
-    <div>
-      <h3>Vendredi</h3>
-      <input type="hidden" name="day[vendredi][ferie]" value="false">
-      <input type="checkbox" name="day[vendredi][ferie]" id="" value="true" />
-      <div>
-        <h4>Petit Déjeuner</h4>
-       
-        <input type="text" name="day[vendredi][petit_dejeuner]" />
-      </div>
-    </div>
-  </div>
-  {% for error in errors %}
-    <li>{{ error.message }}</li>
-{% endfor %}
-  <button type="submit">Valider</button>
-</form>
+  </form>
 </main>
 {% endblock %}

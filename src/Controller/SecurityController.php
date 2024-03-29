@@ -12,6 +12,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+use function PHPUnit\Framework\throwException;
+
 class SecurityController extends AbstractController
 {
     #[Route('/security', name: 'app_security')]
@@ -36,11 +38,36 @@ class SecurityController extends AbstractController
                 $user,
                 $plaintextPassword
             );
+            $statut = $form->get('statut')->getData();
+
+            switch ($statut) {
+                case 'Stagiaire':
+                    $roles = ['ROLE_STAGIAIRE'];
+                    break;
+                case 'Personnel':
+                    $roles = ['ROLE_PERSONNEL'];
+                    break;
+                case 'Cuisinier':
+                    $roles = ['ROLE_CUISINIER'];
+                    break;
+                case 'Externe':
+                    $roles = ['ROLE_EXTERNE'];
+                    break;
+                default:
+                    throw new \Exception("Invalid statut: $statut");
+            }
+            $delegue = $form->get('delegue')->getData();
+            dump($delegue);
+            if ($delegue === true) {
+                $roles[] = 'ROLE_DELEGUE';
+            }
             $user->setPassword($hashedPassword);
-            $user->setRoles([]);
+            $user->setRoles($roles);
+            $user->getUserInfo()->setMontantGlobal(0);
             $entityManager->persist($user);
+
             $entityManager->flush();
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('security/registration.html.twig', [
@@ -49,7 +76,8 @@ class SecurityController extends AbstractController
     }
     #[Route('/connection', name: 'login')]
 
-    public function login(AuthenticationUtils $authenticationUtils): Response {
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('security/login.html.twig', [
@@ -60,7 +88,7 @@ class SecurityController extends AbstractController
     }
     #[Route('/deconnection', name: 'logout')]
 
-    public function logout(){
-
+    public function logout()
+    {
     }
 }

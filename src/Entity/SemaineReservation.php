@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SemaineReservationRepository::class)]
 class SemaineReservation
@@ -14,18 +15,23 @@ class SemaineReservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation', 'semaine'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['reservation', 'semaine'])]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['reservation', 'semaine'])]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column]
+    #[Groups(['reservation', 'semaine'])]
     private ?int $numeroSemaine = null;
 
     #[ORM\OneToMany(targetEntity: JourReservation::class, mappedBy: 'semaineReservation')]
+    #[Groups(['reservation'])]
     private Collection $jourReservation;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'semaine')]

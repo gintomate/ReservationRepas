@@ -1,0 +1,8 @@
+.card-section {
+  width: 50%;
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+}

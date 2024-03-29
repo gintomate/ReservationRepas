@@ -7,16 +7,12 @@ use App\Entity\Repas;
 use App\Repository\SemaineReservationRepository;
 use App\Repository\TypeRepasRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MenuGestionController extends AbstractController
@@ -33,87 +29,72 @@ class MenuGestionController extends AbstractController
     public function creerMenu(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, EntityManagerInterface $entityManager, TypeRepasRepository $typeRepasRepository): Response
     {
         $formData = $request->request->all();
-        $errors = '';
+
+
         if ($request->isMethod('POST')) {
             $semaineSelect =  $formData['semaine'];
+
             $semaine = $semaineReservationRepository->find($semaineSelect);
             $dateDebut = $semaine->getDateDebut();
-            $i = 0;
+            $formValid = true;
             foreach ($formData['day'] as $key => $day) {
-
+                $currentDate = clone $dateDebut;
                 if ($day['ferie'] === 'true') {
                     $jourReservation = new JourReservation;
                     $jourReservation->setFerie(true);
-                    $jourReservation->setDateJour($dateDebut);
+                    $jourReservation->setDateJour($currentDate);
                     $jourReservation->setSemaineReservation($semaine);
-                    $i++;
+                    $entityManager->persist($jourReservation);
                 } else {
-
                     $jourReservation = new JourReservation;
                     $jourReservation->setFerie(false);
-                    $jourReservation->setDateJour($dateDebut);
+                    $jourReservation->setDateJour($currentDate);
                     $jourReservation->setSemaineReservation($semaine);
-                    $i++;
+                    $entityManager->persist($jourReservation);
+                    foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
+                        if (isset($day[$mealType])) {
+                            $repas = new Repas;
+                            $typeRepas = $typeRepasRepository->findOneBy(['type' => $mealType]);
 
+                            $repas->setJourReservation($jourReservation);
+                            $repas->setDescription($day[$mealType]);
+                            $repas->setTypeRepas($typeRepas);
 
-                    if (isset($day['petit_dejeuner'])) {
-                        $repas = new Repas;
-                        $typeRepas = $typeRepasRepository->findOneBy(['type' => 'petit_déjeuner']);
+                            $errors = $validator->validate($repas);
 
-                        $repas->setJourReservation($jourReservation);
-                        $repas->setDescription($day['petit_dejeuner']);
-                        $repas->setTypeRepas($typeRepas);
-                        
-                        $errors = $validator->validate($repas);
-
-                        if (count($errors) > 0) {
-
-                            break;
+                            if (count($errors) > 0) {
+                                $this->addFlash(
+                                    'error',
+                                    'Tous les champs doivent être remplis.'
+                                );
+                                $formValid = false;
+                                break 2; // Exit both inner and outer loops
+                            }
+                            $entityManager->persist($repas);
                         }
-                        $entityManager->persist($repas);
-
                     }
-                    if (isset($day['dejeuner_a'])) {
-                        $repas = new Repas;
-                        $typeRepas = $typeRepasRepository->findOneBy(['type' => 'dejeuner_a']);
+                }
+                $dateDebut->modify('+ 1 day');
+            }
+            if ($formValid === true) {
 
-                        $repas->setJourReservation($jourReservation);
-                        $repas->setDescription($day['dejeuner_a']);
-                        $repas->setTypeRepas($typeRepas);
-                        $entityManager->persist($repas);
-                    }
-                    if (isset($day['dejeuner_b'])) {
-                        $repas = new Repas;
-                        $typeRepas = $typeRepasRepository->findOneBy(['type' => 'dejeuner_b']);
-
-                        $repas->setJourReservation($jourReservation);
-                        $repas->setDescription($day['dejeuner_b']);
-                        $repas->setTypeRepas($typeRepas);
-                        $entityManager->persist($repas);
-                    }
-                    if (isset($day['diner'])) {
-                        $repas = new Repas;
-                        $typeRepas = $typeRepasRepository->findOneBy(['type' => 'diner']);
-
-                        $repas->setJourReservation($jourReservation);
-                        $repas->setDescription($day['diner']);
-                        $repas->setTypeRepas($typeRepas);
-                        $entityManager->persist($repas);
-                    }
-                };
-
-                dump($dateDebut->modify('+1 day'));
+                $entityManager->flush();
+                $this->addFlash(
+                    'success',
+                    'Le Menu a bien était bien enregistré.'
+                );
+                // return $this->redirectToRoute('app_accueil');
             }
         }
 
-        return $this->render('menu_gestion/creer.html.twig', ['errors' =>$errors]);
+        return $this->render('menu_gestion/creer.html.twig');
     }
 
     #[Route('/menu/creer/get', name: 'app_menu_gestion_json')]
     public function creerJson(SemaineReservationRepository $semaineReservationRepository, SerializerInterface $serializer): Response
     {
         $semaine = $semaineReservationRepository->findAll();
-        $jsonContent = $serializer->serialize($semaine, 'json');
+        $jsonContent = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
         return new Response($jsonContent);
     }
 }

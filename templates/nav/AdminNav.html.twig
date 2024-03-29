@@ -1,8 +1,32 @@
-<nav>
-  <a href=""><img src="" alt="" /></a>
-  <div><a href="">Gérer les Menus</a></div>
-  <div><a href="">Récapitulatif des Reservations</a></div>
-  <div><a href="">Gerer les Utilisateurs</a></div>
-  <div>PlaceHolder</div>
-  <button>Se déconnecter</button>
+<nav class="d-flex flex-row">
+  <a href="{{ path('app_accueil') }}"
+    ><img src="{{ asset('image/afparLogoDroit.png') }}" alt=""
+  /></a>
+  <div class="d-flex flex-row" id="nav-link">
+    <div class="dropdown">
+      <a href="{{path('app_menu_gestion')}}" class="d-flex flex-column"
+        >Gérer les Menus<i class="fas fa-arrow-down"></i
+      ></a>
+      <div class="dropdown-content">
+        <a href="{{path('app_menu_creer')}}">Créer un Menu</a>
+        <a href="#">Consulter les Menus</a>
+        <a href="#">Bloquez la Réservation</a>
+      </div>
+    </div>
+    <div class="dropdown ">
+      <a href="# ">Récapitulatif des Reservations</a>
+    </div>
+    <div class="dropdown">
+      <a href="#" class="d-flex flex-column"
+        >Gérer les Utilisateurs<i class="fas fa-arrow-down"></i
+      ></a>
+      <div class="dropdown-content">
+        <a href="#">Créer un Utilisateur</a>
+        <a href="#">Consulter un Utilisateur</a>
+        <a href="#">Gérer les Sections</a>
+      </div>
+    </div>
+  </div>
+  <div id="userBadge">Administration</div>
+  <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
 </nav>

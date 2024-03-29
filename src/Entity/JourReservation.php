@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: JourReservationRepository::class)]
 class JourReservation
@@ -14,9 +15,11 @@ class JourReservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['reservation'])]
     private ?\DateTimeInterface $dateJour = null;
 
     #[ORM\ManyToOne(inversedBy: 'jourReservation')]
@@ -24,10 +27,13 @@ class JourReservation
     private ?SemaineReservation $semaineReservation = null;
 
     #[ORM\OneToMany(targetEntity: Repas::class, mappedBy: 'jourReservation')]
+    #[Groups(['reservation'])]
     private Collection $repas;
 
     #[ORM\Column]
+    #[Groups(['reservation'])]
     private ?bool $ferie = null;
+
 
     public function __construct()
     {

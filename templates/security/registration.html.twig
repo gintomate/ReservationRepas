@@ -1,12 +1,41 @@
-{% extends "base.html.twig" %} {% block body %}
+{% extends "base.html.twig" %} {% block title %}Ajouter un utilisateur{%
+endblock %} {% block importmap %} {# do NOT call parent() #}
+{{ importmap(["app", "registration"]) }}
+{% endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
 <main>
   <h1>Créer un Utilisateur</h1>
-  <div>
-    <div></div>
-    <div></div>
+  {{ form_start(form) }}
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column card-section">
+      <h3>Info Utilisateur</h3>
+      {{ form_label(form.userInfo.nom) }}
+      {{ form_widget(form.userInfo.nom) }}
+      {{ form_label(form.userInfo.prenom) }}
+      {{ form_widget(form.userInfo.prenom) }}
+      {{ form_label(form.userInfo.dateDeNaissance) }}
+      {{ form_widget(form.userInfo.dateDeNaissance) }}
+      {{ form_label(form.email) }}
+      {{ form_widget(form.email) }}
+    </div>
+    <div class="d-flex flex-column card-section">
+      <h3>Info Afpar</h3>
+      {{ form_label(form.statut) }}
+      {{ form_widget(form.statut) }}
+      {{ form_label(form.userInfo.promo) }}
+      {{ form_widget(form.userInfo.promo) }}
+      {{ form_label(form.delegue) }}
+      {{ form_widget(form.delegue) }}
+    </div>
   </div>
+  <div>
+    <h3>Site</h3>
+    {{ form_label(form.identifiant) }}
+    {{ form_widget(form.identifiant) }}
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password) }}
+  </div>
+  <button type="submit">Valider</button>
+  {{ form_end(form) }}
 </main>
-{{form_start(form)}}
-<button type="submit">Valider</button>
-{{form_end(form)}}
+
 {% endblock %}

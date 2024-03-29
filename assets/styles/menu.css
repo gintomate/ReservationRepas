@@ -1,0 +1,52 @@
+.cardMenu {
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  width: 19%;
+  height: fit-content;
+  box-shadow: 10px 10px 5px grey;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+.repas {
+  background-color: var(--secondary-color);
+  text-align: center;
+  color: black;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+}
+#semaineContainer {
+  background-color: var(--main-color);
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+}
+textarea {
+  max-width: 95%;
+}
+h3 {
+  margin-top: 5px;
+}
+#errorMsg{
+background-color: #ff7979;
+color: white;
+}
+.btnCreer {
+  width: 15%;
+  text-align: center;
+  font-size: 36px;
+  margin: 10px;
+  padding: 5px 15px;
+  box-shadow: 5px 5px 3px grey;
+}

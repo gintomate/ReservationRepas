@@ -2,14 +2,33 @@
   --main-color: #323250;
   --secondary-color: #00e68c;
   --tertiary-color: #ffbe00;
+  --grey-color: #878787;
+}
+body {
+  background-color: #f8f8f8;
+  font-size: 18px;
+  font-family: "Century Gothic", Arial;
+  color: black;
+  
 }
 
-body {
-  background-color: white;
-}
-nav {
-  background-color: var(--secondary-color);
-}
 main {
-  background-color: var(--main-color);
+  margin: 0 auto;
+  width: 80%;
+}
+h1 {
+  font-size: 54px;
+  font-family: Tahoma, Arial;
+  text-align: center;
+  font-weight: bolder;
+  text-shadow:0px 4px grey;
+}
+h3 {
+  font-size: 36px;
+  font-family: Tahoma, Arial;
+}
+button {
+  background-color: var(--tertiary-color);
+  border-radius: 50px;
+  border: 2px solid black;
 }

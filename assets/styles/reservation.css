@@ -1,0 +1,24 @@
+#menuContainer {
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  box-shadow: 10px 10px 5px grey;
+}
+.jourContainer {
+  width: 20%;
+}
+.repas {
+  border-radius: 10px;
+  border: 1px solid white;
+  margin: 2px;
+}
+.green {
+  background-color: var(--secondary-color);
+  color: black;
+}
+.grey {
+  background-color: var(--grey-color);
+  color: white;
+}
