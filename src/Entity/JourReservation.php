@@ -24,10 +24,11 @@ class JourReservation
 
     #[ORM\ManyToOne(inversedBy: 'jourReservation')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation'])]
+    
     private ?SemaineReservation $semaineReservation = null;
 
     #[ORM\OneToMany(targetEntity: Repas::class, mappedBy: 'jourReservation')]
-    #[Groups(['reservation'])]
     private Collection $repas;
 
     #[ORM\Column]

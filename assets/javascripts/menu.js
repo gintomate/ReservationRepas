@@ -1,5 +1,5 @@
 import axios from "axios";
-import "./styles/menu.css";
+import "../styles/menu.css";
 
 // Requêter un utilisateur avec un ID donné.
 axios
@@ -125,8 +125,8 @@ function callValid(formValid) {
 }
 
 //remove error message
-var btnValider = document.getElementById("btnReset");
-btnValider.addEventListener("click", resetStyle);
+var btnReset = document.getElementById("btnReset");
+btnReset.addEventListener("click", resetStyle);
 var errorMsg = document.getElementById("errorMsg");
 function resetStyle() {
   errorMsg.classList.remove("alert");

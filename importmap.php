@@ -38,15 +38,19 @@ return [
         'type' => 'css',
     ],
     'menu' => [
-        'path' => './assets/menu.js',
+        'path' => './assets/javascripts/menu.js',
         'entrypoint' => true,
     ],
     'registration' => [
-        'path' => './assets/registration.js',
+        'path' => './assets/javascripts/registration.js',
+        'entrypoint' => true,
+    ],
+    'recapitulatif' => [
+        'path' => './assets/javascripts/adminRecap.js',
         'entrypoint' => true,
     ],
     'reservation' => [
-        'path' => './assets/userReservation.js',
+        'path' => './assets/javascripts/userReservation.js',
         'entrypoint' => true,
     ],
     'axios' => [

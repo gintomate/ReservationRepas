@@ -6,6 +6,7 @@ use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SectionRepository::class)]
 class Section
@@ -13,17 +14,21 @@ class Section
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['section', 'userInfo'])]
     private ?int $id = null;
 
 
 
     #[ORM\OneToMany(targetEntity: Promo::class, mappedBy: 'Section')]
+    #[Groups(['section', 'userInfo'])]
     private Collection $promos;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['section', 'userInfo'])]
     private ?string $nomSection = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['section', 'userInfo'])]
     private ?string $abreviation = null;
 
     public function __construct()
@@ -36,7 +41,7 @@ class Section
         return $this->id;
     }
 
-   
+
 
     /**
      * @return Collection<int, Promo>

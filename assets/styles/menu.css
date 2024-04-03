@@ -1,3 +1,22 @@
+/* CSS Select Semaine */
+
+#semaineContainer {
+  background-color: var(--main-color);
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+}
+
+/* CSS Menu */
+
 .cardMenu {
   background-color: var(--main-color);
   border: 3px solid var(--tertiary-color);
@@ -18,29 +37,15 @@
   padding: 5px;
   border-radius: 10px;
 }
-#semaineContainer {
-  background-color: var(--main-color);
-  display: inline-block;
-  border-radius: 20px;
-  border: 2px solid var(--tertiary-color);
-  margin: 10px;
-  padding: 5px 10px;
-  color: white;
-  box-shadow: 5px 5px 3px grey;
-}
-#semaine {
-  background-color: var(--main-color);
-  color: white;
-}
 textarea {
   max-width: 95%;
 }
 h3 {
   margin-top: 5px;
 }
-#errorMsg{
-background-color: #ff7979;
-color: white;
+#errorMsg {
+  background-color: #ff7979;
+  color: white;
 }
 .btnCreer {
   width: 15%;

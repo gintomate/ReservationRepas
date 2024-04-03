@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserInfoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserInfoRepository::class)]
 class UserInfo
@@ -12,12 +13,15 @@ class UserInfo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['userInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['userInfo'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['userInfo'])]
     private ?string $prenom = null;
 
 
@@ -29,9 +33,11 @@ class UserInfo
     private ?Promo $promo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['userInfo'])]
     private ?\DateTimeInterface $dateDeNaissance = null;
 
     #[ORM\Column]
+    #[Groups(['userInfo'])]
     private ?float $montantGlobal = null;
 
     public function getId(): ?int

@@ -33,11 +33,11 @@ class MenuGestionController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $semaineSelect =  $formData['semaine'];
-
-            $semaine = $semaineReservationRepository->find($semaineSelect);
+            $semaine = $semaineReservationRepository->findOneBy(["numeroSemaine" => $semaineSelect]);
             $dateDebut = $semaine->getDateDebut();
             $formValid = true;
             foreach ($formData['day'] as $key => $day) {
+                //clone currentDate because $dateDebut change even after persist
                 $currentDate = clone $dateDebut;
                 if ($day['ferie'] === 'true') {
                     $jourReservation = new JourReservation;

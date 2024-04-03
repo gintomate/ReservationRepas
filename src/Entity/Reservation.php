@@ -6,6 +6,7 @@ use App\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -13,19 +14,24 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation'])]
     private ?int $id = null;
 
-  
+
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation'])]
     private ?User $Utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation'])]
     private ?SemaineReservation $semaine = null;
 
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'reservation')]
+    #[Groups(['reservation'])]
     private Collection $repasReserves;
+
 
     #[ORM\Column]
     private ?float $montantTotal = null;

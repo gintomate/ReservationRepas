@@ -33,6 +33,7 @@ class Repas
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation'])]
     private ?JourReservation $jourReservation = null;
 
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'repas')]

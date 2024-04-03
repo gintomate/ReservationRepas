@@ -1,3 +1,23 @@
+
+/* CSS Select Semaine */
+
+#semaineContainer {
+  background-color: var(--main-color);
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+}
+
+/* CSS MENU */
+
 #menuContainer {
   background-color: var(--main-color);
   border: 3px solid var(--tertiary-color);
@@ -5,14 +25,21 @@
   color: white;
   text-align: center;
   box-shadow: 10px 10px 5px grey;
+  padding: 2px;
+  margin-bottom: 10px;
+  height: fit-content;
 }
 .jourContainer {
   width: 20%;
+}
+.repasContainer {
+
 }
 .repas {
   border-radius: 10px;
   border: 1px solid white;
   margin: 2px;
+  height: 200px;
 }
 .green {
   background-color: var(--secondary-color);
@@ -21,4 +48,29 @@
 .grey {
   background-color: var(--grey-color);
   color: white;
+}
+
+
+#menuBottomBar{
+  margin: 5px;
+
+}
+
+/* CSS Ferie  */
+
+.ferie {
+  background-color: rgb(218, 102, 102);
+  height: 800px;
+  border-radius: 10px;
+  border: 1px solid white;
+  margin: 2px;
+}
+.ferie>div{
+  height: 100%;
+}
+.ferieText {
+  color: red;
+}
+.hidden {
+  display: none;
 }

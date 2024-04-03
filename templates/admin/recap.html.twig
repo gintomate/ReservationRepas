@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
+endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Récapitulatif des Réservations</h1>
+  <div>
+    <div>
+      <label for="">Section</label
+      ><select name="" id="section"></select>
+    </div>
+    <div>
+      <label for="">Semaine</label
+      ><select name="" id="semaine"></select>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <th>vide</th>
+      <th>Lundi</th>
+      <th>Mardi</th>
+      <th>Mercredi</th>
+      <th>Jeudi</th>
+      <th>Vendredi</th>
+      <th>Total(pers)</th>
+    </thead>
+    <tr>
+      <td>Nom</td>
+      <td>Déjeuner A</td>
+      <td>Déjeuner B</td>
+      <td>Diner</td>
+      <td>Petit Déjeuner</td>
+      <td>Déjeuner A</td>
+      <td>Déjeuner b</td>
+      <td>Diner</td>
+      <td>Petit Déjeuner</td>
+      <td>Déjeuner A</td>
+      <td>Déjeuner B</td>
+      <td>Diner</td>
+      <td>Petit Déjeuner</td>
+      <td>Déjeuner A</td>
+      <td>Déjeuner B</td>
+      <td>Diner</td>
+      <td>Petit Déjeuner</td>
+      <td></td>
+    </tr>
+  </table>
+  <button>Imprimer</button>
+</main>
+{% endblock %}
