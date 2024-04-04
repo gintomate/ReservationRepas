@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class UserReservationController extends AbstractController
 {
-    #[Route('/user/reservation', name: 'app_user_reservation')]
+    #[Route('/user/reservation', name: 'user_reservation')]
     public function index(Request $request, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
     {
         //Get User Roles
@@ -152,7 +152,7 @@ class UserReservationController extends AbstractController
     {
         $date = new \DateTime();
         $semaine = $semaineReservationRepository->findOneBy(['numeroSemaine' => $id]);
-        $jsonContent = $serializer->serialize($semaine, 'json', ['groups' => 'reservation']);
+        $jsonContent = $serializer->serialize($semaine, 'json', ['groups' => 'semaineResa']);
         return new Response($jsonContent);
     }
 }

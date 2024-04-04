@@ -21,7 +21,6 @@ class RepasReserve
 
     #[ORM\ManyToOne(inversedBy: 'repasReserves')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation'])]
     private ?Repas $repas = null;
 
     public function getId(): ?int

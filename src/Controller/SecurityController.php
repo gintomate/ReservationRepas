@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
             'controller_name' => 'SecurityController',
         ]);
     }
-    #[Route('/inscription', name: 'security_registration')]
+    #[Route('admin/inscription', name: 'security_registration')]
     public function registration(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();

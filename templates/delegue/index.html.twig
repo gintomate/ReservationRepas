@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %} {% block title %}Bienvenue Délégué{% endblock %}
+{% block body %}{% include "nav/UserNav.html.twig" %}
+
+<main>
+  <h1>Bienvenue sur le Hub du Délégué</h1>
+
+  <a href="{{ path('user_reservation') }}">
+    <img src="" alt="" />
+    <h2>Réserver mes Repas</h2>
+  </a>
+  <a href="">
+    <img src="" alt="" />
+    <h2>Consulter mes Réservations</h2>
+  </a>
+  <a href="">
+    <img src="" alt="" />
+    <h2>Consulter mon Profil</h2>
+  </a>
+  <a href="{{ path('delegue_recap') }}">
+    <img src="" alt="" />
+    <h2>Récapitulatif Délégué</h2>
+  </a>
+</main>
+
+{% endblock %}

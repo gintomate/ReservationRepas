@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
+endblock %}{% block body %} {% include "nav/Usernav.html.twig" %}
+<main id="cont">
+  <h1>Récapitulatif de la Section</h1>
+  <div class="d-flex flex-row justify-content-between" id="selectContainer">
+    <div class="selectPart">
+      <label for="semaine">Selectionnez la semaine</label
+      ><select name="semaine" id="semaine"></select>
+    </div>
+  </div>
+  <table id="recapContainer">
+    <thead>
+      <td>Nom</td>
+      <td>Prénom</td>
+      <td>Total de la Réservation</td>
+      <td>Somme Donnée</td>
+      <td>Somme à Rendre</td>
+      <td>Signature</td>
+    </thead>
+    <tbody id="recap"></tbody>
+  </table>
+  <button type="button" id="btnPrint">Imprimer</button>
+</main>
+{% endblock %}

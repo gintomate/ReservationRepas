@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PromoRepository::class)]
 class Promo
@@ -20,16 +21,18 @@ class Promo
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['section', 'userInfo'])]
+    #[Assert\Date]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['section', 'userInfo'])]
+    #[Assert\Date]
     private ?\DateTimeInterface $dateFin = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'promos')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups([ 'userInfo'])]
+    #[Groups(['userInfo'])]
     private ?Section $Section = null;
 
     #[ORM\OneToMany(targetEntity: UserInfo::class, mappedBy: 'promo')]
@@ -37,6 +40,14 @@ class Promo
 
     #[ORM\Column(length: 255)]
     #[Groups(['section'])]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Le nom doit faire au moins {{ limit }} charactères.',
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} charactères.',
+    )]
+    #[Assert\Unique]
+
     private ?string $nomPromo = null;
 
     public function __construct()

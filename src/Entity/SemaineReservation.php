@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SemaineReservationRepository::class)]
 class SemaineReservation
@@ -15,22 +16,28 @@ class SemaineReservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation', 'semaine'])]
+    #[Groups(['reservation', 'semaine', 'semaineResa'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['reservation', 'semaine'])]
+    #[Groups(['reservation', 'semaine', 'semaineResa'])]
+    #[Assert\Date]
+    #[Assert\Unique]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['reservation', 'semaine'])]
+    #[Groups(['reservation', 'semaine', 'semaineResa'])]
+    #[Assert\Date]
+    #[Assert\Unique]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column]
-    #[Groups(['reservation', 'semaine'])]
+    #[Groups(['reservation', 'semaine', 'semaineResa'])]
+    #[Assert\PositiveOrZero]
     private ?int $numeroSemaine = null;
 
     #[ORM\OneToMany(targetEntity: JourReservation::class, mappedBy: 'semaineReservation')]
+    #[Groups(['reservation','semaineResa'])]
     private Collection $jourReservation;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'semaine')]

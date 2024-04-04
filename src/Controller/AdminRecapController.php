@@ -14,16 +14,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AdminRecapController extends AbstractController
 {
-    #[Route('/recap', name: 'app_admin_recap')]
-    public function index(): Response
+    #[Route('admin/recap', name: 'admin_recap')]
+    public function recap(): Response
     {
         return $this->render('admin/recap.html.twig', [
             'controller_name' => 'AdminRecapController',
         ]);
     }
 
-    #[Route('/recapSemaineJson', name: 'recap_semaine_json')]
-    public function recapSemaineJson(SerializerInterface $serializer, SectionRepository $sectionRepository, SemaineReservationRepository $semaineReservationRepository): Response
+    #[Route('admin/recap/SemaineJson', name: 'admin_recap_semaine_json')]
+    public function recapSemaineJson(SerializerInterface $serializer, SectionRepository $sectionRepository, SemaineReservationRepository $semaineReservationRepository): JsonResponse
     {
         $section = $sectionRepository->findAll();
         $semaine = $semaineReservationRepository->findAll();
@@ -38,15 +38,15 @@ class AdminRecapController extends AbstractController
     }
 
 
-    #[Route('/recapJson/{section}/{semaine}', name: 'app_admin_recap_json')]
-    public function recapJson(SerializerInterface $serializer, UserRepository $userRepository, ReservationRepository $reservationRepository, int $semaine, int $section): JsonResponse
+    #[Route('admin/recapJson/{section}/{semaine}', name: 'admin_recap_json')]
+    public function recapJson(SerializerInterface $serializer, UserRepository $userRepository, ReservationRepository $reservationRepository, int $semaine, string $section): JsonResponse
     {
         $sectionChoisi = $userRepository
             ->createQueryBuilder('u')
             ->innerJoin('u.userInfo', 'ui')
             ->innerJoin('ui.promo', 'p')
             ->innerJoin('p.Section', 's')
-            ->where('s.id = :section ')
+            ->where('s.abreviation = :section ')
             ->setParameter('section', $section)
             ->getQuery()
             ->getResult();
@@ -54,7 +54,7 @@ class AdminRecapController extends AbstractController
         $semaineChoisi = $reservationRepository
             ->createQueryBuilder('r')
             ->innerJoin('r.semaine', 'sr')
-            ->where('sr.id = :semaine ')
+            ->where('sr.numeroSemaine = :semaine ')
             ->setParameter('semaine', $semaine)
             ->getQuery()
             ->getResult();
@@ -62,23 +62,41 @@ class AdminRecapController extends AbstractController
         $usersWithReservations = [];
 
         foreach ($sectionChoisi as $user) {
-            $userReservations = $user->getReservations(); // Assuming `getReservations()` is the method to retrieve reservations from UserInfo entity
-            foreach ($userReservations as $reservation) {
-                // Check if the reservation exists in $semaineChoisi
-                if (in_array($reservation, $semaineChoisi)) {
-                    $usersWithReservations[] = [
-                        'user' => $user,
-                        'reservation' => $reservation
-                    ];
-                    break; // No need to continue checking other reservations for this user
+            $userReservations = $user->getReservations();
+            $roles = $user->getRoles();
+            $tarifReduc = false;
+            for ($i = 0; $i < count($roles); $i++) {
+                if ($roles[$i] === 'ROLE_STAGIAIRE') {
+                    $tarifReduc = true;
+                }
+            }
+            //no reservation at all
+            if (count($userReservations) < 1) {
+                $usersWithReservations[] = [
+                    'user' => $user,
+                    'reservation' => null
+                ];
+            } else {
+                foreach ($userReservations as $reservation) {
+
+                    if (in_array($reservation, $semaineChoisi)) {
+                        $usersWithReservations[] = [
+                            'user' => $user,
+                            'reservation' => $reservation,
+                            'tarifReduc' => $tarifReduc
+                        ];
+                        break; // No need to continue checking other reservations for this user
+                    } else {
+                        $usersWithReservations[] = [
+                            'user' => $user,
+                            'reservation' => null
+                        ];
+                    }
                 }
             }
         }
-
         $userSerialise = $serializer->serialize($usersWithReservations, 'json', ['groups' => ['userInfo', 'reservation']]);
-        $jsonContent = [
-            'reservation' => json_decode($userSerialise, true)
-        ];
+        $jsonContent = json_decode($userSerialise, true);
 
         return new JsonResponse($jsonContent);
     }

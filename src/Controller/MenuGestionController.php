@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MenuGestionController extends AbstractController
 {
-    #[Route('/menu/gestion', name: 'app_menu_gestion')]
+    #[Route('/admin/menu', name: 'admin_menu')]
     public function index(): Response
     {
         return $this->render('menu_gestion/index.html.twig', [
@@ -25,7 +25,7 @@ class MenuGestionController extends AbstractController
         ]);
     }
 
-    #[Route('/menu/creer', name: 'app_menu_creer')]
+    #[Route('admin/menu/creer', name: 'admin_menu_creer')]
     public function creerMenu(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, EntityManagerInterface $entityManager, TypeRepasRepository $typeRepasRepository): Response
     {
         $formData = $request->request->all();
@@ -90,7 +90,7 @@ class MenuGestionController extends AbstractController
         return $this->render('menu_gestion/creer.html.twig');
     }
 
-    #[Route('/menu/creer/get', name: 'app_menu_gestion_json')]
+    #[Route('admin/menu/creerJson', name: 'admin_menu_creer_json')]
     public function creerJson(SemaineReservationRepository $semaineReservationRepository, SerializerInterface $serializer): Response
     {
         $semaine = $semaineReservationRepository->findAll();

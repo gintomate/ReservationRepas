@@ -2,7 +2,7 @@
 block body %} {% include "nav/UserNav.html.twig" %}
 <h1>Bienvenue sur votre Hub</h1>
 <main>
-  <a href="">
+  <a href="{{ path('user_reservation') }}">
     <img src="" alt="" />
     <h2>Réserver mes Repas</h2>
   </a>
@@ -15,5 +15,4 @@ block body %} {% include "nav/UserNav.html.twig" %}
     <h2>Consulter mon Profil</h2>
   </a>
 </main>
-{% include "nav/footer.html.twig" %}
-{% endblock %}
+{% include "nav/footer.html.twig" %} {% endblock %}

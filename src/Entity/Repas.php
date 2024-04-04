@@ -16,27 +16,29 @@ class Repas
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'semaineResa'])]
+
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(
         message: "Tous les champs non férié doivent étre remplies."
     )]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'semaineResa'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'semaineResa'])]
     private ?TypeRepas $typeRepas = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation'])]
+
     private ?JourReservation $jourReservation = null;
 
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'repas')]
+    #[Groups(['reservation'])]
     private Collection $repasReserves;
 
     public function __construct()

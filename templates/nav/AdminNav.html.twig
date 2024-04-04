@@ -4,24 +4,24 @@
   /></a>
   <div class="d-flex flex-row" id="nav-link">
     <div class="dropdown">
-      <a href="{{path('app_menu_gestion')}}" class="d-flex flex-column"
+      <a href="{{ path('admin_menu') }}" class="d-flex flex-column"
         >Gérer les Menus<i class="fas fa-arrow-down"></i
       ></a>
       <div class="dropdown-content">
-        <a href="{{path('app_menu_creer')}}">Créer un Menu</a>
+        <a href="{{ path('admin_menu_creer') }}">Créer un Menu</a>
         <a href="#">Consulter les Menus</a>
         <a href="#">Bloquez la Réservation</a>
       </div>
     </div>
-    <div class="dropdown ">
-      <a href="# ">Récapitulatif des Reservations</a>
+    <div class="dropdown">
+      <a href="{{ path('admin_recap') }}">Récapitulatif des Reservations</a>
     </div>
     <div class="dropdown">
       <a href="#" class="d-flex flex-column"
         >Gérer les Utilisateurs<i class="fas fa-arrow-down"></i
       ></a>
       <div class="dropdown-content">
-        <a href="#">Créer un Utilisateur</a>
+        <a href="{{ path('security_registration') }}">Créer un Utilisateur</a>
         <a href="#">Consulter un Utilisateur</a>
         <a href="#">Gérer les Sections</a>
       </div>

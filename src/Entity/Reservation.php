@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -17,10 +18,8 @@ class Reservation
     #[Groups(['reservation'])]
     private ?int $id = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation'])]
     private ?User $Utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -34,6 +33,8 @@ class Reservation
 
 
     #[ORM\Column]
+    #[Groups(['reservation'])]
+    #[Assert\PositiveOrZero]
     private ?float $montantTotal = null;
 
     public function __construct()
@@ -46,7 +47,7 @@ class Reservation
         return $this->id;
     }
 
- 
+
 
     public function getUtilisateur(): ?User
     {

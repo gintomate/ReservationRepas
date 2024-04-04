@@ -1,0 +1,45 @@
+#selectContainer {
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  padding: 5px 10px;
+  box-shadow: 5px 5px 3px grey;
+  width: 100%;
+}
+.selectPart {
+  width: 45%;
+  margin: 0 5px 5px 5px;
+}
+#semaine,
+#section {
+  background-color: var(--main-color);
+  color: white;
+  border: 1px solid white;
+  width: 100%;
+}
+
+#recapContainer {
+  background-color: var(--main-color);
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+  border-collapse: collapse;
+  width: 100%;
+}
+#repasRow td{
+  font-weight: bold;
+}
+
+#recapContainer th,
+#recapContainer td {
+  border: 1px solid var(--tertiary-color);
+  padding: 8px;
+  text-align: center;
+  border-collapse: collapse;
+  border-radius: 20px;
+  width: 5%;
+}

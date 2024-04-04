@@ -4,7 +4,7 @@
   /></a>
   <div class="d-flex flex-row" id="nav-link">
     <div class="dropdown">
-      <a href="" class="d-flex flex-column"
+      <a href="{{ path('user_reservation') }}" class="d-flex flex-column"
         >Réserver mes Repas</a
       >
     </div>
@@ -15,8 +15,8 @@
   <div class="dropdown">
     <a href="#" class="d-flex flex-column">Consulter mon Profil</a>
   </div>
-  <div id="userBadge">
+  {# <div id="userBadge">
     {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}
-  </div>
+  </div> #}
   <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
 </nav>

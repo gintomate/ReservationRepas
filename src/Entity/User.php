@@ -9,17 +9,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('identifiant')]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['userInfo', 'reservation'])]
+    #[Groups(['userInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('^(?=.*[A-Z])(?=.*\d).+')]
+    #[Assert\Length(
+        min: 5,
+        max: 30,
+        minMessage: 'L\'identifiant doit faire au moins {{ limit }} charactères.',
+        maxMessage: 'L\'identifiant ne doit pas faire plus de {{ limit }} charactères.',
+    )]
     private ?string $identifiant = null;
 
     /**
@@ -32,6 +44,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\PasswordStrength]
+    #[Assert\Regex('^(?=.*[A-Z])(?=.*\d).+')]
+    #[Assert\Length(
+        min: 7,
+        minMessage: 'Le mot de passe doit faire au moins {{ limit }} charactères.',
+    )]
     private ?string $password = null;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
@@ -43,6 +62,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $reservations;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email(
+        message: 'L\'email n\'est pas valable.',
+    )]
     private ?string $email = null;
 
     public function __construct()

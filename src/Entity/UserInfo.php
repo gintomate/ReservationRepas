@@ -6,6 +6,7 @@ use App\Repository\UserInfoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserInfoRepository::class)]
 class UserInfo
@@ -34,10 +35,12 @@ class UserInfo
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['userInfo'])]
+    #[Assert\Date]
     private ?\DateTimeInterface $dateDeNaissance = null;
 
     #[ORM\Column]
     #[Groups(['userInfo'])]
+    #[Assert\PositiveOrZero]
     private ?float $montantGlobal = null;
 
     public function getId(): ?int
