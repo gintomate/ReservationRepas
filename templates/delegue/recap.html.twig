@@ -1,6 +1,6 @@
-{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
-endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
-endblock %}{% block body %} {% include "nav/Usernav.html.twig" %}
+{% extends "base.html.twig" %}{% block title %}Récapitulatif de la Section{%
+endblock %}{% block importmap %} {{ importmap(["app", "delegue"]) }}{% endblock
+%}{% block body %} {% include "nav/Usernav.html.twig" %}
 <main id="cont">
   <h1>Récapitulatif de la Section</h1>
   <div class="d-flex flex-row justify-content-between" id="selectContainer">
@@ -22,4 +22,5 @@ endblock %}{% block body %} {% include "nav/Usernav.html.twig" %}
   </table>
   <button type="button" id="btnPrint">Imprimer</button>
 </main>
+{% include "nav/footer.html.twig" %}
 {% endblock %}

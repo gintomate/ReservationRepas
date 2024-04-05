@@ -19,7 +19,7 @@ class Section
     private ?int $id = null;
 
     #[ORM\OneToMany(targetEntity: Promo::class, mappedBy: 'Section')]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section'])]
     private Collection $promos;
 
     #[ORM\Column(length: 255)]

@@ -16,7 +16,7 @@ class Repas
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
 
     private ?int $id = null;
 
@@ -24,16 +24,17 @@ class Repas
     #[Assert\NotBlank(
         message: "Tous les champs non férié doivent étre remplies."
     )]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?TypeRepas $typeRepas = null;
 
     #[ORM\ManyToOne(inversedBy: 'repas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['consultation'])]
 
     private ?JourReservation $jourReservation = null;
 

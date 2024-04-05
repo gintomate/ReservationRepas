@@ -37,7 +37,7 @@ class SemaineReservation
     private ?int $numeroSemaine = null;
 
     #[ORM\OneToMany(targetEntity: JourReservation::class, mappedBy: 'semaineReservation')]
-    #[Groups(['reservation','semaineResa'])]
+    #[Groups(['reservation', 'semaineResa'])]
     private Collection $jourReservation;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'semaine')]

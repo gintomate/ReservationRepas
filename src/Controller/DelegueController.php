@@ -36,8 +36,8 @@ class DelegueController extends AbstractController
 
         return new JsonResponse($jsonContent);
     }
-    #[Route('/delegue/recapJson', name: 'delegue_recap_json')]
-    public function recapJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, UserRepository $userRepository, ReservationRepository $reservationRepository): JsonResponse
+    #[Route('/delegue/recapJson/{semaine}', name: 'delegue_recap_json')]
+    public function recapJson(SerializerInterface $serializer, int $semaine, SemaineReservationRepository $semaineReservationRepository, UserRepository $userRepository, ReservationRepository $reservationRepository): JsonResponse
     {
         $user = $this->getUser();
         $section = $user->getUserInfo()->getPromo()->getSection()->getAbreviation();
@@ -52,20 +52,46 @@ class DelegueController extends AbstractController
             ->setParameter('section', $section)
             ->getQuery()
             ->getResult();
-        dd($sectionChoisi);
-        // $semaineChoisi = $reservationRepository
-        //     ->createQueryBuilder('r')
-        //     ->innerJoin('r.semaine', 'sr')
-        //     ->where('sr.numeroSemaine = :semaine ')
-        //     ->setParameter('semaine', $semaine)
-        //     ->getQuery()
-        //     ->getResult();
+
+        $semaineChoisi = $reservationRepository
+            ->createQueryBuilder('r')
+            ->innerJoin('r.semaine', 'sr')
+            ->where('sr.numeroSemaine = :semaine ')
+            ->setParameter('semaine', $semaine)
+            ->getQuery()
+            ->getResult();
 
         $usersWithReservations = [];
+        foreach ($sectionChoisi as $userSection) {
+            $userReservations = $userSection->getReservations();
 
-        $semaine = $semaineReservationRepository->findAll();
-        $serializedSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
-        $jsonContent =  json_decode($serializedSemaine, true);
+            if (count($userReservations) < 1) {
+                $usersWithReservations[] = [
+                    'user' => $userSection,
+                    'montantTotal' => 0
+                ];
+            } else {
+                foreach ($userReservations as $reservation) {
+
+                    $montant = $reservation->getMontantTotal();
+                    if (in_array($reservation, $semaineChoisi)) {
+                        $usersWithReservations[] = [
+                            'user' => $userSection,
+                            'montantTotal' => $montant
+                        ];
+                        break; // No need to continue checking other reservations for this user
+                    } else {
+                        $usersWithReservations[] = [
+                            'user' => $userSection,
+                            'montantTotal' => 0
+                        ];
+                    }
+                }
+            }
+        }
+
+        $userSerialise = $serializer->serialize($usersWithReservations, 'json', ['groups' => ['userInfo', 'reservation']]);
+        $jsonContent = json_decode($userSerialise, true);
 
         return new JsonResponse($jsonContent);
     }

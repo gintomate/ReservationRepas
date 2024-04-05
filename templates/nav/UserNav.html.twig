@@ -10,10 +10,10 @@
     </div>
   </div>
   <div class="dropdown">
-    <a href="# ">Consulter mes Reservations</a>
+    <a href="{{ path('user_consultation') }} ">Consulter mes Reservations</a>
   </div>
   <div class="dropdown">
-    <a href="#" class="d-flex flex-column">Consulter mon Profil</a>
+    <a href="{{ path('user_profil') }}" class="d-flex flex-column">Consulter mon Profil</a>
   </div>
   {# <div id="userBadge">
     {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}

@@ -15,21 +15,21 @@ class TypeRepas
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?string $type = null;
 
     #[ORM\Column]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     #[Assert\PositiveOrZero]
     #[Assert\NotBlank]
     private ?float $tarifPlein = null;
 
     #[ORM\Column]
-    #[Groups(['reservation', 'semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     #[Assert\PositiveOrZero]
     #[Assert\NotBlank]
     private ?float $tarifReduit = null;

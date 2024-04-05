@@ -12,7 +12,7 @@ class RepasReserve
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'consultation'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'repasReserves')]
@@ -21,6 +21,7 @@ class RepasReserve
 
     #[ORM\ManyToOne(inversedBy: 'repasReserves')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['consultation'])]
     private ?Repas $repas = null;
 
     public function getId(): ?int

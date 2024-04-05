@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %} {% block title %}Profil{% endblock %} {% block
+importmap %} {# do NOT call parent() #}
+
+{{ importmap(["app", "profil"]) }}
+{% endblock %} {% block body %} {% include "nav/UserNav.html.twig" %}
+
+<main>
+  <h1>Mon Profil</h1>
+  <div class="d-flex flex-row">
+    <div id="infoPerso">
+      <h3>Info Personnel</h3>
+      <div class="d-flex flex-row justify-content-evenly">
+        <div class="infoColumn d-flex flex-column justify-content-around">
+          <label>Nom</label>
+          <label>Prénom</label>
+          <label>Date de Naissance</label>
+          <label>Email</label>
+          <label>Identifiant</label>
+          <label>Mot de passe</label>
+        </div>
+        <div class="infoColumn d-flex flex-column justify-content-around">
+          <p>{{ user.userInfo.nom }}</p>
+          <p>{{ user.userInfo.prenom }}</p>
+          <p>{{ user.userInfo.dateDeNaissance | date('d-m-Y') }}</p>
+          <p>{{ user.email }}</p>
+          <p>{{ user.identifiant }}</p>
+          <button id="btnModifier">Modifier</button>
+        </div>
+      </div>
+    </div>
+    <div id="infoAfpar">
+      <h3>Info Afpar</h3>
+      <div class="d-flex flex-row justify-content-around">
+        <div class="infoColumn d-flex flex-column justify-content-around">
+          <label>Section</label>
+          <label>Promo</label>
+          <label>Date de Début</label>
+          <label>Date de Fin</label>
+          <label>Somme Total Dépenser</label>
+          <label>Délégué</label>
+        </div>
+        <div
+          class="infoColumn d-flex flex-column justify-content-evenly"
+          id="columnDelegue"
+        >
+          <p>{{ user.userInfo.promo.section.nomSection }}</p>
+          <p>{{ user.userInfo.promo.nomPromo }}</p>
+          <p>{{ user.userInfo.promo.dateDebut | date('d-m-Y') }}</p>
+          <p>{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
+          <p>{{ user.userInfo.montantGlobal }}</p>
+          <input type="checkbox" disabled {% if delegue == true %} checked {%
+          endif %} />
+        </div>
+      </div>
+    </div>
+  </div>
+  <p id="textDisclaimer">
+    Si vous constater que ces informations sont érronés ou qu'elles ont changer,
+    veuillez contacter l'administration.
+  </p>
+</main>
+{% include "nav/footer.html.twig" %} {% endblock %}

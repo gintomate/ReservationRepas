@@ -15,7 +15,7 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'consultation'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -28,12 +28,12 @@ class Reservation
     private ?SemaineReservation $semaine = null;
 
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'reservation')]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'consultation'])]
     private Collection $repasReserves;
 
 
     #[ORM\Column]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'consultation'])]
     #[Assert\PositiveOrZero]
     private ?float $montantTotal = null;
 

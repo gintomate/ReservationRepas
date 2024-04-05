@@ -15,4 +15,21 @@ class AccueilController extends AbstractController
             'controller_name' => 'AccueilController',
         ]);
     }
+
+    #[Route('/redirect', name: 'redirect_login')]
+    public function redirectLogin(): Response
+    {
+        $user = $this->getUser();
+        // Check user roles and redirect accordingly
+        if ($user && $this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_admin');
+        } elseif ($user && $this->isGranted('ROLE_DELEGUE')) {
+            return $this->redirectToRoute('app_delegue');
+        } elseif ($user && $this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_user');
+        } else {
+            // Handle default redirection for other roles or no role
+            return $this->redirectToRoute('default_dashboard');
+        }
+    }
 }

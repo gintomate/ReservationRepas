@@ -16,27 +16,26 @@ class JourReservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation','semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['reservation','semaineResa'])]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     #[Assert\Date]
     #[Assert\Unique]
     private ?\DateTimeInterface $dateJour = null;
 
     #[ORM\ManyToOne(inversedBy: 'jourReservation')]
     #[ORM\JoinColumn(nullable: false)]
-  
 
     private ?SemaineReservation $semaineReservation = null;
 
     #[ORM\OneToMany(targetEntity: Repas::class, mappedBy: 'jourReservation')]
-    #[Groups(['reservation','semaineResa' ])]
+    #[Groups(['reservation', 'semaineResa'])]
     private Collection $repas;
 
     #[ORM\Column]
-    #[Groups(['reservation','semaineResa'])]
+    #[Groups(['reservation', 'semaineResa'])]
     #[Assert\NotNull]
     private ?bool $ferie = null;
 

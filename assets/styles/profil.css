@@ -1,0 +1,38 @@
+#infoPerso,
+#infoAfpar {
+  background-color: var(--main-color);
+  width: 50%;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 5px 5px 3px grey;
+}
+.infoColumn {
+  text-align: left;
+  max-width: 35%;
+  height: 400px;
+}
+.infoColumn p,
+.infoColumn label {
+  margin-bottom: 0;
+  display: inline;
+}
+
+#textDisclaimer {
+  font-style: italic;
+  text-align: center;
+}
+form {
+  background-color: var(--main-color);
+  width: 80%;
+  text-align: left;
+  color: white;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 0 auto;
+  padding: 15px;
+  box-shadow: 5px 5px 3px grey;
+}

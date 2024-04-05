@@ -56,4 +56,16 @@ return [
     'axios' => [
         'version' => '1.6.8',
     ],
+    'delegue' => [
+        'path' => './assets/javascripts/delegue.js',
+        'entrypoint' => true,
+    ],
+    'profil' => [
+        'path' => './assets/javascripts/profil.js',
+        'entrypoint' => true,
+    ],
+    'consultation' => [
+        'path' => './assets/javascripts/userConsultation.js',
+        'entrypoint' => true,
+    ],
 ];

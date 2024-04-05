@@ -25,12 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
-    #[Assert\Regex('^(?=.*[A-Z])(?=.*\d).+')]
+    #[Assert\Regex('^(?=.*[a-z])(?=.*[\W_])(?=.*\d).+')]
     #[Assert\Length(
         min: 5,
         max: 30,
-        minMessage: 'L\'identifiant doit faire au moins {{ limit }} charactères.',
-        maxMessage: 'L\'identifiant ne doit pas faire plus de {{ limit }} charactères.',
+        minMessage: 'L\'identifiant doit faire au moins {{ limit }} lettres.',
+        maxMessage: 'L\'identifiant ne doit pas faire plus de {{ limit }} lettres.',
     )]
     private ?string $identifiant = null;
 
@@ -46,10 +46,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\PasswordStrength]
-    #[Assert\Regex('^(?=.*[A-Z])(?=.*\d).+')]
+    #[Assert\Regex('^(?=.*[a-z])(?=.*[\W_])(?=.*\d).+')]
     #[Assert\Length(
         min: 7,
-        minMessage: 'Le mot de passe doit faire au moins {{ limit }} charactères.',
+        minMessage: 'Le mot de passe doit faire au moins {{ limit }} lettres.',
+        max: 4096,
     )]
     private ?string $password = null;
 

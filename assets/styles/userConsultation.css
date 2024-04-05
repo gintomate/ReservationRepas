@@ -1,0 +1,27 @@
+#semaineContainer {
+  background-color: var(--main-color);
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.cardMenu {
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  width: 19%;
+  height: fit-content;
+  box-shadow: 10px 10px 5px grey;
+  padding: 2px;
+  margin-bottom: 10px;
+}

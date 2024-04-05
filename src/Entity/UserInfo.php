@@ -25,12 +25,11 @@ class UserInfo
     #[Groups(['userInfo'])]
     private ?string $prenom = null;
 
-
-
     #[ORM\OneToOne(mappedBy: 'userInfo', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userInfos')]
+    #[Groups(['userInfo'])]
     private ?Promo $promo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

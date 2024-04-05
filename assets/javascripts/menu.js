@@ -1,7 +1,7 @@
 import axios from "axios";
 import "../styles/menu.css";
 
-// Requêter un utilisateur avec un ID donné.
+// Requêter pour inseree Semaine.
 axios
   .get("/menu/creer/get")
   .then(function (response) {

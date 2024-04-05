@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %} {% block title %}Profil{% endblock %} {% block
+importmap %}
+
+{{ importmap(["app", "profil"]) }}
+{% endblock %} {% block body %} {% include "nav/UserNav.html.twig" %}
+
+<main>
+  <h1>Changer votre mot de Passe</h1>
+  {{ form_start(form) }}
+
+  {# Render the user password field without error message #}
+  <div class="form-row">
+    {{ form_label(form.userPassword) }}
+    {{ form_widget(form.userPassword) }}
+  </div>
+
+  {# Render the error message for user password field manually #}
+  <div class="alert alert-danger">
+    {% if form_errors(form.userPassword) %}
+    {{ form_errors(form.userPassword) }}
+    {% endif %}
+  </div>
+
+  <a href="">Mot de passe oublié?</a>
+
+  <p>
+    Votre nouveau mot de passe doit contenir au moins une lettre majuscule et un
+    numéro.
+  </p>
+
+  {# Render the new password field without error message #}
+  <div class="form-row">
+    {{ form_widget(form.newPassword) }}
+  </div>
+
+  {# Render the error message for new password field manually #}
+  <div class="alert alert-danger">
+    {% if form_errors(form.newPassword) %}
+    {{ form_errors(form.newPassword) }}
+    {% endif %}
+  </div>
+
+  <button type="reset">Réinitialiser</button>
+  <button type="submit">Valider</button>
+  {{ form_end(form) }}
+</main>
+{% include "nav/footer.html.twig" %} {% endblock %}
