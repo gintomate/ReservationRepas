@@ -3,7 +3,7 @@ import "../styles/menu.css";
 
 // Requêter pour inseree Semaine.
 axios
-  .get("/menu/creer/get")
+  .get("/admin/menu/creerJson")
   .then(function (response) {
     insertOption(response.data);
   })
@@ -63,56 +63,19 @@ function formControl() {
   callValid(validateForm());
 }
 
-//function to validate the form
 function validateForm() {
-  var formValid = true;
-  var lundi = document.getElementsByClassName("lundi");
-  const lundiArray = Array.from(lundi);
-  var mardi = document.getElementsByClassName("mardi");
-  const mardiArray = Array.from(mardi);
-  var mercredi = document.getElementsByClassName("mercredi");
-  const mercrediArray = Array.from(mercredi);
-  var jeudi = document.getElementsByClassName("jeudi");
-  const jeudiArray = Array.from(jeudi);
-  var vendredi = document.getElementsByClassName("vendredi");
-  const vendrediArray = Array.from(vendredi);
+  const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi"];
 
-  if (!lundi[0].checked) {
-    lundiArray.forEach((repas) => {
-      if (!repas.value) {
-        formValid = false;
-      }
-    });
+  for (const day of days) {
+    const checkboxes = document.getElementsByClassName(day);
+    const checkboxesArray = Array.from(checkboxes);
+
+    if (!checkboxes[0].checked) {
+      const emptyFields = checkboxesArray.some((repas) => !repas.value);
+      if (emptyFields) return false;
+    }
   }
-  if (!mardi[0].checked) {
-    mardiArray.forEach((repas) => {
-      if (!repas.value) {
-        formValid = false;
-      }
-    });
-  }
-  if (!mercredi[0].checked) {
-    mercrediArray.forEach((repas) => {
-      if (!repas.value) {
-        formValid = false;
-      }
-    });
-  }
-  if (!jeudi[0].checked) {
-    jeudiArray.forEach((repas) => {
-      if (!repas.value) {
-        formValid = false;
-      }
-    });
-  }
-  if (!vendredi[0].checked) {
-    vendrediArray.forEach((repas) => {
-      if (!repas.value) {
-        formValid = false;
-      }
-    });
-  }
-  return formValid;
+  return true;
 }
 
 // function to add the error message

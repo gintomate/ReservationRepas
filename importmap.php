@@ -64,8 +64,16 @@ return [
         'path' => './assets/javascripts/profil.js',
         'entrypoint' => true,
     ],
-    'consultation' => [
+    'userConsultation' => [
         'path' => './assets/javascripts/userConsultation.js',
+        'entrypoint' => true,
+    ],
+    'userModif' => [
+        'path' => './assets/javascripts/userModif.js',
+        'entrypoint' => true,
+    ],
+    'adminConsultation' => [
+        'path' => './assets/javascripts/adminConsultation.js',
         'entrypoint' => true,
     ],
 ];

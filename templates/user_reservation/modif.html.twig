@@ -1,0 +1,336 @@
+{% extends 'base.html.twig' %} {% block title %}Réservation de Repas{% endblock
+%} {% block importmap %} {{ importmap(["app", "userModif"]) }}{% endblock %}{%
+block body %} {% include "nav/UserNav.html.twig" %}
+<main>
+  <h1>Réserver un Repas</h1>
+  <form action="" method="post">
+    <div id="semaineContainer">
+      <label for="">Réserver pour la Semaine </label>
+      <span id="week"></span>
+    </div>
+    <div id="menuContainer">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="jourContainer">
+          <h3>Monday</h3>
+          <div class="repasContainer" id="MondayRepas">
+            <div class="repas green">
+              <h4>Petit Déjeuner</h4>
+              <p class="Monday"></p>
+            </div>
+            <div class="repas grey">
+              <h4>Déjeuner A</h4>
+              <p name="day[Monday][dejeuner_a]" class="Monday"></p>
+              <input
+                type="hidden"
+                name="day[Monday][dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="radio"
+                name="day[Monday][dejeuner]"
+                class=""
+                value="déjeuner_a"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Déjeuner B</h4>
+              <p class="Monday">Placeholder</p>
+              <input
+                type="radio"
+                name="day[Monday][dejeuner]"
+                class=""
+                value="déjeuner_b"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Diner</h4>
+              <p class="Monday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Monday][diner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Monday][diner]"
+                class=""
+                value="diner"
+              />
+            </div>
+          </div>
+          <div class="ferie hidden" id="Monday">
+            <div class="d-flex flex-column justify-content-center">
+              <h3 class="ferieText">Férie</h3>
+            </div>
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Mardi</h3>
+          <div class="repasContainer" id="TuesdayRepas">
+            <div class="repas grey">
+              <h4>Petit Déjeuner</h4>
+              <p class="Tuesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Tuesday][petit_dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Tuesday][petit_dejeuner]"
+                class=""
+                value="petit_déjeuner"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Déjeuner A</h4>
+              <p class="Tuesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Tuesday][dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="radio"
+                name="day[Tuesday][dejeuner]"
+                class=""
+                value="déjeuner_a"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Déjeuner B</h4>
+              <p class="Tuesday">Placeholder</p>
+              <input
+                type="radio"
+                name="day[Tuesday][dejeuner]"
+                class=""
+                value="déjeuner_b"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Diner</h4>
+              <p class="Tuesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Tuesday][diner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Tuesday][diner]"
+                class=""
+                value="diner"
+              />
+            </div>
+          </div>
+          <div class="ferie hidden" id="Tuesday">
+            <div class="d-flex flex-column justify-content-center">
+              <h3 class="ferieText">Férie</h3>
+            </div>
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Mercredi</h3>
+          <div class="repasContainer" id="WednesdayRepas">
+            <div class="repas green">
+              <h4>Petit Déjeuner</h4>
+              <p class="Wednesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Wednesday][petit_dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Wednesday][petit_dejeuner]"
+                class=""
+                value="petit_déjeuner"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Déjeuner A</h4>
+              <p class="Wednesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Wednesday][dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="radio"
+                name="day[Wednesday][dejeuner]"
+                class=""
+                value="déjeuner_a"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Déjeuner B</h4>
+              <p class="Wednesday">Placeholder</p>
+              <input
+                type="radio"
+                name="day[Wednesday][dejeuner]"
+                class=""
+                value="déjeuner_b"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Diner</h4>
+              <p class="Wednesday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Wednesday][diner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Wednesday][diner]"
+                class=""
+                value="diner"
+              />
+            </div>
+          </div>
+          <div class="ferie hidden" id="Wednesday">
+            <div class="d-flex flex-column justify-content-center">
+              <h3 class="ferieText">Férie</h3>
+            </div>
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Jeudi</h3>
+          <div class="repasContainer" id="ThursdayRepas">
+            <div class="repas grey">
+              <h4>Petit Déjeuner</h4>
+              <p class="Thursday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Thursday][petit_dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Thursday][petit_dejeuner]"
+                class=""
+                value="petit_déjeuner"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Déjeuner A</h4>
+              <p class="Thursday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Thursday][dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="radio"
+                name="day[Thursday][dejeuner]"
+                class=""
+                value="déjeuner_a"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Déjeuner B</h4>
+              <p class="Thursday">Placeholder</p>
+              <input
+                type="radio"
+                name="day[Thursday][dejeuner]"
+                class=""
+                value="déjeuner_b"
+              />
+            </div>
+            <div class="repas green">
+              <h4>Diner</h4>
+              <p class="Thursday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Thursday][diner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Thursday][diner]"
+                class=""
+                value="diner"
+              />
+            </div>
+          </div>
+          <div class="ferie hidden" id="Thursday">
+            <div class="d-flex flex-column justify-content-center">
+              <h3 class="ferieText">Férie</h3>
+            </div>
+          </div>
+        </div>
+        <div class="jourContainer">
+          <h3>Vendredi</h3>
+          <div class="repasContainer Monday" id="FridayRepas">
+            <div class="repas green">
+              <h4>Petit Déjeuner</h4>
+              <p class="Friday">Placeholder</p>
+              <input
+                type="hidden"
+                name="day[Friday][petit_dejeuner]"
+                class=""
+                value="false"
+              />
+              <input
+                type="checkbox"
+                name="day[Friday][petit_dejeuner]"
+                class=""
+                value="petit_déjeuner"
+              />
+            </div>
+            <div class="repas grey">
+              <h4>Déjeuner A</h4>
+            </div>
+            <div class="repas green">
+              <h4>Déjeuner B</h4>
+            </div>
+            <div class="repas grey">
+              <h4>Diner</h4>
+            </div>
+          </div>
+          <div class="ferie hidden" id="Friday">
+            <div class="d-flex flex-column justify-content-center">
+              <h3 class="ferieText">Férie</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div role="alert" id="errorMsg"></div>
+      <div class="d-flex flex-row justify-content-around" id="menuBottonBar">
+        <div>
+          Total
+          <input
+            type="text"
+            class="text-center"
+            id="caseTotal"
+            value="0"
+            disabled
+          />€
+        </div>
+        <div>
+          <button type="reset" id="btnReset">Réinitialiser</button>
+
+          <button type="submit" id="btnValider">Modifier</button> >
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+{% include "nav/footer.html.twig" %}
+<div
+  class="js-user"
+  data-tarif="{{ tarifReduit }}"
+  data-semaine="{{ semaine }}"
+></div>
+{% endblock %}

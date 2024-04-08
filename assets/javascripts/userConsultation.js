@@ -20,6 +20,7 @@ function insertOption(data) {
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
 
+    var semaineId = item.id;
     // Parse date strings to Date objects
     var dateDebut = new Date(item.dateDebut);
     var dateFin = new Date(item.dateFin);
@@ -32,10 +33,12 @@ function insertOption(data) {
     const option = document.createElement("option");
     option.textContent =
       item.numeroSemaine + ": " + formattedDateDebut + " - " + formattedDateFin;
-
+    option.value = semaineId;
     // Append the option to the select element
     semaine.appendChild(option);
   }
+  var optionPassed = semaine.options[0].value;
+  fetchReservation(optionPassed);
 }
 
 // Function to format a Date object to d-m-Y format
@@ -51,19 +54,16 @@ function formatDate(date) {
   // Return the formatted date string
   return day + "-" + month + "-" + year;
 }
-fetchReservation(1);
 //function to change on select
 semaine.addEventListener("change", function () {
   var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionText = selectedOption.textContent;
-  var optionSplit = selectedOptionText.split(" ");
-  var numeroOption = optionSplit[0];
-  fetchReservation(numeroOption);
+  var selectedOptionValue = selectedOption.value;
+  fetchReservation(selectedOptionValue);
 });
 
-function fetchReservation(selectedOptionText) {
+function fetchReservation(value) {
   axios
-    .get("/user/consultationJson/" + selectedOptionText)
+    .get("/user/consultationJson/" + value)
     .then(function (response) {
       insertReservation(response.data);
     })
@@ -76,28 +76,78 @@ function fetchReservation(selectedOptionText) {
     });
 }
 function insertReservation(reservation) {
+  insertMontant(reservation);
   const repasReserves = reservation.repasReserves;
-  console.log(repasReserves);
+  const repasByDay = {
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+  };
+
   repasReserves.forEach((repasRes) => {
     var typeRepas = repasRes.repas.typeRepas.type;
-    var jourRepas = repasRes.repas.jourReservation.dateJour ;
-    console.log(typeRepas, jourRepas);
-    const date = new Date(jour[i].dateJour);
+    var typeFormated = "";
+    switch (typeRepas) {
+      case "petit_déjeuner":
+        typeFormated = "Petit Déjeuner";
+        break;
+      case "déjeuner_a":
+        typeFormated = "Déjeuner A";
+        break;
+      case "déjeuner_b":
+        typeFormated = "Déjeuner B";
+        break;
+      case "diner":
+        typeFormated = "Diner ";
+        break;
+    }
+    var jourRepas = repasRes.repas.jourReservation.dateJour;
+    const date = new Date(jourRepas);
     const options = { weekday: "long" };
     const jourIndex = date.toLocaleDateString("en-EN", options);
-    switch (key) {
-        case value:
-            
-            break;
-    
-        default:
-            break;
-    }
+
+    repasByDay[jourIndex].push({ type: typeFormated, repasRes: repasRes });
   });
+
+  for (const day in repasByDay) {
+    if (Object.hasOwnProperty.call(repasByDay, day)) {
+      const elements = repasByDay[day];
+      var dayRepasContainer = document.getElementById(day);
+      var recap = "";
+
+      elements.forEach((element) => {
+        var description = element.repasRes.repas.description;
+        const formattedText = description.replace(/\n/g, "<br>");
+
+        var type = element.type;
+        recap +=
+          "<div class='repas'><h4>" +
+          type +
+          "</h4><p>" +
+          formattedText +
+          "</p></div>";
+      });
+      dayRepasContainer.innerHTML = recap;
+    }
+  }
 }
 
-function getDayClass(day) {
-  var dayClass = document.getElementsByClassName(day);
-  const dayArray = Array.from(dayClass);
-  return dayArray;
+// function to show the total
+function insertMontant(reservation) {
+  const montant = document.getElementById("montant");
+  const montantTotal = reservation.montantTotal;
+  montant.textContent = montantTotal;
 }
+
+document.getElementById("btnValider").addEventListener("click", function () {
+  // Get the selected value of the select element
+  var selectedReservationId = document.getElementById("semaine").value;
+
+  // Retrieve the path from the data attribute
+  var path = "/user/reservation/modif/" + selectedReservationId;
+
+  // Redirect to the constructed path
+  window.location.href = path;
+});

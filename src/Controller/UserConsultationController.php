@@ -17,7 +17,7 @@ class UserConsultationController extends AbstractController
     {
         $user = $this->getUser();
 
-        return $this->render('user/consultation.html.twig', [
+        return $this->render('user_reservation/consultation.html.twig', [
             'controller_name' => 'UserConsultationController',
         ]);
     }
@@ -44,7 +44,7 @@ class UserConsultationController extends AbstractController
     {
         $user = $this->getUser();
         $reservations = $user->getReservations();
-        $semaine = $semaineReservationRepository->findOneBy(['numeroSemaine' => $numero]);
+        $semaine = $semaineReservationRepository->find($numero);
         $resa = null;
         foreach ($reservations as $key => $reservation) {
             $semaineReser = $reservation->getSemaine();

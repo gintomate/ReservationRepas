@@ -36,30 +36,25 @@ class MenuGestionController extends AbstractController
             $semaine = $semaineReservationRepository->findOneBy(["numeroSemaine" => $semaineSelect]);
             $dateDebut = $semaine->getDateDebut();
             $formValid = true;
+
             foreach ($formData['day'] as $key => $day) {
                 //clone currentDate because $dateDebut change even after persist
                 $currentDate = clone $dateDebut;
+                $jourReservation = new JourReservation;
+                $jourReservation->setDateJour($currentDate);
+                $jourReservation->setSemaineReservation($semaine);
+
                 if ($day['ferie'] === 'true') {
-                    $jourReservation = new JourReservation;
                     $jourReservation->setFerie(true);
-                    $jourReservation->setDateJour($currentDate);
-                    $jourReservation->setSemaineReservation($semaine);
-                    $entityManager->persist($jourReservation);
                 } else {
-                    $jourReservation = new JourReservation;
                     $jourReservation->setFerie(false);
-                    $jourReservation->setDateJour($currentDate);
-                    $jourReservation->setSemaineReservation($semaine);
-                    $entityManager->persist($jourReservation);
                     foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
                         if (isset($day[$mealType])) {
                             $repas = new Repas;
                             $typeRepas = $typeRepasRepository->findOneBy(['type' => $mealType]);
-
                             $repas->setJourReservation($jourReservation);
                             $repas->setDescription($day[$mealType]);
                             $repas->setTypeRepas($typeRepas);
-
                             $errors = $validator->validate($repas);
 
                             if (count($errors) > 0) {
@@ -74,10 +69,11 @@ class MenuGestionController extends AbstractController
                         }
                     }
                 }
+                $entityManager->persist($jourReservation);
                 $dateDebut->modify('+ 1 day');
             }
-            if ($formValid === true) {
 
+            if ($formValid === true) {
                 $entityManager->flush();
                 $this->addFlash(
                     'success',

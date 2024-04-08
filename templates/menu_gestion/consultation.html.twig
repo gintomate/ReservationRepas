@@ -1,38 +1,39 @@
-{% extends 'base.html.twig' %} {% block title %}Réservation de Repas{% endblock
-%} {% block importmap %} {{ importmap(["app", "consultation"]) }}{% endblock
-%}{% block body %} {% include "nav/UserNav.html.twig" %}
+{% extends 'base.html.twig' %} {% block title %}Consulter les Menus{% endblock
+%} {% block importmap %} {{ importmap(["app", "adminConsultation"]) }}{% endblock
+%}{% block body %} {% include "nav/AdminNav.html.twig" %}
 <main>
-  <h1>Consulter mes Réservations</h1>
+  <h1>Consulter les Menus</h1>
 
   <div id="semaineContainer" ->
     <label for="semaine"
-      >Consulter ma Réservation pour la Semaine suivante:
+      >Consulter le Menu pour la Semaine suivante:
     </label>
     <select name="semaine" id="semaine"></select>
   </div>
   <div class="d-flex flex-row justify-content-between">
     <div class="cardMenu">
       <h3>Lundi</h3>
+      <div id="Monday"></div>
     </div>
     <div class="cardMenu">
       <h3>Mardi</h3>
+      <div id="Tuesday"></div>
     </div>
     <div class="cardMenu">
       <h3>Mercredi</h3>
+      <div id="Wednesday"></div>
     </div>
     <div class="cardMenu">
       <h3>Jeudi</h3>
+      <div id="Thursday"></div>
     </div>
     <div class="cardMenu">
       <h3>Vendredi</h3>
-
-      <div class="repas">
-        <h4>Petit Déjeuner</h4>
-      </div>
+      <div id="Friday"></div>
     </div>
   </div>
   <div class="text-end">
-    <button type="submit" class="btnCreer" id="btnValider">Modifier</button>
+    <button type="button" class="btnCreer" id="btnValider">Modifier</button>
   </div>
 </main>
 

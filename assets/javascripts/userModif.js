@@ -1,50 +1,38 @@
 import axios from "axios";
 import "../styles/reservation.css";
 
-// Fetch Semaine pour option select
-axios
-  .get("/user/reservation/semaineJson")
-  .then(function (response) {
-    insertOption(response.data);
-  })
-  .catch(function (error) {
-    // en cas d’échec de la requête
-    console.log(error);
-  })
-  .finally(function () {
-    // dans tous les cas
-  });
+const userJs = document.querySelector(".js-user");
+const userTarif = userJs.getAttribute("data-tarif");
+const semaine = userJs.getAttribute("data-semaine");
 
-function insertOption(data) {
-  var semaine = document.getElementById("semaine");
-  semaine.innerHTML = "";
-  for (let i = 0; i < Math.min(data.length, 20); i++) {
-    const item = data[i];
-    var semaineId = item.id;
+fetchMenu(semaine);
 
-    // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
+function fetchMenu(value) {
+  axios
+    .get("/user/reservation/repasJson/" + value)
+    .then(function (response) {
+      insertRepas(response.data);
+      console.log(response.data);
+      insertSemaine(response.data);
+    })
+    .catch(function (error) {
+      // en cas d’échec de la requête
+      console.log(error);
+    })
+    .finally(function () {
+      // dans tous les cas
+    });
+}
+function insertSemaine(item) {
+  var week = document.getElementById("week");
+  var dateDebut = new Date(item.dateDebut);
+  var dateFin = new Date(item.dateFin);
 
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine +
-      " : " +
-      formattedDateDebut +
-      " - " +
-      formattedDateFin;
-    option.value = semaineId;
-
-    // Append the option to the select element
-    semaine.appendChild(option);
-  }
-  var optionPassed = semaine.options[0].value;
-  fetchMenu(optionPassed);
+  // Format date components to d-m-Y format
+  var formattedDateDebut = formatDate(dateDebut);
+  var formattedDateFin = formatDate(dateFin);
+  week.textContent =
+    item.numeroSemaine + " : " + formattedDateDebut + " - " + formattedDateFin;
 }
 
 // Function to format a Date object to d-m-Y format
@@ -61,31 +49,6 @@ function formatDate(date) {
   return day + "-" + month + "-" + year;
 }
 
-//function to change on select
-semaine.addEventListener("change", function () {
-  var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionValue = selectedOption.value;
-  resetStyles();
-  resetError();
-  fetchMenu(selectedOptionValue);
-});
-
-// function to fetch the menu
-
-function fetchMenu(value) {
-  axios
-    .get("/user/reservation/repasJson/" + value)
-    .then(function (response) {
-      insertRepas(response.data);
-    })
-    .catch(function (error) {
-      // en cas d’échec de la requête
-      console.log(error);
-    })
-    .finally(function () {
-      // dans tous les cas
-    });
-}
 function insertRepas(data) {
   const jour = data.jourReservation;
 
@@ -109,8 +72,6 @@ function insertRepas(data) {
 
     for (let j = 0; j < repas.length; j++) {
       const type = repas[j].typeRepas.type;
-      const userJs = document.querySelector(".js-user");
-      const userTarif = userJs.getAttribute("data-tarif");
       let tarif;
 
       if (userTarif) {
