@@ -23,10 +23,11 @@ class RegistrationType extends AbstractType
             ->add('statut', ChoiceType::class, [
                 'mapped' => false,
                 'choices' => [
-                'Stagiaire' => 'Stagiaire',
-                'Personnel de l\'Afpar' => 'Personnel',
-                'Cuisinier' => 'Cuisinier',
-                'Externe' => 'Externe',]
+                    'Stagiaire' => 'Stagiaire',
+                    'Personnel de l\'Afpar' => 'Personnel',
+                    'Cuisinier' => 'Cuisinier',
+                    'Externe' => 'Externe',
+                ]
             ])
             ->add('delegue', CheckboxType::class, [
                 'mapped' => false,

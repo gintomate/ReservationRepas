@@ -116,7 +116,6 @@ class UserReservationController extends AbstractController
         $formData = $request->request->all();
         if ($request->isMethod('POST')) {
 
-
             $repasArray =  $this->fetchRepas($semaine);
 
             // Retrieve existing RepasReserve entities associated with the reservation
@@ -187,8 +186,6 @@ class UserReservationController extends AbstractController
                 return new Response('Error', Response::HTTP_CONFLICT);
             }
         }
-
-
 
         return $this->render('user_reservation/modif.html.twig', [
             'controller_name' => 'UserReservationController',
@@ -267,7 +264,7 @@ class UserReservationController extends AbstractController
         return new JsonResponse($jsonContent);
     }
 
-    #[Route('/user/reservation/repasJson/{id}', name: 'app_user_reservation_repasJson')]
+    #[Route('/user/reservation/repasJson/{id}', name: 'user_reservation_repasJson')]
     public function repasJson(int $id, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository): JsonResponse
     {
         $date = new \DateTime();
@@ -276,4 +273,35 @@ class UserReservationController extends AbstractController
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);
     }
+    #[Route('/user/reservation/repasModifJson/{idSemaine}', name: 'user_reservation_repasJson_modif')]
+    public function repasModifJson(int $idSemaine, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository): JsonResponse
+    {
+        $date = new \DateTime();
+        $user = $this->getUser();
+        $reservations = $user->getReservations();
+        $semaine = $semaineReservationRepository->find($idSemaine);
+
+        $correctResa = null; // Initialize $correctResa variable
+        foreach ($reservations as $reservation) {
+            if ($reservation->getSemaine() === $semaine) {
+                $correctResa = $reservation;
+                break;
+            }
+        }
+
+        // Serialize each object separately
+        $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaineResa']);
+        $serializeCorrectResa = $serializer->serialize($correctResa, 'json', ['groups' => 'consultation']);
+
+        // Decode serialized data into arrays
+        $jsonContentSemaine = json_decode($serializeSemaine, true);
+        $jsonContentCorrectResa = json_decode($serializeCorrectResa, true);
+
+        // Return two distinct arrays as part of a single JSON response
+        return new JsonResponse([
+            'semaine' => $jsonContentSemaine,
+            'reservation' => $jsonContentCorrectResa
+        ]);
+    }
+    
 }

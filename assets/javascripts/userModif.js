@@ -4,16 +4,15 @@ import "../styles/reservation.css";
 const userJs = document.querySelector(".js-user");
 const userTarif = userJs.getAttribute("data-tarif");
 const semaine = userJs.getAttribute("data-semaine");
-
 fetchMenu(semaine);
 
 function fetchMenu(value) {
   axios
-    .get("/user/reservation/repasJson/" + value)
+    .get("/user/reservation/repasModifJson/" + value)
     .then(function (response) {
-      insertRepas(response.data);
-      console.log(response.data);
       insertSemaine(response.data);
+      insertRepas(response.data);
+      calculatePrice();
     })
     .catch(function (error) {
       // en cas d’échec de la requête
@@ -23,16 +22,21 @@ function fetchMenu(value) {
       // dans tous les cas
     });
 }
-function insertSemaine(item) {
+function insertSemaine(data) {
+  var semaine = data.semaine;
   var week = document.getElementById("week");
-  var dateDebut = new Date(item.dateDebut);
-  var dateFin = new Date(item.dateFin);
+  var dateDebut = new Date(semaine.dateDebut);
+  var dateFin = new Date(semaine.dateFin);
 
   // Format date components to d-m-Y format
   var formattedDateDebut = formatDate(dateDebut);
   var formattedDateFin = formatDate(dateFin);
   week.textContent =
-    item.numeroSemaine + " : " + formattedDateDebut + " - " + formattedDateFin;
+    semaine.numeroSemaine +
+    " : " +
+    formattedDateDebut +
+    " - " +
+    formattedDateFin;
 }
 
 // Function to format a Date object to d-m-Y format
@@ -50,7 +54,8 @@ function formatDate(date) {
 }
 
 function insertRepas(data) {
-  const jour = data.jourReservation;
+  const jour = data.semaine.jourReservation;
+  const reservation = data.reservation;
 
   for (let i = 0; i < jour.length; i++) {
     const date = new Date(jour[i].dateJour);
@@ -72,12 +77,20 @@ function insertRepas(data) {
 
     for (let j = 0; j < repas.length; j++) {
       const type = repas[j].typeRepas.type;
+      const repasReserves = reservation.repasReserves;
       let tarif;
-
       if (userTarif) {
         tarif = repas[j].typeRepas.tarifReduit;
       } else {
         tarif = repas[j].typeRepas.tarifPlein;
+      }
+      var reserve = false;
+      for (let k = 0; k < repasReserves.length; k++) {
+        var repasResId = repasReserves[k].repas.id;
+        if (repasResId === repas[j].id) {
+          reserve = true;
+          break;
+        }
       }
 
       const description = repas[j].description;
@@ -87,16 +100,41 @@ function insertRepas(data) {
 
       switch (type) {
         case "petit_déjeuner":
+          var checkbox = dayArray[0].parentNode.querySelector(
+            'input[type="checkbox"]'
+          );
           dayArray[0].innerHTML = formattedText;
+          if (reserve === true) {
+            checkbox.checked = true;
+          }
+
           break;
         case "déjeuner_a":
           dayArray[1].innerHTML = formattedText;
+          var checkbox = dayArray[1].parentNode.querySelector(
+            ' input[type="radio"]'
+          );
+          if (reserve === true) {
+            checkbox.checked = true;
+          }
           break;
         case "déjeuner_b":
           dayArray[2].innerHTML = formattedText;
+          var checkbox = dayArray[2].parentNode.querySelector(
+            ' input[type="radio"]'
+          );
+          if (reserve === true) {
+            checkbox.checked = true;
+          }
           break;
         case "diner":
           dayArray[3].innerHTML = formattedText;
+          var checkbox = dayArray[3].parentNode.querySelector(
+            'input[type="checkbox"]'
+          );
+          if (reserve === true) {
+            checkbox.checked = true;
+          }
           break;
         default:
           break;
@@ -111,7 +149,7 @@ function getDayClass(day) {
   return dayArray;
 }
 
-// RESET THE SYLE ON CHANGE
+// RESET THE STYLE ON CHANGE
 function resetStyles() {
   var repasContainer = document.getElementsByClassName("repasContainer");
   var ferieContainer = document.getElementsByClassName("ferie");

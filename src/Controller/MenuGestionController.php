@@ -85,7 +85,67 @@ class MenuGestionController extends AbstractController
 
         return $this->render('menu_gestion/creer.html.twig');
     }
+    #[Route('admin/menu/modif/{idSemaine}', name: 'admin_menu_modif')]
+    public function modifMenu(Request $request, int $idSemaine, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, EntityManagerInterface $entityManager, TypeRepasRepository $typeRepasRepository): Response
+    {
+        $formData = $request->request->all();
+        $semaine = $semaineReservationRepository->find($idSemaine);
 
+        if ($request->isMethod('POST')) {
+
+            $dateDebut = $semaine->getDateDebut();
+            $formValid = true;
+
+            foreach ($formData['day'] as $key => $day) {
+                //clone currentDate because $dateDebut change even after persist
+                $currentDate = clone $dateDebut;
+                $jourReservation = new JourReservation;
+                $jourReservation->setDateJour($currentDate);
+                $jourReservation->setSemaineReservation($semaine);
+
+                if ($day['ferie'] === 'true') {
+                    $jourReservation->setFerie(true);
+                } else {
+                    $jourReservation->setFerie(false);
+                    foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
+                        if (isset($day[$mealType])) {
+                            $repas = new Repas;
+                            $typeRepas = $typeRepasRepository->findOneBy(['type' => $mealType]);
+                            $repas->setJourReservation($jourReservation);
+                            $repas->setDescription($day[$mealType]);
+                            $repas->setTypeRepas($typeRepas);
+                            $errors = $validator->validate($repas);
+
+                            if (count($errors) > 0) {
+                                $this->addFlash(
+                                    'error',
+                                    'Tous les champs doivent être remplis.'
+                                );
+                                $formValid = false;
+                                break 2; // Exit both inner and outer loops
+                            }
+                            $entityManager->persist($repas);
+                        }
+                    }
+                }
+                $entityManager->persist($jourReservation);
+                $dateDebut->modify('+ 1 day');
+            }
+
+            if ($formValid === true) {
+                $entityManager->flush();
+                $this->addFlash(
+                    'success',
+                    'Le Menu a bien était bien enregistré.'
+                );
+                // return $this->redirectToRoute('app_accueil');
+            }
+        }
+
+        return $this->render('menu_gestion/modif.html.twig', [
+            'semaine' => $semaine,
+        ]);
+    }
     #[Route('admin/menu/creerJson', name: 'admin_menu_creer_json')]
     public function creerJson(SemaineReservationRepository $semaineReservationRepository, SerializerInterface $serializer): Response
     {

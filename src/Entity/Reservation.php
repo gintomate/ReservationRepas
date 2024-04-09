@@ -47,8 +47,6 @@ class Reservation
         return $this->id;
     }
 
-
-
     public function getUtilisateur(): ?User
     {
         return $this->Utilisateur;

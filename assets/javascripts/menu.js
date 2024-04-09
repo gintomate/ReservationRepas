@@ -6,6 +6,7 @@ axios
   .get("/admin/menu/creerJson")
   .then(function (response) {
     insertOption(response.data);
+
   })
   .catch(function (error) {
     // en cas d’échec de la requête
