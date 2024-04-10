@@ -76,4 +76,8 @@ return [
         'path' => './assets/javascripts/adminConsultation.js',
         'entrypoint' => true,
     ],
+    'adminGestionUser' => [
+        'path' => './assets/javascripts/adminGestionUser.js',
+        'entrypoint' => true,
+    ],
 ];

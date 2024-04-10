@@ -57,7 +57,6 @@ class SecurityController extends AbstractController
                     throw new \Exception("Invalid statut: $statut");
             }
             $delegue = $form->get('delegue')->getData();
-            dump($delegue);
             if ($delegue === true) {
                 $roles[] = 'ROLE_DELEGUE';
             }
@@ -67,11 +66,11 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
 
             $entityManager->flush();
-            // return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('security/registration.html.twig', [
-            'form' => $form->createView()
+            'form' => $form
         ]);
     }
     #[Route('/connection', name: 'login')]

@@ -47,7 +47,8 @@ importmap %} {# do NOT call parent() #}
           <p>{{ user.userInfo.promo.nomPromo }}</p>
           <p>{{ user.userInfo.promo.dateDebut | date('d-m-Y') }}</p>
           <p>{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
-          <p>{{ user.userInfo.montantGlobal }}</p>
+          <p>{{ user.userInfo.montantGlobal }}
+          </p>
           <input type="checkbox" disabled {% if delegue == true %} checked {%
           endif %} />
         </div>

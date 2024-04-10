@@ -20,24 +20,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
-    #[Assert\Regex('^(?=.*[a-z])(?=.*[\W_])(?=.*\d).+')]
+    #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+/',  message: 'L\'identifiant ne suit pas les normes de sécurité.')]
     #[Assert\Length(
         min: 5,
         max: 30,
         minMessage: 'L\'identifiant doit faire au moins {{ limit }} lettres.',
         maxMessage: 'L\'identifiant ne doit pas faire plus de {{ limit }} lettres.',
     )]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?string $identifiant = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private array $roles = [];
 
     /**
@@ -45,8 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank]
-    #[Assert\PasswordStrength]
-    #[Assert\Regex('^(?=.*[a-z])(?=.*[\W_])(?=.*\d).+')]
+    #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*\d).+/',  message: 'Le mot de passe ne suit pas les normes de sécurité.')]
     #[Assert\Length(
         min: 7,
         minMessage: 'Le mot de passe doit faire au moins {{ limit }} lettres.',
@@ -55,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?UserInfo $userInfo = null;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'Utilisateur')]
@@ -67,6 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(
         message: 'L\'email n\'est pas valable.',
     )]
+    #[Groups(['secureUserInfo'])]
     private ?string $email = null;
 
     public function __construct()

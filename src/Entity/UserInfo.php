@@ -14,31 +14,33 @@ class UserInfo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?string $prenom = null;
 
     #[ORM\OneToOne(mappedBy: 'userInfo', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userInfos')]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?Promo $promo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
+    #[Assert\NotNull]
     #[Assert\Date]
+
     private ?\DateTimeInterface $dateDeNaissance = null;
 
     #[ORM\Column]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     #[Assert\PositiveOrZero]
     private ?float $montantGlobal = null;
 
@@ -71,7 +73,7 @@ class UserInfo
         return $this;
     }
 
-  
+
     public function getUser(): ?User
     {
         return $this->user;

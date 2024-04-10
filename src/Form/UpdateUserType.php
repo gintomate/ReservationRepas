@@ -3,23 +3,20 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\UserInfo;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RegistrationType extends AbstractType
+class UpdateUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('identifiant', TextType::class, ['label' => 'Identifiant'])
-            ->add('password', PasswordType::class, ['label' => 'Mot de Passe'])
-            ->add('email', EmailType::class)
+            ->add('email')
             ->add('statut', ChoiceType::class, [
                 'mapped' => false,
                 'choices' => [

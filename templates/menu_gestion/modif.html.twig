@@ -26,7 +26,7 @@ block importmap %} {# do NOT call parent() #}
             value="true"
             {%
             if
-            semaine.jourReservation[0]
+            semaine.jourReservation[0].ferie
             is
             same
             as(true)
@@ -100,7 +100,7 @@ block importmap %} {# do NOT call parent() #}
             value="true"
             {%
             if
-            semaine.jourReservation[0]
+            semaine.jourReservation[1].ferie
             is
             same
             as(true)
@@ -139,7 +139,7 @@ block importmap %} {# do NOT call parent() #}
             maxlength="300"
             class="mardi"
           >
-            {% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
               semaine.jourReservation[1].repas[1].description
             }}{% endif %}</textarea
           >
@@ -156,7 +156,7 @@ block importmap %} {# do NOT call parent() #}
             maxlength="300"
             class="mardi"
           >
-            {% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
               semaine.jourReservation[1].repas[2].description
             }}{% endif %}</textarea
           >
@@ -190,7 +190,7 @@ block importmap %} {# do NOT call parent() #}
             value="true"
             {%
             if
-            semaine.jourReservation[0]
+            semaine.jourReservation[2].ferie
             is
             same
             as(true)
@@ -211,7 +211,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="100"
             class="mercredi"
-            >{{ semaine.jourReservation[2].repas[0].description }}</textarea
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[0].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -225,7 +228,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="mercredi"
-            >{{ semaine.jourReservation[2].repas[1].description }}</textarea
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[1].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -239,7 +245,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="mercredi"
-            >{{ semaine.jourReservation[2].repas[2].description }}</textarea
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[2].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -253,7 +262,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="mercredi"
-            >{{ semaine.jourReservation[2].repas[3].description }}</textarea
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[3].description
+            }}{% endif %}</textarea
           >
         </div>
       </div>
@@ -269,7 +281,7 @@ block importmap %} {# do NOT call parent() #}
             value="true"
             {%
             if
-            semaine.jourReservation[0]
+            semaine.jourReservation[3].ferie
             is
             same
             as(true)
@@ -290,7 +302,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="100"
             class="jeudi"
-            >{{ semaine.jourReservation[3].repas[0].description }}</textarea
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[0].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -304,7 +319,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="jeudi"
-            >{{ semaine.jourReservation[3].repas[1].description }}</textarea
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[1].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -318,7 +336,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="jeudi"
-            >{{ semaine.jourReservation[3].repas[2].description }}</textarea
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[2].description
+            }}{% endif %}</textarea
           >
         </div>
         <div class="repas">
@@ -332,7 +353,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="300"
             class="jeudi"
-            >{{ semaine.jourReservation[3].repas[3].description }}</textarea
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[3].description
+            }}{% endif %}</textarea
           >
         </div>
       </div>
@@ -348,7 +372,7 @@ block importmap %} {# do NOT call parent() #}
             value="true"
             {%
             if
-            semaine.jourReservation[0]
+            semaine.jourReservation[4].ferie
             is
             same
             as(true)
@@ -369,7 +393,10 @@ block importmap %} {# do NOT call parent() #}
             wrap="off"
             maxlength="100"
             class="vendredi"
-            >{{ semaine.jourReservation[4].repas[0].description }}</textarea
+          >
+{% if semaine.jourReservation[4].repas is defined and semaine.jourReservation[4].repas|length > 0  %}{{
+              semaine.jourReservation[4].repas[0].description
+            }}{% endif %}</textarea
           >
         </div>
       </div>

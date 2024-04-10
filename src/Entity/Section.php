@@ -15,7 +15,7 @@ class Section
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\OneToMany(targetEntity: Promo::class, mappedBy: 'Section')]
@@ -23,7 +23,7 @@ class Section
     private Collection $promos;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo','secureUserInfo'])]
     #[Assert\Length(
         min: 5,
         max: 100,
@@ -34,7 +34,7 @@ class Section
     private ?string $nomSection = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     #[Assert\Length(
         min: 3,
         max: 20,

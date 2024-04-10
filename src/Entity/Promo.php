@@ -16,30 +16,30 @@ class Promo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     #[Assert\Date]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['section', 'userInfo'])]
+    #[Groups(['section', 'userInfo ','secureUserInfo'])]
     #[Assert\Date]
     private ?\DateTimeInterface $dateFin = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'promos')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['userInfo'])]
+    #[Groups(['userInfo' ,'secureUserInfo'])]
     private ?Section $Section = null;
 
     #[ORM\OneToMany(targetEntity: UserInfo::class, mappedBy: 'promo')]
     private Collection $userInfos;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['section'])]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     #[Assert\Length(
         min: 3,
         max: 30,

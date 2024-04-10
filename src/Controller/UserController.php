@@ -26,10 +26,11 @@ class UserController extends AbstractController
         $roles = $user->getRoles();
         $delegue = false;
         foreach ($roles as  $role) {
-            if ($role === "[ROLE_DELEGUE") {
+            if ($role === "ROLE_DELEGUE") {
                 $delegue = true;
             }
         }
+
 
         return $this->render('user/profil.html.twig', [
             'controller_name' => 'UserController',

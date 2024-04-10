@@ -32,24 +32,7 @@ endblock %} {% block importmap %} {# do NOT call parent() #}
       {{ form_widget(form.delegue) }}
     </div>
   </div>
-  <div>
-    <h3>Site</h3>
-    <p>
-      L'identifiant doit faire au moins 5 lettres avoir au moins une lettre majuscule,
-      une lettre miniscule et un chiffre.
-    </p>
-    {{ form_label(form.identifiant) }}
-    {{ form_widget(form.identifiant) }}
-    {{ form_errors(form.identifiant) }}
-    <p>
-      Le mot de passe doit faire au moins 7 lettres avoir au moins une lettre
-      majuscule, une lettre miniscule, un chiffre et un charactére spécial.
-    </p>
-    {{ form_label(form.password) }}
-    {{ form_widget(form.password) }}
-    {{ form_errors(form.password) }}
-    <input type="checkbox" onclick="myFunction()" />
-  </div>
+
   <button type="reset">Reset</button>
   <button type="submit">Valider</button>
   {{ form_end(form) }}

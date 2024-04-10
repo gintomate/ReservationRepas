@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %} {% block title %}Utilisateurs{% endblock %} {%
+block importmap %} {# do NOT call parent() #}
+
+{{ importmap(["app", "adminGestionUser"]) }}
+{% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
+
+<main>
+  <h1>Consulter un Utilisateur</h1>
+
+  <div class="d-flex flex-row justify-content-between" id="selectContainer">
+    <div class="selectPart">
+      <label for="section">Selectionnez une section</label
+      ><select name="promoSelect" id="promoSelect"></select>
+    </div>
+    <div class="selectPart">
+      <label for="user">Selectionnez un Utilisateur</label
+      ><select name="user" id="userSelect"></select>
+    </div>
+  </div>
+  <div class="d-flex flex-row">
+    <div id="infoPerso">
+      <h3>Info Personnel</h3>
+      <div class="d-flex flex-row justify-content-evenly">
+        <div class="infoColumn d-flex flex-column justify-content-around">
+          <label>Nom</label>
+          <p id="nom"></p>
+          <label>Prénom</label>
+          <p id="prenom"></p>
+          <label>Date de Naissance</label>
+          <p id="dateDeNaissance"></p>
+          <label>Email</label>
+          <p id="email"></p>
+          <label>Identifiant</label>
+          <p id="identifiant"></p>
+          <label>Mot de passe</label>
+          <p id="mdp"></p>
+        </div>
+        <div class="infoColumn d-flex flex-column justify-content-around"></div>
+      </div>
+    </div>
+    <div id="infoAfpar">
+      <h3>Info Afpar</h3>
+      <div class="d-flex flex-row justify-content-around">
+        <div class="infoColumn d-flex flex-column justify-content-around">
+          <label>Section</label>
+          <p id="section"></p>
+          <label>Promo</label>
+          <p id="promo"></p>
+          <label>Date de Début</label>
+          <p id="dateDeDebut"></p>
+          <label>Date de Fin</label>
+          <p id="dateDeFin"></p>
+          <label>Somme Total Dépenser</label>
+          <p id="montantGlobal"></p>
+          <label>Délégué</label>
+          <input type="checkbox" id="delegue" />
+        </div>
+        <div
+          class="infoColumn d-flex flex-column justify-content-evenly"
+          id="columnDelegue"
+        ></div>
+      </div>
+    </div>
+  </div>
+  <button id="btnModifier">Modifier</button>
+</main>
+{% include "nav/footer.html.twig" %} {% endblock %}

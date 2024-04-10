@@ -1,5 +1,5 @@
 <nav class="d-flex flex-row">
-  <a href="{{ path('app_accueil') }}"
+  <a href="{{ path('redirect') }}"
     ><img src="{{ asset('image/afparLogoDroit.png') }}" alt=""
   /></a>
   <div class="d-flex flex-row" id="nav-link">
@@ -17,12 +17,12 @@
       <a href="{{ path('admin_recap') }}">Récapitulatif des Reservations</a>
     </div>
     <div class="dropdown">
-      <a href="#" class="d-flex flex-column"
+      <a href="{{ path('admin_gestion') }}" class="d-flex flex-column"
         >Gérer les Utilisateurs<i class="fas fa-arrow-down"></i
       ></a>
       <div class="dropdown-content">
         <a href="{{ path('security_registration') }}">Créer un Utilisateur</a>
-        <a href="#">Consulter un Utilisateur</a>
+        <a href="{{ path('admin_gestion_user') }}">Consulter un Utilisateur</a>
         <a href="#">Gérer les Sections</a>
       </div>
     </div>

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %} {% block title %}Index Administrateur{% endblock
 %} {% block body %} {% include "nav/AdminNav.html.twig" %}
-<main></main>
-<h1>Bienvenue sur le Hub de l'Administration</h1>
+<main>
+  <h1>Bienvenue sur le Hub de l'Administration</h1>
 
   <a href="{{ path('admin_menu') }}">
     <img src="" alt="" />
@@ -11,7 +11,7 @@
     <img src="" alt="" />
     <h2>Récapitulatif des Réservations</h2>
   </a>
-  <a href="">
+  <a href="{{ path('admin_gestion') }}">
     <img src="" alt="" />
     <h2>Gérer les Utilisateurs</h2>
   </a>

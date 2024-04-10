@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %} {% block title %}Gestion des Menus{% endblock %}
 {% block body %} {% include "nav/AdminNav.html.twig" %}
-<main><a href="">
-  <img src="{{path('admin_menu_creer')}}" alt="" />
-  <h2>Créer un Menu</h2>
-</a>
-<a href="">
-  <img src="" alt="" />
-  <h2>Consulter les Menus</h2>
-</a>
-<a href="">
-  <img src="" alt="" />
-  <h2>Bloquez la Réservation</h2>
-</a>
+<main>
+  <a href="{{ path('admin_menu_creer') }}">
+    <img src="" alt="" />
+    <h2>Créer un Menu</h2>
+  </a>
+  <a href="{{ path('admin_consultation') }}">
+    <img src="" alt="" />
+    <h2>Consulter les Menus</h2>
+  </a>
+  <a href="">
+    <img src="" alt="" />
+    <h2>Bloquez la Réservation</h2>
+  </a>
 </main>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %} {% block title %}Gestion Utilisateur{% endblock
+%} {% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Gestion des Utilisateurs</h1>
+
+  <a href="{{ path('security_registration') }}">
+    <img src="" alt="" />
+    <h2>Créer un Utilisateur</h2>
+  </a>
+  <a href="{{ path('admin_gestion_user') }}">
+    <img src="" alt="" />
+    <h2>Gérer un Utilisateur</h2>
+  </a>
+  <a href="">
+    <img src="" alt="" />
+    <h2>Gérer les Sections</h2>
+  </a>
+</main>
+{% endblock %}

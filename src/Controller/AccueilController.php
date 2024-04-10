@@ -16,7 +16,7 @@ class AccueilController extends AbstractController
         ]);
     }
 
-    #[Route('/redirect', name: 'redirect_login')]
+    #[Route('/redirect', name: 'redirect')]
     public function redirectLogin(): Response
     {
         $user = $this->getUser();
