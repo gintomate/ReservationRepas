@@ -36,12 +36,14 @@
   margin: 10px;
   padding: 5px;
   border-radius: 10px;
+  border: 1px solid white;
+  height: 140px;
 }
 textarea {
   max-width: 95%;
 }
 h3 {
-  margin-top: 5px;
+  margin: 5px;
 }
 #errorMsg {
   background-color: #ff7979;
@@ -52,6 +54,6 @@ h3 {
   text-align: center;
   font-size: 36px;
   margin: 10px;
-  padding: 5px 15px;
+  padding: 5px ;
   box-shadow: 5px 5px 3px grey;
 }

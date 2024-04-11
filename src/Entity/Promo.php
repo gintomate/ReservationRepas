@@ -25,7 +25,7 @@ class Promo
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['section', 'userInfo ','secureUserInfo'])]
+    #[Groups(['section', 'userInfo','secureUserInfo'])]
     #[Assert\Date]
     private ?\DateTimeInterface $dateFin = null;
 

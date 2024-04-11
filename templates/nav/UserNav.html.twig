@@ -1,22 +1,47 @@
-<nav class="d-flex flex-row">
-  <a href="{{ path('redirect') }}"
-    ><img src="{{ asset('image/afparLogoDroit.png') }}" alt=""
-  /></a>
+<nav class="d-flex flex-row justify-content-between">
+  <div id="navLogo">
+    <a href="{{ path('redirect') }}"
+      ><img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo Afpar"
+    /></a>
+  </div>
   <div class="d-flex flex-row" id="nav-link">
     <div class="dropdown">
-      <a href="{{ path('user_reservation') }}" class="d-flex flex-column"
-        >Réserver mes Repas</a
+      <a
+        href="{{ path('user_reservation') }}"
+        class="d-flex flex-column justify-content-around"
+        >Réserver mes <br />
+        Repas</a
+      >
+    </div>
+
+    <div class="dropdown">
+      <a
+        href="{{ path('user_consultation') }} "
+        class="d-flex flex-column justify-content-around"
+        >Consulter mes <br />
+        Reservations</a
+      >
+    </div>
+    <div class="dropdown">
+      <a
+        href="{{ path('user_profil') }}"
+        class="d-flex flex-column justify-content-around"
+        >Consulter mon <br />
+        Profil</a
       >
     </div>
   </div>
-  <div class="dropdown">
-    <a href="{{ path('user_consultation') }} ">Consulter mes Reservations</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+  <div
+    id="userBadge"
+    class="d-flex flew-row justify-content-around align-items-center"
+  >
+    <p id="userName">
+      {{ app.user.userInfo.promo.section.abreviation }} <br />
+      {{ app.user.userInfo.nom }} <br />{{ app.user.userInfo.prenom }}
+    </p>
+    <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
   </div>
-  <div class="dropdown">
-    <a href="{{ path('user_profil') }}" class="d-flex flex-column">Consulter mon Profil</a>
-  </div>
-  {# <div id="userBadge">
-    {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}
-  </div> #}
-  <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
 </nav>

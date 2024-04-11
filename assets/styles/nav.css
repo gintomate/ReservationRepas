@@ -1,13 +1,22 @@
 nav {
   background-color: var(--secondary-color);
   border-bottom: 2px solid var(--tertiary-color);
+  width: 100%;
+  max-height: 140px;
 }
-nav > a > img {
-  height: 90px;
+#navLogo {
+  width: 20%;
+  padding: 2px;
+  max-width: 300px;
 }
-#nav-link {
+#navLogo > a {
   width: 100%;
 }
+
+#nav-link {
+  width: 60%;
+}
+
 .dropdown {
   display: block;
   position: relative;
@@ -19,6 +28,7 @@ nav > a > img {
 .dropdown a {
   display: block;
   font-size: 28px;
+  font-weight: bold;
   text-decoration: none;
   color: black;
   padding: 5px 0 5px 0;
@@ -50,22 +60,43 @@ nav > a > img {
   color: white;
 }
 #userBadge {
-  text-align: center;
+  width: 20%;
   margin: 10px;
   margin-top: 20px;
   font-style: italic;
   font-weight: bolder;
 }
-#deco {
+#userName {
   font-size: 18px;
+  margin: 5px 10px 0px 0px;
+}
+#userBadge a {
+  max-width: 70%;
+}
+#deco {
+  font-size: 26px;
   background-color: var(--grey-color);
   border: 2px solid white;
+  text-align: center;
   color: white;
   padding: 5px 15px 10px 15px;
-  margin: 10px 10px 5px 5px;
+}
+/* Hide the link that should open and close the topnav on small screens */
+nav .icon {
+  display: none;
 }
 
 footer {
   background-color: var(--secondary-color);
   border-top: 2px solid var(--tertiary-color);
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
 }

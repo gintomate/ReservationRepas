@@ -80,4 +80,8 @@ return [
         'path' => './assets/javascripts/adminGestionUser.js',
         'entrypoint' => true,
     ],
+    'section' => [
+        'path' => './assets/javascripts/section.js',
+        'entrypoint' => true,
+    ],
 ];

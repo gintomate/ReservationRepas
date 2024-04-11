@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\JourReservation;
 use App\Entity\Repas;
+use App\Repository\JourReservationRepository;
 use App\Repository\SemaineReservationRepository;
 use App\Repository\TypeRepasRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,16 +28,31 @@ class MenuGestionController extends AbstractController
     }
 
     #[Route('admin/menu/creer', name: 'admin_menu_creer')]
-    public function creerMenu(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, EntityManagerInterface $entityManager, TypeRepasRepository $typeRepasRepository): Response
-    {
+    public function creerMenu(
+        Request $request,
+        ValidatorInterface $validator,
+        SemaineReservationRepository $semaineReservationRepository,
+        EntityManagerInterface $entityManager,
+        TypeRepasRepository $typeRepasRepository,
+        JourReservationRepository $jourReservationRepository
+    ): Response {
         $formData = $request->request->all();
 
 
         if ($request->isMethod('POST')) {
             $semaineSelect =  $formData['semaine'];
-            $semaine = $semaineReservationRepository->findOneBy(["numeroSemaine" => $semaineSelect]);
+            $semaine = $semaineReservationRepository->find($semaineSelect);
             $dateDebut = $semaine->getDateDebut();
             $formValid = true;
+            $existingMenu = $jourReservationRepository->findOneBy([
+                'dateJour' => $dateDebut
+            ]);
+
+            if ($existingMenu) {
+                // If a reservation already exists, handle the situation accordingly
+                // For example, you might want to return some error response
+                return new Response('Reservation already exists', Response::HTTP_CONFLICT);
+            }
 
             foreach ($formData['day'] as $key => $day) {
                 //clone currentDate because $dateDebut change even after persist
@@ -79,7 +96,7 @@ class MenuGestionController extends AbstractController
                     'success',
                     'Le Menu a bien était bien enregistré.'
                 );
-                // return $this->redirectToRoute('app_accueil');
+                return $this->redirectToRoute('admin_consultation');
             }
         }
 
@@ -138,7 +155,7 @@ class MenuGestionController extends AbstractController
                     'success',
                     'Le Menu a bien était bien enregistré.'
                 );
-                // return $this->redirectToRoute('app_accueil');
+                return $this->redirectToRoute('admin_consultation');
             }
         }
 
@@ -147,10 +164,11 @@ class MenuGestionController extends AbstractController
         ]);
     }
     #[Route('admin/menu/creerJson', name: 'admin_menu_creer_json')]
-    public function creerJson(SemaineReservationRepository $semaineReservationRepository, SerializerInterface $serializer): Response
+    public function creerJson(SemaineReservationRepository $semaineReservationRepository, SerializerInterface $serializer): JsonResponse
     {
         $semaine = $semaineReservationRepository->findAll();
-        $jsonContent = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
-        return new Response($jsonContent);
+        $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
+        $jsonContent = json_decode($serializeSemaine, true);
+        return new JsonResponse($jsonContent);
     }
 }

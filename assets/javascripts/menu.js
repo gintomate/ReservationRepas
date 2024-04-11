@@ -1,12 +1,11 @@
 import axios from "axios";
 import "../styles/menu.css";
 
-// Requêter pour inseree Semaine.
+// Requêter pour chercher Semaine Json.
 axios
   .get("/admin/menu/creerJson")
   .then(function (response) {
     insertOption(response.data);
-
   })
   .catch(function (error) {
     // en cas d’échec de la requête
@@ -16,11 +15,13 @@ axios
     // dans tous les cas
   });
 
+// Requêter pour inserer Semaine Select.
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
+    var semaineId = item.id;
 
     // Parse date strings to Date objects
     var dateDebut = new Date(item.dateDebut);
@@ -34,6 +35,7 @@ function insertOption(data) {
     const option = document.createElement("option");
     option.textContent =
       item.numeroSemaine + ": " + formattedDateDebut + " - " + formattedDateFin;
+    option.value = semaineId;
 
     // Append the option to the select element
     semaine.appendChild(option);
@@ -59,14 +61,12 @@ function formatDate(date) {
 var btnValider = document.getElementById("btnValider");
 btnValider.addEventListener("click", formControl);
 
-function formControl() {
-  validateForm();
-  callValid(validateForm());
+function formControl(event) {
+  callValid(validateForm(), event);
 }
 
 function validateForm() {
   const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi"];
-
   for (const day of days) {
     const checkboxes = document.getElementsByClassName(day);
     const checkboxesArray = Array.from(checkboxes);
@@ -80,11 +80,12 @@ function validateForm() {
 }
 
 // function to add the error message
-function callValid(formValid) {
+function callValid(formValid, event) {
   var errorMsg = document.getElementById("errorMsg");
   if (!formValid) {
     errorMsg.innerHTML = "Tous les champs non férié doivent étre remplis.";
     errorMsg.classList.add("alert");
+    event.preventDefault();
   }
 }
 
@@ -96,3 +97,7 @@ function resetStyle() {
   errorMsg.classList.remove("alert");
   errorMsg.innerHTML = "";
 }
+
+semaine.addEventListener("change", function () {
+  resetStyle();
+});

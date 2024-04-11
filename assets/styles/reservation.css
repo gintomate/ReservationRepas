@@ -1,4 +1,3 @@
-
 /* CSS Select Semaine */
 
 #semaineContainer {
@@ -36,7 +35,7 @@
 .repas {
   border-radius: 10px;
   border: 1px solid white;
-  margin: 2px;
+  margin: 3px;
   height: 200px;
 }
 .green {
@@ -48,12 +47,22 @@
   color: white;
 }
 
-
-#menuBottomBar{
-  margin: 5px;
-
+#menuBottomBar {
+  margin: 10px;
 }
-
+#caseTotal {
+  border: solid 1px var(--secondary-color);
+  color: white;
+  background-color: var(--grey-color);
+  margin: 10px;
+}
+#btnValider,
+#btnReset {
+  margin: 0px 10px;
+  font-size: 28px;
+  text-align: center;
+  box-shadow: 2px 2px 2px var(--grey-color);
+}
 /* CSS Ferie  */
 
 .ferie {
@@ -63,7 +72,7 @@
   border: 1px solid white;
   margin: 2px;
 }
-.ferie>div{
+.ferie > div {
   height: 100%;
 }
 .ferieText {

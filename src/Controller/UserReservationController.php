@@ -83,6 +83,7 @@ class UserReservationController extends AbstractController
                 $entityManager->persist($Reservation);
                 $entityManager->persist($userInfo);
                 $entityManager->flush();
+                return $this->redirectToRoute('user_consultation');
             } else {
                 return new Response('Error', Response::HTTP_CONFLICT);
             }

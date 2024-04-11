@@ -1,10 +1,14 @@
-<nav class="d-flex flex-row">
-  <a href="{{ path('redirect') }}"
-    ><img src="{{ asset('image/afparLogoDroit.png') }}" alt=""
-  /></a>
+<nav class="d-flex flex-row justify-content-between">
+  <div id="navLogo">
+    <a href="{{ path('redirect') }}"
+      ><img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo Afpar"
+    /></a>
+  </div>
   <div class="d-flex flex-row" id="nav-link">
     <div class="dropdown">
-      <a href="{{ path('admin_menu') }}" class="d-flex flex-column"
+      <a
+        href="{{ path('admin_menu') }}"
+        class="d-flex flex-column justify-content-around"
         >Gérer les Menus<i class="fas fa-arrow-down"></i
       ></a>
       <div class="dropdown-content">
@@ -14,19 +18,30 @@
       </div>
     </div>
     <div class="dropdown">
-      <a href="{{ path('admin_recap') }}">Récapitulatif des Reservations</a>
+      <a
+        href="{{ path('admin_recap') }}"
+        class="d-flex flex-column justify-content-center"
+        >Récapitulatif des Reservations</a
+      >
     </div>
     <div class="dropdown">
-      <a href="{{ path('admin_gestion') }}" class="d-flex flex-column"
+      <a
+        href="{{ path('admin_gestion') }}"
+        class="d-flex flex-column justify-content-around"
         >Gérer les Utilisateurs<i class="fas fa-arrow-down"></i
       ></a>
       <div class="dropdown-content">
         <a href="{{ path('security_registration') }}">Créer un Utilisateur</a>
         <a href="{{ path('admin_gestion_user') }}">Consulter un Utilisateur</a>
-        <a href="#">Gérer les Sections</a>
+        <a href="{{ path('admin_section') }}">Gérer les Sections</a>
       </div>
     </div>
   </div>
-  <div id="userBadge">Administration</div>
-  <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
+  <div
+    id="userBadge"
+    class="d-flex flew-row justify-content-around align-items-center"
+  >
+    <p id="userName">Administration</p>
+    <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
+  </div>
 </nav>

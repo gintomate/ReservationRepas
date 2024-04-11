@@ -29,11 +29,11 @@ endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
         latestPromo %} {% set numberOfUsers = latestPromo.userInfos | length %}
         {% else %} {% set numberOfUsers = 0 %} {% endif %}
         <td>{{ numberOfUsers }}</td>
-        <a href=""
-          ><td>
-            <button>Consulter {{ section.id }}</button>
-          </td></a
-        >
+        <td>
+          <a href="{{ path('admin_section_solo', { id: section.id }) }}"
+            >Consulter</a
+          >
+        </td>
       </tr>
       {% endfor %}
     </tbody>

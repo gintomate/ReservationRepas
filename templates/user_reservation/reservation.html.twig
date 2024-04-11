@@ -307,16 +307,17 @@ block body %} {% include "nav/UserNav.html.twig" %}
         </div>
       </div>
       <div role="alert" id="errorMsg"></div>
-      <div class="d-flex flex-row justify-content-around" id="menuBottonBar">
+      <div class="d-flex flex-row justify-content-between" id="menuBottomBar">
         <div>
-          Total
+          Total:
           <input
             type="text"
-            class="text-center"
+            class="text-end"
             id="caseTotal"
             value="0"
             disabled
-          />€
+          />
+          €
         </div>
         <div>
           <button type="reset" id="btnReset">Réinitialiser</button>

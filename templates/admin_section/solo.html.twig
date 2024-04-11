@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "section"]) }}{%
+endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main id="cont">
+  <h1>Section {{ section.abreviation }}</h1>
+  <div class="d-flex flex-row justify-content-between" id="selectContainer">
+    <div class="selectPart">
+      <label for="promo">Selectionnez la promo</label
+      ><select name="promo" id="promo"></select>
+    </div>
+  </div>
+  <table id="recapContainer">
+    <thead>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Email</th>
+      <th>Statut</th>
+      <th>Somme Total</th>
+      <th>Consulter</th>
+    </thead>
+    <tbody id="recap"></tbody>
+  </table>
+  <button type="button" id="btnPrint">Imprimer</button>
+</main>
+<div class="js-user" data-section="{{section.id}}"></div>
+{% endblock %}
