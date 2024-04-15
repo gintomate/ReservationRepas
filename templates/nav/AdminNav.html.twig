@@ -1,46 +1,57 @@
-<nav class="d-flex flex-row justify-content-between" id="nav">
-  <div id="navLogo">
-    <a href="{{ path('redirect') }}"
-      ><img src="{{ asset('image/afparLogoDroit.pg') }}" alt="Logo Afpar"
-    /></a>
-  </div>
-
-  <div class="topnav" id="myTopnav">
-    <div class="dropdown">
-      <button href="{{ path('admin_menu') }}" class="dropbtn">
-        Gérer les Menus
-        <i class="fa fa-caret-down"></i>
+<header>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><img src="" alt="Logo Afpar" /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="dropdown-content">
-        <a href="{{ path('admin_menu_creer') }}">Créer un Menu</a>
-        <a href="{{ path('admin_consultation') }}">Consulter les Menus</a>
-        <a href="#">Bloquez la Réservation</a>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Gérer les Menus
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Récapitulatif des Réservations</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Gérer les Utilisateurs
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
-    <a
-      href="{{ path('admin_recap') }}"
-      >Récapitulatif des Reservations</a
-    >
-    <div class="dropdown">
-      <button  class="dropbtn">
-        Gérer des Utilisateurs
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a href="{{ path('security_registration') }}">Créer un Utilisateur</a>
-        <a href="{{ path('admin_gestion_user') }}">Consulter un Utilisateur</a>
-        <a href="{{ path('admin_section') }}">Gérer les Sections</a>
-      </div>
-    </div>
-    <a href="javascript:void(0);" class="icon" id="navBtn"
-      >&#9776;</a
-    >
-  </div>
-  <div
-    id="userBadge"
-    class="d-flex flew-row justify-content-around align-items-center"
-  >
-    <p id="userName">Administration</p>
-    <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
-  </div>
-</nav>
+  </nav>
+</header>
