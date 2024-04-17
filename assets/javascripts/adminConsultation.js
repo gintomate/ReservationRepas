@@ -77,7 +77,6 @@ function fetchMenu(value) {
 }
 
 function insertMenu(menu) {
-  console.log(menu);
   const jourReservation = menu.jourReservation;
   const repasByDay = {
     Monday: [],
@@ -146,7 +145,7 @@ function insertMenu(menu) {
   }
 }
 
-document.getElementById("btnValider").addEventListener("click", function () {
+document.getElementById("btnModifier").addEventListener("click", function () {
   // Get the selected value of the select element
   var selectedReservationId = document.getElementById("semaine").value;
 

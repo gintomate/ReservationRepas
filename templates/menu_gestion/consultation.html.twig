@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %} {% block title %}Consulter les Menus{% endblock
-%} {% block importmap %} {{ importmap(["app", "adminConsultation"]) }}{% endblock
-%}{% block body %} {% include "nav/AdminNav.html.twig" %}
+%} {% block importmap %} {{ importmap(["app", "adminConsultation"]) }}{%
+endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
 <main>
   <h1>Consulter les Menus</h1>
 
   <div id="semaineContainer" ->
-    <label for="semaine"
-      >Consulter le Menu pour la Semaine suivante:
-    </label>
+    <label for="semaine">Consulter le Menu pour la Semaine suivante: </label>
     <select name="semaine" id="semaine"></select>
   </div>
   <div class="d-flex flex-row justify-content-between">
@@ -33,7 +31,8 @@
     </div>
   </div>
   <div class="text-end">
-    <button type="button" class="btnCreer" id="btnValider">Modifier</button>
+    <button type="button" class="btnCreer" id="btnValider">Supprimer</button>
+    <button type="button" class="btnCreer" id="btnModifier">Modifier</button>
   </div>
 </main>
 

@@ -5,7 +5,6 @@
   border: 2px solid var(--tertiary-color);
   padding: 5px 10px;
   box-shadow: 5px 5px 3px grey;
-  width: 100%;
 }
 .selectPart {
   width: 45%;
@@ -23,14 +22,14 @@
   background-color: var(--main-color);
   border-radius: 20px;
   border: 2px solid var(--tertiary-color);
-  margin: 10px;
+  margin: 10px auto;
   padding: 5px 10px;
   color: white;
   box-shadow: 5px 5px 3px grey;
   border-collapse: collapse;
-  width: 100%;
+  overflow: hidden;
 }
-#repasRow td{
+#repasRow td {
   font-weight: bold;
 }
 
@@ -42,4 +41,11 @@
   border-collapse: collapse;
   border-radius: 20px;
   width: 5%;
+}
+@media print {
+  /* Hide the header and any other unwanted elements when printing */
+  header,
+  footer {
+    display: none;
+  }
 }

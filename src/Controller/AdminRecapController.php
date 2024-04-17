@@ -39,14 +39,14 @@ class AdminRecapController extends AbstractController
 
 
     #[Route('admin/recapJson/{section}/{semaine}', name: 'admin_recap_json')]
-    public function recapJson(SerializerInterface $serializer, UserRepository $userRepository, ReservationRepository $reservationRepository, int $semaine, string $section): JsonResponse
+    public function recapJson(SerializerInterface $serializer, UserRepository $userRepository, ReservationRepository $reservationRepository, int $semaine, int $section): JsonResponse
     {
         $sectionChoisi = $userRepository
             ->createQueryBuilder('u')
             ->innerJoin('u.userInfo', 'ui')
             ->innerJoin('ui.promo', 'p')
             ->innerJoin('p.Section', 's')
-            ->where('s.abreviation = :section ')
+            ->where('s.id = :section ')
             ->setParameter('section', $section)
             ->getQuery()
             ->getResult();
@@ -54,7 +54,7 @@ class AdminRecapController extends AbstractController
         $semaineChoisi = $reservationRepository
             ->createQueryBuilder('r')
             ->innerJoin('r.semaine', 'sr')
-            ->where('sr.numeroSemaine = :semaine ')
+            ->where('sr.id = :semaine ')
             ->setParameter('semaine', $semaine)
             ->getQuery()
             ->getResult();

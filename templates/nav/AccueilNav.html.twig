@@ -1,5 +1,11 @@
-<nav class="d-flex flex-row justify-content-between ">
-  <p>Afpar à la Carte</p>
-  <img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo de l'afpar" />
-  <p>Non Connecté</p>
-</nav>
+<header>
+  <nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container-fluid">
+      <div id="titleDrop"><p>Afpar à la Carte</p></div>
+      <a class="navbar-brand" href="{{ path('redirect') }}"
+        ><img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo Afpar"
+      /></a>
+      <div id="userBadge"><p>Non Connecté</p></div>
+    </div>
+  </nav>
+</header>

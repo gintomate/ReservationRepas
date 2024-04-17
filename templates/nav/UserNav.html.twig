@@ -1,72 +1,48 @@
-<nav class="d-flex flex-row justify-content-between" id="navUser">
-  <div id="navLogo">
-    <a href="{{ path('redirect') }}"
-      ><img src="{{ asset('image/afparLogoDroit.pg') }}" alt="Logo Afpar"
-    /></a>
-  </div>
-  {#
-  <div class="d-flex flex-row" id="nav-link">
-    <div class="dropdown">
-      <a
-        href="{{ path('user_reservation') }}"
-        class="d-flex flex-column justify-content-around"
-        >Réserver mes <br />
-        Repas</a
+<header>
+  <nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ path('redirect') }}"
+        ><img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo Afpar"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('user_reservation') }}"
+              >Réserver mes Repas</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('user_consultation') }}"
+              >Consulter mes Réservations</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('user_profil') }}"
+              >Consulter mon Profil</a
+            >
+          </li>
+          <div class="d-flex flex-row align-items-center" id="userBadge">
+            <p>
+              {{ app.user.userInfo.promo.section.abreviation }} :
+              {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}
+            </p>
+            <a href="{{ path('logout') }}" id="deco"
+              >Se déconnecter<i class="fa-solid fa-arrow-right"></i
+            ></a>
+          </div>
+        </ul>
+      </div>
     </div>
-
-    <div class="dropdown">
-      <a
-        href="{{ path('user_consultation') }} "
-        class="d-flex flex-column justify-content-around"
-        >Consulter mes <br />
-        Reservations</a
-      >
-    </div>
-    <div class="dropdown">
-      <a
-        href="{{ path('user_profil') }}"
-        class="d-flex flex-column justify-content-around"
-        >Consulter mon <br />
-        Profil</a
-      >
-    </div>
-  </div>
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <i class="fa fa-bars"></i>
-  </a>
-  #}
-  <div class="topnav" id="myTopnav">
-    <a
-      href="{{ path('user_reservation') }}"
-      class="d-flex flex-column justify-content-around"
-      >Réserver mes <br />
-      Repas</a
-    >
-    <a
-      href="{{ path('user_consultation') }} "
-      class="d-flex flex-column justify-content-around"
-      >Consulter mes <br />
-      Reservations</a
-    >
-    <a
-      href="{{ path('user_profil') }}"
-      class="d-flex flex-column justify-content-around"
-      >Consulter mon <br />
-      Profil</a
-    >
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()"
-      >&#9776;</a
-    >
-  </div>
-  <div
-    id="userBadge"
-    class="d-flex flew-row justify-content-around align-items-center"
-  >
-    <p id="userName">
-      {{ app.user.userInfo.promo.section.abreviation }} <br />
-      {{ app.user.userInfo.nom }} <br />{{ app.user.userInfo.prenom }}
-    </p>
-    <a href="{{ path('logout') }}"><button id="deco">Se déconnecter</button></a>
-  </div>
-</nav>
+  </nav>
+</header>

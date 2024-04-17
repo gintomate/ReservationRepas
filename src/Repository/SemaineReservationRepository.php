@@ -21,6 +21,15 @@ class SemaineReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, SemaineReservation::class);
     }
 
+
+    public function findWithoutJourReservation(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.jourReservation', 'j')
+            ->where('j.id IS NULL') // Exclude entities with associated JourReservation
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return SemaineReservation[] Returns an array of SemaineReservation objects
     //     */

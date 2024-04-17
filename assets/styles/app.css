@@ -5,6 +5,7 @@
   --secondary-color: #00e68c;
   --tertiary-color: #ffbe00;
   --grey-color: #878787;
+  --alert-color: #ff4545;
 }
 body {
   background-color: #f8f8f8;
@@ -13,6 +14,9 @@ body {
   color: black;
 }
 
+header {
+  width: 100%;
+}
 main {
   margin: 0 auto;
   width: 85%;
@@ -32,6 +36,31 @@ button {
   background-color: var(--tertiary-color);
   border-radius: 50px;
   border: 2px solid black;
-  font-size: 36px;
-  padding: 5px 10px;
+}
+@media screen and (max-width: 1300px) {
+  main {
+    width: 95%;
+  }
+}
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  h1 {
+    font-size: 48px;
+  }
+  h3 {
+    font-size: 32px;
+  }
+}
+@media screen and (max-width: 666px) {
+  body {
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 42px;
+  }
+  h3 {
+    font-size: 28px;
+  }
 }

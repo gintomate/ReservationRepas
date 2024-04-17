@@ -8,7 +8,6 @@ axios
     insertOption(response.data);
   })
   .catch(function (error) {
-    // en cas d’échec de la requête
     console.log(error);
   })
   .finally(function () {
@@ -19,27 +18,18 @@ axios
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
     var semaineId = item.id;
-
-    // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
-
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine + ": " + formattedDateDebut + " - " + formattedDateFin;
-    option.value = semaineId;
-
-    // Append the option to the select element
-    semaine.appendChild(option);
+    optionsHTML += `<option value="${semaineId}">${
+      item.numeroSemaine
+    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
+      new Date(item.dateFin)
+    )}</option>`;
   }
+  // Append the option to the select element
+  semaine.innerHTML = optionsHTML;
 }
 
 // Function to format a Date object to d-m-Y format
@@ -84,7 +74,7 @@ function callValid(formValid, event) {
   var errorMsg = document.getElementById("errorMsg");
   if (!formValid) {
     errorMsg.innerHTML = "Tous les champs non férié doivent étre remplis.";
-    errorMsg.classList.add("alert");
+    errorMsg.style.display = "block";
     event.preventDefault();
   }
 }
@@ -94,7 +84,7 @@ var btnReset = document.getElementById("btnReset");
 btnReset.addEventListener("click", resetStyle);
 var errorMsg = document.getElementById("errorMsg");
 function resetStyle() {
-  errorMsg.classList.remove("alert");
+  errorMsg.style.display = "none";
   errorMsg.innerHTML = "";
 }
 

@@ -1,7 +1,9 @@
 <header>
-  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img src="" alt="Logo Afpar" /></a>
+      <a class="navbar-brand" href="{{ path('redirect') }}"
+        ><img src="{{ asset('image/afparLogoDroit.png') }}" alt="Logo Afpar"
+      /></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -26,13 +28,25 @@
               Gérer les Menus
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li>
+                <a class="dropdown-item" href="{{ path('admin_menu_creer') }}"
+                  >Créer un Menu</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ path('admin_consultation') }}"
+                  >Consulter les Menus</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Bloquez la Réservation</a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Récapitulatif des Réservations</a>
+            <a class="nav-link" href="{{ path('admin_recap') }}"
+              >Récapitulatif des Réservations</a
+            >
           </li>
           <li class="nav-item dropdown">
             <a
@@ -45,11 +59,34 @@
               Gérer les Utilisateurs
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ path('security_registration') }}"
+                  >Créer un Utilisateur</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ path('admin_gestion_user') }}"
+                  >Gérer un Utilisateur</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ path('admin_section') }}">
+                  Gérer les Sections</a
+                >
+              </li>
             </ul>
           </li>
+          <div
+            class="d-flex flex-sm-row flex-column align-items-center"
+            id="userBadge"
+          >
+            <p>User : Administration</p>
+            <a href="{{ path('logout') }}" id="deco"
+              ><span id="decoText">Se déconnecter </span><i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
         </ul>
       </div>
     </div>

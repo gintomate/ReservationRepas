@@ -38,65 +38,71 @@ class MenuGestionController extends AbstractController
     ): Response {
         $formData = $request->request->all();
 
-
         if ($request->isMethod('POST')) {
             $semaineSelect =  $formData['semaine'];
             $semaine = $semaineReservationRepository->find($semaineSelect);
             $dateDebut = $semaine->getDateDebut();
             $formValid = true;
+
+            //Check existing Menu
+
             $existingMenu = $jourReservationRepository->findOneBy([
                 'dateJour' => $dateDebut
             ]);
 
             if ($existingMenu) {
-                // If a reservation already exists, handle the situation accordingly
-                // For example, you might want to return some error response
-                return new Response('Reservation already exists', Response::HTTP_CONFLICT);
-            }
+                $this->addFlash(
+                    'error',
+                    'Une réservation pour cette semaine existe déja.'
+                );
+                return new Response('Une réservation existe déja', Response::HTTP_CONFLICT);
+            } else {
+                foreach ($formData['day'] as $key => $day) {
+                    //clone currentDate because $dateDebut change even after persist
+                    $currentDate = clone $dateDebut;
+                    $jourReservation = new JourReservation;
+                    $jourReservation->setDateJour($currentDate);
+                    $jourReservation->setSemaineReservation($semaine);
+                    //If ferie count as 1 and go
+                    if ($day['ferie'] === 'true') {
+                        $jourReservation->setFerie(true);
+                    } else {
+                        $jourReservation->setFerie(false);
+                        foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
+                            if (isset($day[$mealType])) {
+                                $repas = new Repas;
+                                $typeRepas = $typeRepasRepository->findOneBy(['type' => $mealType]);
+                                $repas->setJourReservation($jourReservation);
+                                $repas->setDescription($day[$mealType]);
+                                $repas->setTypeRepas($typeRepas);
+                                $errors = $validator->validate($repas);
 
-            foreach ($formData['day'] as $key => $day) {
-                //clone currentDate because $dateDebut change even after persist
-                $currentDate = clone $dateDebut;
-                $jourReservation = new JourReservation;
-                $jourReservation->setDateJour($currentDate);
-                $jourReservation->setSemaineReservation($semaine);
-
-                if ($day['ferie'] === 'true') {
-                    $jourReservation->setFerie(true);
-                } else {
-                    $jourReservation->setFerie(false);
-                    foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
-                        if (isset($day[$mealType])) {
-                            $repas = new Repas;
-                            $typeRepas = $typeRepasRepository->findOneBy(['type' => $mealType]);
-                            $repas->setJourReservation($jourReservation);
-                            $repas->setDescription($day[$mealType]);
-                            $repas->setTypeRepas($typeRepas);
-                            $errors = $validator->validate($repas);
-
-                            if (count($errors) > 0) {
-                                $this->addFlash(
-                                    'error',
-                                    'Tous les champs doivent être remplis.'
-                                );
-                                $formValid = false;
-                                break 2; // Exit both inner and outer loops
+                                if (count($errors) > 0) {
+                                    $formValid = false;
+                                    break 2; // Exit both inner and outer loops
+                                }
+                                $entityManager->persist($repas);
                             }
-                            $entityManager->persist($repas);
                         }
                     }
+                    $entityManager->persist($jourReservation);
+                    $dateDebut->modify('+ 1 day');
                 }
-                $entityManager->persist($jourReservation);
-                $dateDebut->modify('+ 1 day');
-            }
-
-            if ($formValid === true) {
-                $entityManager->flush();
-                $this->addFlash(
-                    'success',
-                    'Le Menu a bien était bien enregistré.'
-                );
-                return $this->redirectToRoute('admin_consultation');
+                //verify if all is good
+                if ($formValid === true) {
+                    $entityManager->flush();
+                    $this->addFlash(
+                        'success',
+                        'Le Menu a bien était bien enregistré.'
+                    );
+                    return $this->redirectToRoute('admin_consultation');
+                } else {
+                    $this->addFlash(
+                        'error',
+                        'Erreur dans la création du Menu.'
+                    );
+                    return new Response('Erreur dans la création du Menu.', Response::HTTP_CONFLICT);
+                }
             }
         }
 
@@ -156,6 +162,12 @@ class MenuGestionController extends AbstractController
                     'Le Menu a bien était bien enregistré.'
                 );
                 return $this->redirectToRoute('admin_consultation');
+            } else {
+                $this->addFlash(
+                    'error',
+                    'Erreur dans la création du Menu.'
+                );
+                return new Response('Erreur dans la création du Menu.', Response::HTTP_CONFLICT);
             }
         }
 

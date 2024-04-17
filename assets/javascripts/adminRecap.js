@@ -27,46 +27,39 @@ function insertOptions(data) {
 function insertSemaine(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
+    var semaineId = item.id;
     // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
-
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine +
-      " : " +
-      formattedDateDebut +
-      " - " +
-      formattedDateFin;
-
-    semaine.appendChild(option);
+    optionsHTML += `<option value="${semaineId}">${
+      item.numeroSemaine
+    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
+      new Date(item.dateFin)
+    )}</option>`;
   }
+  // Append the option to the select element
+  semaine.innerHTML = optionsHTML;
 }
 
 ////SELECT SECTION
 function insertSection(data) {
   var section = document.getElementById("section");
   section.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
-
+    var sectionId = item.id;
     // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent = item.abreviation + " : " + item.nomSection;
+    //   const option = document.createElement("option");
+    //   option.textContent = item.abreviation + " : " + item.nomSection;
 
-    section.appendChild(option);
+    //   section.appendChild(option);
+    // }
+    optionsHTML += `<option value="${sectionId}">${item.abreviation} :  ${item.nomSection}</option>`;
   }
-  //   var optionPassed = semaine.options[0].textContent;
-  //   var optionSplit = optionPassed.split(" ");
-  //   var numeroOption = optionSplit[0];
-  //   fetchMenu(numeroOption);
+  // Append the option to the select element
+  section.innerHTML = optionsHTML;
 }
 function formatDate(date) {
   var day = date.getDate();
@@ -91,15 +84,11 @@ semaine.addEventListener("change", handleChange);
 function handleChange(event) {
   //semaine
   var semaineValue = document.getElementById("semaine").value;
-  var semaineSplit = semaineValue.split(" ");
-  var numeroOption = semaineSplit[0];
   //section
   var sectionValue = document.getElementById("section").value;
-  var sectionSplit = sectionValue.split(" ");
-  var abreviationOption = sectionSplit[0];
   //call function
   resetStyle();
-  fetchRecap(abreviationOption, numeroOption);
+  fetchRecap(sectionValue, semaineValue);
 }
 
 //FETCH RECAP
@@ -158,9 +147,9 @@ function insertRecap(data) {
             });
           });
           if (reserveValid === true) {
-            newRowData += "<td>" + tarif + "</td>";
+            newRowData += "<td class='repasCell'>" + tarif + "</td>";
           } else {
-            newRowData += "<td></td>";
+            newRowData += "<td class='repasCell'></td>";
           }
         });
       });
@@ -168,7 +157,7 @@ function insertRecap(data) {
       newRowData += "<td>" + montant + "</td></tr>";
     } else {
       for (let i = 0; i < 16; i++) {
-        newRowData += " <td></td>";
+        newRowData += " <td class='repasCell'></td>";
       }
       newRowData += "<td>0</td></tr>";
     }

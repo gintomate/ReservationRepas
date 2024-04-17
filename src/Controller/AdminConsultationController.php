@@ -22,7 +22,7 @@ class AdminConsultationController extends AbstractController
     #[Route('/admin/consultationSemaineJson', name: 'admin_consultation_semaineJson')]
     public function consultSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepository): JsonResponse
     {
-        $curd = date('Y-m-d');
+        $today = date('Y-m-d');
         $jourReservations = $jourReservationRepository->findAll();
 
         // Initialize an array to store semaine entities
@@ -33,7 +33,7 @@ class AdminConsultationController extends AbstractController
             // Retrieve the Semaine associated with this JourReservation
             $semaine = $jourReservation->getSemaineReservation();
             //to change
-            if ($semaine->getDateFin() > $curd) {
+            if ($semaine->getDateFin() > $today) {
                 if (!in_array($semaine, $semaines, true)) {
                     // Add this Semaine to the array
                     $semaines[] = $semaine;

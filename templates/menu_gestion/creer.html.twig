@@ -8,11 +8,13 @@ block importmap %} {# do NOT call parent() #}
   <h1>Créer un Menu</h1>
 
   <form method="post">
-    <div id="semaineContainer" ->
+    <div id="semaineContainer">
       <label for="semaine">Créer un menu pour la Semaine: </label>
       <select name="semaine" id="semaine"></select>
     </div>
-    <div class="d-flex flex-row justify-content-between">
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
+    >
       <div class="cardMenu">
         <h3>Lundi</h3>
         <label
@@ -281,11 +283,17 @@ block importmap %} {# do NOT call parent() #}
         </div>
       </div>
     </div>
-    <div role="alert" id="errorMsg"></div>
-    <div class="text-end">
+    {% for message in app.flashes('error') %}
+    <div role="alert" class="errorMsg">
+      {{ message }}
+    </div>
+    {% endfor %}
+    <div role="alert" id="errorMsg" class="errorMsg"></div>
+    <div class="d-flex justify-content-sm-end justify-content-around">
       <button type="reset" class="btnCreer" id="btnReset">Réinitialiser</button>
       <button type="submit" class="btnCreer" id="btnValider">Valider</button>
     </div>
   </form>
 </main>
+
 {% endblock %}

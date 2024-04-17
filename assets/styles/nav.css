@@ -1,0 +1,122 @@
+/* Styling the navigation bar */
+#navbar {
+  background-color: var(--secondary-color);
+  border-bottom: 2px solid var(--tertiary-color);
+  padding: 0;
+  margin: 2px;
+}
+
+.navbar-brand img {
+  max-height: 40px;
+}
+
+.navbar-nav .nav-link,
+.dropdown-item {
+  color: black;
+  font-size: 18px;
+  padding: 10px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.navbar-nav .nav-link:hover {
+  color: white;
+  background-color: var(--grey-color);
+}
+
+.dropdown-menu {
+  background-color: var(--secondary-color); /* Dropdown background color */
+}
+
+.dropdown-menu .dropdown-item {
+  color: black;
+  font-size: 18px;
+  padding: 10px;
+  border-top: 1px solid white;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: var(--grey-color);
+  color: white;
+}
+
+#userBadge,
+#titleDrop {
+  margin: 0;
+  text-align: center;
+}
+#userBadge p,
+#titleDrop p {
+  margin: 4px 10px 0px 10px;
+  font-style: italic;
+}
+/* Styling the logout button */
+#deco {
+  background-color: var(--grey-color);
+  border: 1px solid var(--tertiary-color);
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 5px 10px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#decoText {
+  margin: 5px;
+}
+
+#deco:hover {
+  color: black; /* Text color on hover */
+}
+#userFooter {
+  background-color: var(--secondary-color);
+  border-top: 2px solid var(--tertiary-color);
+}
+#userFooter > ul > li {
+  margin: 5px 2px 2px;
+  list-style: none;
+}
+@media screen and (max-width: 1090px) {
+  #decoText {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .navbar-nav .nav-link,
+  .dropdown-item {
+    font-size: 16px;
+    padding: 7px;
+  }
+  .dropdown-menu .dropdown-item {
+    font-size: 16px;
+    padding: 7px;
+  }
+  #deco {
+    padding: 5px 10px;
+    font-size: 16px;
+    margin: 4px;
+  }
+  #decoText {
+    display: block;
+  }
+}
+@media screen and (max-width: 666px) {
+  .navbar-nav .nav-link,
+  .dropdown-item {
+    font-size: 14px;
+    padding: 7px;
+  }
+  .dropdown-menu .dropdown-item {
+    font-size: 14px;
+    padding: 7px;
+  }
+  #deco {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 4px;
+  }
+}

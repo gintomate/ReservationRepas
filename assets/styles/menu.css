@@ -20,6 +20,8 @@
 .cardMenu {
   background-color: var(--main-color);
   border: 3px solid var(--tertiary-color);
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
   color: white;
   text-align: center;
@@ -46,14 +48,81 @@ h3 {
   margin: 5px;
 }
 #errorMsg {
-  background-color: #ff7979;
+  display: none;
+}
+.errorMsg {
+  background-color: var(--alert-color);
   color: white;
+  border: 2px solid var(--tertiary-color);
+  box-shadow: 5px 5px 3px grey;
+  padding: 16px;
+  text-align: center;
+  margin: 3px;
 }
 .btnCreer {
   width: 15%;
   text-align: center;
-  font-size: 36px;
+  font-size: 28px;
   margin: 10px;
-  padding: 5px ;
+  padding: 5px;
   box-shadow: 5px 5px 3px grey;
+}
+
+@media screen and (max-width: 1300px) {
+  .cardMenu {
+    margin: 0;
+    margin-top: 5px;
+    width: 20%;
+    box-shadow: 5px 5px 3px grey;
+  }
+  .btnCreer {
+    font-size: 22px;
+  }
+  .errorMsg {
+    padding: 16px;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .cardMenu {
+    width: 33%;
+    box-shadow: 5px 5px 3px grey;
+  }
+  .btnCreer {
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 768px) {
+  .repas {
+    margin: 5px;
+    padding: 2px;
+    height: 125px;
+  }
+}
+@media screen and (max-width: 666px) {
+}
+@media screen and (max-width: 576px) {
+  #semaineContainer {
+    display: block;
+    text-align: center;
+    margin: 7px;
+    padding: 5px 10px;
+  }
+  .cardMenu {
+    width: 80%;
+    margin: 5px auto 5px;
+
+    padding: 5px;
+    box-shadow: 5px 5px 3px grey;
+    align-items: center;
+  }
+  .repas {
+    margin: 7px;
+    padding: 2px;
+    height: 110px;
+    width: 90%;
+  }
+  textarea {
+    width: 95%;
+  }
 }
