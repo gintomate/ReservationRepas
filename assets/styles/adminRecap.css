@@ -5,19 +5,19 @@
   border: 2px solid var(--tertiary-color);
   padding: 5px 10px;
   box-shadow: 5px 5px 3px grey;
+  margin: 2px;
 }
 .selectPart {
   width: 45%;
-  margin: 0 5px 5px 5px;
+  margin: 0 10px 10px;
 }
 #semaine,
 #section {
   background-color: var(--main-color);
   color: white;
-  border: 1px solid white;
+  border: 1px solid var(--tertiary-color);
   width: 100%;
 }
-
 #recapContainer {
   background-color: var(--main-color);
   border-radius: 20px;
@@ -28,6 +28,7 @@
   box-shadow: 5px 5px 3px grey;
   border-collapse: collapse;
   overflow: hidden;
+  width: 100%;
 }
 #repasRow td {
   font-weight: bold;
@@ -40,8 +41,38 @@
   text-align: center;
   border-collapse: collapse;
   border-radius: 20px;
-  width: 5%;
 }
+#btnPrint {
+  width: 15%;
+  text-align: center;
+  font-size: 28px;
+  margin: 10px;
+  padding: 5px;
+  box-shadow: 5px 5px 3px grey;
+}
+@media screen and (max-width: 1024px) {
+  #btnPrint {
+    width: fit-content;
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .responsiveHide {
+    display: none;
+  }
+  .selectPart {
+    margin: 10px;
+  }
+  #recapContainer {
+    margin: 20px auto;
+    padding: 20px 10px;
+  }
+  #repasRow td {
+    padding: 16px 12px;
+    width: 50vw;
+  }
+}
+
 @media print {
   /* Hide the header and any other unwanted elements when printing */
   header,

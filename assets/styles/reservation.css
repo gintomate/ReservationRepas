@@ -6,13 +6,15 @@
   border-radius: 20px;
   border: 2px solid var(--tertiary-color);
   margin: 10px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   color: white;
   box-shadow: 5px 5px 3px grey;
 }
 #semaine {
   background-color: var(--main-color);
   color: white;
+  border: 1px solid var(--tertiary-color);
+  margin: 0 5px;
 }
 
 /* CSS MENU */
@@ -34,9 +36,17 @@
 
 .repas {
   border-radius: 10px;
-  border: 1px solid white;
   margin: 3px;
-  height: 200px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-shadow: 2px 2px 2px var(--tertiary-color);
+}
+.repas h4,
+.repas p,
+.repas input {
+  margin: 2px;
 }
 .green {
   background-color: var(--secondary-color);
@@ -46,7 +56,6 @@
   background-color: var(--grey-color);
   color: white;
 }
-
 #menuBottomBar {
   margin: 10px;
 }
@@ -58,16 +67,28 @@
 }
 #btnValider,
 #btnReset {
-  margin: 0px 10px;
+  margin: 5px 10px;
   font-size: 28px;
   text-align: center;
   box-shadow: 2px 2px 2px var(--grey-color);
 }
+.alert {
+  display: none;
+}
+.errorMsg {
+  background-color: var(--alert-color);
+  color: white;
+  border: 2px solid var(--tertiary-color);
+  box-shadow: 5px 5px 5px grey;
+  padding: 16px 8px;
+  text-align: center;
+  margin: 10px;
+}
 /* CSS Ferie  */
 
 .ferie {
-  background-color: rgb(218, 102, 102);
-  height: 800px;
+  background-color: var(--alert-color);
+  height: 730px;
   border-radius: 10px;
   border: 1px solid white;
   margin: 2px;
@@ -76,8 +97,67 @@
   height: 100%;
 }
 .ferieText {
-  color: red;
+  color: black;
 }
 .hidden {
   display: none;
+}
+
+@media screen and (max-width: 1300px) {
+}
+@media screen and (max-width: 1024px) {
+  #menuContainer div {
+    flex-wrap: wrap;
+  }
+  .jourContainer {
+    width: 33%;
+  }
+  .repas {
+    margin: 5px;
+  }
+  #menuBottomBar {
+    margin: 5px;
+  }
+  #btnValider,
+  #btnReset {
+    width: fit-content;
+    padding: 5px 7px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #semaineContainer {
+    margin: 5px;
+    padding: 5px 10px;
+    box-shadow: 3px 3px 2px grey;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  .jourContainer {
+    width: 49%;
+    margin-top: 5px;
+  }
+  .repas {
+    margin: 2px;
+    height: 160px;
+  }
+  #btnValider,
+  #btnReset {
+    font-size: 22px;
+    padding: 4px 5px;
+  }
+  .repasVide:not(:first-of-type) {
+    display: none;
+  }
+  @media screen and (max-width: 666px) {
+    .repas {
+      height: 140px;
+    }
+  }
+  @media screen and (max-width: 576px) {
+    .jourContainer {
+      width: 95%;
+      margin-top: 5px;
+    }
+  }
 }

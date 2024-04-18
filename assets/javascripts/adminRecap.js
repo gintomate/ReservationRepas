@@ -24,6 +24,7 @@ function insertOptions(data) {
 }
 
 //SELECT SEMAINE
+
 function insertSemaine(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
@@ -50,15 +51,8 @@ function insertSection(data) {
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
     var sectionId = item.id;
-    // Create an option element and set its text content
-    //   const option = document.createElement("option");
-    //   option.textContent = item.abreviation + " : " + item.nomSection;
-
-    //   section.appendChild(option);
-    // }
-    optionsHTML += `<option value="${sectionId}">${item.abreviation} :  ${item.nomSection}</option>`;
+    optionsHTML += `<option value="${sectionId}">${item.nomPromo} :  ${item.Section.nomSection}</option>`;
   }
-  // Append the option to the select element
   section.innerHTML = optionsHTML;
 }
 function formatDate(date) {
@@ -147,9 +141,9 @@ function insertRecap(data) {
             });
           });
           if (reserveValid === true) {
-            newRowData += "<td class='repasCell'>" + tarif + "</td>";
+            newRowData += "<td class='responsiveHide'>" + tarif + "</td>";
           } else {
-            newRowData += "<td class='repasCell'></td>";
+            newRowData += "<td class='responsiveHide'></td>";
           }
         });
       });
@@ -157,7 +151,7 @@ function insertRecap(data) {
       newRowData += "<td>" + montant + "</td></tr>";
     } else {
       for (let i = 0; i < 16; i++) {
-        newRowData += " <td class='repasCell'></td>";
+        newRowData += " <td class='responsiveHide'></td>";
       }
       newRowData += "<td>0</td></tr>";
     }

@@ -9,13 +9,13 @@ block body %} {% include "nav/UserNav.html.twig" %}
       <select name="semaine" id="semaine"></select>
     </div>
     <div id="menuContainer">
-      <div class="d-flex flex-row justify-content-between">
+      <div class="d-flex flex-sm-row flex-column justify-content-around align-items-center">
         <div class="jourContainer">
           <h3>Monday</h3>
           <div class="repasContainer" id="MondayRepas">
-            <div class="repas green">
-              <h4>Petit Déjeuner</h4>
-              <p class="Monday"></p>
+            <div class="repas green repasVide">
+              <h4>Pas de Petit Déjeuner</h4>
+              <p class="Monday" style="display: none"></p>
             </div>
             <div class="repas grey">
               <h4>Déjeuner A</h4>
@@ -289,14 +289,14 @@ block body %} {% include "nav/UserNav.html.twig" %}
                 value="petit_déjeuner"
               />
             </div>
-            <div class="repas grey">
-              <h4>Déjeuner A</h4>
+            <div class="repas grey repasVide">
+              <h4>Pas de Déjeuner</h4>
             </div>
-            <div class="repas green">
-              <h4>Déjeuner B</h4>
+            <div class="repas green repasVide">
+              <h4>Pas de Déjeuner</h4>
             </div>
-            <div class="repas grey">
-              <h4>Diner</h4>
+            <div class="repas grey repasVide">
+              <h4>Pas de Diner</h4>
             </div>
           </div>
           <div class="ferie hidden" id="Friday">
@@ -306,7 +306,12 @@ block body %} {% include "nav/UserNav.html.twig" %}
           </div>
         </div>
       </div>
-      <div role="alert" id="errorMsg"></div>
+      <div role="alert" id="errorMsg" class="errorMsg alert"></div>
+      {% for message in app.flashes('error') %}
+      <div role="alert" class="errorMsg">
+        {{ message }}
+      </div>
+      {% endfor %}
       <div class="d-flex flex-row justify-content-between" id="menuBottomBar">
         <div>
           Total:

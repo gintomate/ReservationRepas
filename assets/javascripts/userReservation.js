@@ -18,30 +18,19 @@ axios
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
     var semaineId = item.id;
-
     // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
-
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine +
-      " : " +
-      formattedDateDebut +
-      " - " +
-      formattedDateFin;
-    option.value = semaineId;
+    optionsHTML += `<option value="${semaineId}">${
+      item.numeroSemaine
+    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
+      new Date(item.dateFin)
+    )}</option>`;
 
     // Append the option to the select element
-    semaine.appendChild(option);
+    semaine.innerHTML = optionsHTML;
   }
   var optionPassed = semaine.options[0].value;
   fetchMenu(optionPassed);
@@ -237,7 +226,7 @@ function callValid(event) {
     // If form is not valid, prevent the default form submission
     event.preventDefault();
     errorMsg.innerHTML = "Veuillez cocher au moins une case.";
-    errorMsg.classList.add("alert");
+    errorMsg.classList.remove("alert");
     return false; // Ensure the form submission is blocked
   }
 }
@@ -245,9 +234,11 @@ function callValid(event) {
 //remove error message
 var btnReset = document.getElementById("btnReset");
 btnReset.addEventListener("click", resetError);
-var errorMsg = document.getElementById("errorMsg");
 
 function resetError() {
-  errorMsg.classList.remove("alert");
-  errorMsg.innerHTML = "";
+  var errorMsgC = document.getElementsByClassName("errorMsg");
+  for (var i = 0; i < errorMsgC.length; i++) {
+    errorMsgC[i].classList.add("alert");
+    errorMsgC[i].innerHTML = "";
+  }
 }

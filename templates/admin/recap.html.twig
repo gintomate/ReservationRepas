@@ -5,43 +5,43 @@ endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
   <h1>Récapitulatif des Réservations</h1>
   <div class="d-flex flex-row justify-content-between" id="selectContainer">
     <div class="selectPart">
-      <label for="section">Selectionnez la section</label
+      <label for="section" class="responsiveHide">Selectionnez la section</label
       ><select name="section" id="section"></select>
     </div>
     <div class="selectPart">
-      <label for="semaine">Selectionnez la semaine</label
+      <label for="semaine" class="responsiveHide">Selectionnez la semaine</label
       ><select name="semaine" id="semaine"></select>
     </div>
   </div>
   <div style="overflow-x: auto">
     <table id="recapContainer">
       <thead>
-        <th></th>
-        <th colspan="3">Lundi</th>
-        <th colspan="4">Mardi</th>
-        <th colspan="4">Mercredi</th>
-        <th colspan="4">Jeudi</th>
-        <th>Vendredi</th>
+        <th class="responsiveHide"></th>
+        <th colspan="3" class="responsiveHide">Lundi</th>
+        <th colspan="4" class="responsiveHide">Mardi</th>
+        <th colspan="4" class="responsiveHide">Mercredi</th>
+        <th colspan="4" class="responsiveHide">Jeudi</th>
+        <th class="responsiveHide">Vendredi</th>
       </thead>
       <tbody id="recap">
         <tr id="repasRow">
           <td class="nomColumn">Nom</td>
-          <td>Déjeuner A</td>
-          <td>Déjeuner B</td>
-          <td>Diner</td>
-          <td>Petit Déjeuner</td>
-          <td>Déjeuner A</td>
-          <td>Déjeuner b</td>
-          <td>Diner</td>
-          <td>Petit Déjeuner</td>
-          <td>Déjeuner A</td>
-          <td>Déjeuner B</td>
-          <td>Diner</td>
-          <td>Petit Déjeuner</td>
-          <td>Déjeuner A</td>
-          <td>Déjeuner B</td>
-          <td>Diner</td>
-          <td>Petit Déjeuner</td>
+          <td class="responsiveHide">Déjeuner A</td>
+          <td class="responsiveHide">Déjeuner B</td>
+          <td class="responsiveHide">Diner</td>
+          <td class="responsiveHide">Petit Déjeuner</td>
+          <td class="responsiveHide">Déjeuner A</td>
+          <td class="responsiveHide">Déjeuner b</td>
+          <td class="responsiveHide">Diner</td>
+          <td class="responsiveHide">Petit Déjeuner</td>
+          <td class="responsiveHide">Déjeuner A</td>
+          <td class="responsiveHide">Déjeuner B</td>
+          <td class="responsiveHide">Diner</td>
+          <td class="responsiveHide">Petit Déjeuner</td>
+          <td class="responsiveHide">Déjeuner A</td>
+          <td class="responsiveHide">Déjeuner B</td>
+          <td class="responsiveHide">Diner</td>
+          <td class="responsiveHide">Petit Déjeuner</td>
           <td>Total</td>
         </tr>
       </tbody>

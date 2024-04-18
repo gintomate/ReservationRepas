@@ -22,16 +22,10 @@ class UserReservationController extends AbstractController
     {
         //Get User Roles
         $user = $this->getUser();
-        $roles = $user->getRoles();
-        $tarifReduit = false;
         $date = new \DateTime();
 
-        for ($i = 0; $i < count($roles); $i++) {
-            if ($roles[$i] === 'ROLE_STAGIAIRE') {
-                $tarifReduit = true;
-            }
-        }
-
+        $roles = $user->getRoles();
+        $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
         $formData = $request->request->all();
         if ($request->isMethod('POST')) {
 
@@ -44,8 +38,10 @@ class UserReservationController extends AbstractController
             ]);
 
             if ($existingReservation) {
-                // If a reservation already exists, handle the situation accordingly
-                // For example, you might want to return some error response
+                $this->addFlash(
+                    'error',
+                    'Une réservation pour cette semaine existe déja.'
+                );
                 return new Response('Reservation already exists', Response::HTTP_CONFLICT);
             }
             //new Reservation
@@ -85,6 +81,10 @@ class UserReservationController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('user_consultation');
             } else {
+                $this->addFlash(
+                    'error',
+                    'Erreur dans la réservation.'
+                );
                 return new Response('Error', Response::HTTP_CONFLICT);
             }
         }
@@ -304,5 +304,4 @@ class UserReservationController extends AbstractController
             'reservation' => $jsonContentCorrectResa
         ]);
     }
-    
 }

@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %} {% block title %}Accueil - Afpar à la Carte{%
 endblock %} {% block body %} {% include "nav/AccueilNav.html.twig" %}
-<main class="container ">
-  <div><h1 class="bg-alert">Afpar à la Carte</h1></div>
-  <div>
-    <div><img src="{{ asset('image/afparLogo.jpg') }}" alt="" /></div>
-    <div>
-      <h2>Bienvenue sur le site de l'Afpar</h2>
-      <a href="{{path('login')}}"><button>Se Connecter</button></a>
+<main class="container">
+  <div><h1>Afpar à la Carte</h1></div>
+  <div class="d-flex flex-row justify-content-around">
+    <div class="accueilImg">
+      <img src="{{ asset('image/afparLogo.jpg') }}" alt="" />
+    </div>
+    <div class="accueilImg d-flex flex-column align-items-center justify-content-evenly" >
+      <h2>Bienvenue sur le site de Réservation de l'Afpar</h2>
+      <a href="{{ path('login') }}"><button id="btnAccueil">Se Connecter</button></a>
     </div>
   </div>
 </main>
-{% include "nav/footer.html.twig" %}
-{% endblock %}
+{% include "nav/footer.html.twig" %} {% endblock %}

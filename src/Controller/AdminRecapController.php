@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\JourReservationRepository;
+use App\Repository\PromoRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\SectionRepository;
 use App\Repository\SemaineReservationRepository;
@@ -23,12 +25,30 @@ class AdminRecapController extends AbstractController
     }
 
     #[Route('admin/recap/SemaineJson', name: 'admin_recap_semaine_json')]
-    public function recapSemaineJson(SerializerInterface $serializer, SectionRepository $sectionRepository, SemaineReservationRepository $semaineReservationRepository): JsonResponse
+    public function recapSemaineJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, JourReservationRepository $jourReservationRepository, PromoRepository $promoRepository): JsonResponse
     {
-        $section = $sectionRepository->findAll();
-        $semaine = $semaineReservationRepository->findAll();
-        $serializedSection = $serializer->serialize($section, 'json', ['groups' => 'section']);
-        $serializedSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
+        $promoBySection = $promoRepository->createQueryBuilder('p')
+            ->groupBy('p.Section')
+            ->getQuery()
+            ->getResult();
+        $jourReservations = $jourReservationRepository->findAll();
+
+        // Initialize an array to store semaine entities
+        $semaines = [];
+
+        // Iterate through each JourReservation entity
+        foreach ($jourReservations as $jourReservation) {
+            // Retrieve the Semaine associated with this JourReservation
+            $semaine = $jourReservation->getSemaineReservation();
+            //to change
+
+            if (!in_array($semaine, $semaines, true)) {
+                // Add this Semaine to the array
+                $semaines[] = $semaine;
+            }
+        }
+        $serializedSection = $serializer->serialize($promoBySection, 'json', ['groups' => 'userInfo']);
+        $serializedSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent = [
             'sections' => json_decode($serializedSection, true),
             'semaines' => json_decode($serializedSemaine, true)
@@ -45,8 +65,7 @@ class AdminRecapController extends AbstractController
             ->createQueryBuilder('u')
             ->innerJoin('u.userInfo', 'ui')
             ->innerJoin('ui.promo', 'p')
-            ->innerJoin('p.Section', 's')
-            ->where('s.id = :section ')
+            ->where('p.id = :section ')
             ->setParameter('section', $section)
             ->getQuery()
             ->getResult();
@@ -64,12 +83,7 @@ class AdminRecapController extends AbstractController
         foreach ($sectionChoisi as $user) {
             $userReservations = $user->getReservations();
             $roles = $user->getRoles();
-            $tarifReduc = false;
-            for ($i = 0; $i < count($roles); $i++) {
-                if ($roles[$i] === 'ROLE_STAGIAIRE') {
-                    $tarifReduc = true;
-                }
-            }
+            $tarifReduc = in_array('ROLE_STAGIAIRE', $roles);
             //no reservation at all
             if (count($userReservations) < 1) {
                 $usersWithReservations[] = [
@@ -95,8 +109,8 @@ class AdminRecapController extends AbstractController
                 }
             }
         }
-        $userSerialise = $serializer->serialize($usersWithReservations, 'json', ['groups' => ['userInfo', 'reservation']]);
-        $jsonContent = json_decode($userSerialise, true);
+        $userSerialised = $serializer->serialize($usersWithReservations, 'json', ['groups' => ['userInfo', 'reservation']]);
+        $jsonContent = json_decode($userSerialised, true);
 
         return new JsonResponse($jsonContent);
     }

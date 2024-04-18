@@ -53,7 +53,7 @@ class MenuGestionController extends AbstractController
             if ($existingMenu) {
                 $this->addFlash(
                     'error',
-                    'Une réservation pour cette semaine existe déja.'
+                    'Un Menu pour cette semaine existe déja.'
                 );
                 return new Response('Une réservation existe déja', Response::HTTP_CONFLICT);
             } else {

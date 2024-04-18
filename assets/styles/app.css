@@ -27,15 +27,44 @@ h1 {
   text-align: center;
   font-weight: bolder;
   text-shadow: 0px 4px grey;
+  margin: 5px;
+}
+h2 {
+  font-size: 36px;
+  font-family: Tahoma, Arial;
+  font-weight: bold;
+  text-align: center;
 }
 h3 {
   font-size: 36px;
   font-family: Tahoma, Arial;
 }
+
 button {
   background-color: var(--tertiary-color);
   border-radius: 50px;
   border: 2px solid black;
+}
+
+/* 
+Accueil
+*/
+
+.accueilImg {
+  width: 49%;
+}
+.accueilImg > img {
+  width: 100%;
+}
+#btnAccueil {
+  font-size: 36px;
+  padding: 0.5em 1.5em;
+  box-shadow: 8px 8px 5px grey;
+  text-align: center;
+}
+#btnAccueil:hover {
+  background-color: var(--main-color);
+  color: white;
 }
 @media screen and (max-width: 1300px) {
   main {
@@ -49,6 +78,9 @@ button {
   h1 {
     font-size: 48px;
   }
+  h2 {
+    font-size: 32px;
+  }
   h3 {
     font-size: 32px;
   }
@@ -59,6 +91,9 @@ button {
   }
   h1 {
     font-size: 42px;
+  }
+  h2 {
+    font-size: 28px;
   }
   h3 {
     font-size: 28px;
