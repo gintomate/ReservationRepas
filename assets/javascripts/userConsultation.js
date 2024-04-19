@@ -17,26 +17,20 @@ axios
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
-
     var semaineId = item.id;
     // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
+    optionsHTML += `<option value="${semaineId}">${
+      item.numeroSemaine
+    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
+      new Date(item.dateFin)
+    )}</option>`;
 
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine + ": " + formattedDateDebut + " - " + formattedDateFin;
-    option.value = semaineId;
     // Append the option to the select element
-    semaine.appendChild(option);
   }
+  semaine.innerHTML = optionsHTML;
   var optionPassed = semaine.options[0].value;
   fetchReservation(optionPassed);
 }
@@ -116,20 +110,27 @@ function insertReservation(reservation) {
       const elements = repasByDay[day];
       var dayRepasContainer = document.getElementById(day);
       var recap = "";
+      if (elements.length < 1) {
+        // If there are no elements, set the content to indicate that it's empty
+        dayRepasContainer.innerHTML =
+          "<div class='emptyJour'>Pas de Repas</div>";
+      } else {
+        // If there are elements, iterate through each element and build the HTML content
+        elements.forEach((element) => {
+          var description = element.repasRes.repas.description;
+          const formattedText = description.replace(/\n/g, "<br>");
 
-      elements.forEach((element) => {
-        var description = element.repasRes.repas.description;
-        const formattedText = description.replace(/\n/g, "<br>");
-
-        var type = element.type;
-        recap +=
-          "<div class='repas'><h4>" +
-          type +
-          "</h4><p>" +
-          formattedText +
-          "</p></div>";
-      });
-      dayRepasContainer.innerHTML = recap;
+          var type = element.type;
+          recap +=
+            "<div class='repas'><h4>" +
+            type +
+            "</h4><p>" +
+            formattedText +
+            "</p></div>";
+        });
+        // Set the HTML content of dayRepasContainer to the built recap
+        dayRepasContainer.innerHTML = recap;
+      }
     }
   }
 }
@@ -138,7 +139,7 @@ function insertReservation(reservation) {
 function insertMontant(reservation) {
   const montant = document.getElementById("montant");
   const montantTotal = reservation.montantTotal;
-  montant.textContent = montantTotal;
+  montant.value = montantTotal;
 }
 
 document.getElementById("btnValider").addEventListener("click", function () {

@@ -11,6 +11,7 @@
 #semaine {
   background-color: var(--main-color);
   color: white;
+  border: 1px solid var(--tertiary-color);
 }
 
 .cardMenu {
@@ -32,4 +33,111 @@
   margin: 10px;
   padding: 5px;
   border-radius: 10px;
+  border: 1px solid white;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.emptyJour {
+  background-color: var(--alert-color);
+  text-align: center;
+  color: white;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid white;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.repas h3 {
+  margin: 5px;
+}
+#bottomBar {
+  background-color: var(--main-color);
+  color: white;
+  border: 2px solid var(--tertiary-color);
+  border-radius: 40px;
+  box-shadow: 5px 5px 3px grey;
+  margin: 10px;
+  padding: 5px 10px;
+}
+#montantContainer {
+  margin: 0 2px;
+}
+#montant {
+  border: solid 1px var(--secondary-color);
+  color: white;
+  background-color: var(--grey-color);
+  margin: 10px;
+}
+.btnCreer {
+  text-align: center;
+  font-size: 28px;
+  padding: 5px 12px;
+  margin: 2px;
+  box-shadow: 3px 3px 2px grey;
+}
+@media screen and (max-width: 1300px) {
+  .cardMenu {
+    margin: 4px;
+    width: 19%;
+  }
+  .btnCreer {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .cardMenu {
+    width: 33%;
+    box-shadow: 5px 5px 3px grey;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .btnCreer {
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 768px) {
+  .repas {
+    margin: 5px;
+    padding: 2px;
+    height: 125px;
+  }
+  .emptyJour {
+    margin: 5px;
+    padding: 2px;
+    height: 125px;
+  }
+  #semaineContainer {
+    width: 100%;
+    margin: 2px;
+    padding: 5px 10px;
+    text-align: center;
+    display: block;
+  }
+  .btnCreer {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .cardMenu {
+    width: 80%;
+    margin: 5px auto 5px;
+    padding: 5px;
+    box-shadow: 5px 5px 3px grey;
+    align-items: center;
+  }
+  .repas {
+    padding: 2px;
+    height: 110px;
+
+  }
+  .emptyJour {
+    margin: 5px;
+    padding: 2px;
+    height: 125px;
+  }
 }

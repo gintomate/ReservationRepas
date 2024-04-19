@@ -14,11 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserReservationController extends AbstractController
 {
     #[Route('/user/reservation', name: 'user_reservation')]
-    public function reserver(Request $request, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
+    public function reserver(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
     {
         //Get User Roles
         $user = $this->getUser();
@@ -74,12 +75,21 @@ class UserReservationController extends AbstractController
                 $total = $this->calculateTotal($repasRes, $tarifReduit);
                 $Reservation->setMontantTotal($total);
                 $userInfo = $user->getUserInfo();
-                $montantglobal = $this->calculateMontantGlobal($userInfo);
-                $userInfo->setMontantGlobal($montantglobal);
-                $entityManager->persist($Reservation);
-                $entityManager->persist($userInfo);
-                $entityManager->flush();
-                return $this->redirectToRoute('user_consultation');
+                $violation = $validator->validate($Reservation);
+                if (count($violation) < 1) {
+                    $entityManager->persist($Reservation);
+                    $montantglobal = $this->calculateMontantGlobal($userInfo);
+                    $userInfo->setMontantGlobal($montantglobal);
+                    $entityManager->persist($userInfo);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('user_consultation');
+                } else {
+                    $this->addFlash(
+                        'error',
+                        'Réservation Invalide.'
+                    );
+                    return new Response('Error', Response::HTTP_CONFLICT);
+                }
             } else {
                 $this->addFlash(
                     'error',
@@ -88,8 +98,6 @@ class UserReservationController extends AbstractController
                 return new Response('Error', Response::HTTP_CONFLICT);
             }
         }
-
-
         return $this->render('user_reservation/reservation.html.twig', [
             'controller_name' => 'UserReservationController',
             'tarifReduit' => $tarifReduit
@@ -98,21 +106,20 @@ class UserReservationController extends AbstractController
 
 
     #[Route('/user/reservation/modif/{id}', name: 'user_modif')]
-    public function modif(Request $request, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager, int $id): Response
+    public function modif(Request $request, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager, int $id, ValidatorInterface $validator): Response
     {
         //Get User Roles
         $user = $this->getUser();
-        $roles = $user->getRoles();
-        $tarifReduit = false;
-        $date = new \DateTime();
         $Reservation = $reservationRepository->find($id);
+        if ($Reservation->getUtilisateur() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
+        }
+
+        $date = new \DateTime();
+        $roles = $user->getRoles();
         $semaine = $Reservation->getSemaine();
         $semaineId = $semaine->getId();
-        for ($i = 0; $i < count($roles); $i++) {
-            if ($roles[$i] === 'ROLE_STAGIAIRE') {
-                $tarifReduit = true;
-            }
-        }
+        $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
 
         $formData = $request->request->all();
         if ($request->isMethod('POST')) {
@@ -175,15 +182,28 @@ class UserReservationController extends AbstractController
                 $total = $this->calculateTotal($newRepasReserve, $tarifReduit);
                 $Reservation->setMontantTotal($total);
                 // Persist changes
-                $entityManager->persist($Reservation);
-                $entityManager->flush();
-                // Update user's global amount
-                $userInfo = $user->getUserInfo();
-                $montantGlobal = $this->calculateMontantGlobal($user);
-                $userInfo->setMontantGlobal($montantGlobal);
-                $entityManager->persist($userInfo);
-                $entityManager->flush();
+                $violation = $validator->validate($Reservation);
+                if (count($violation) < 1) {
+                    $entityManager->persist($Reservation);
+                    $entityManager->flush();
+                    // Update user's global amount
+                    $userInfo = $user->getUserInfo();
+                    $montantGlobal = $this->calculateMontantGlobal($user);
+                    $userInfo->setMontantGlobal($montantGlobal);
+                    $entityManager->persist($userInfo);
+                    $entityManager->flush();
+                } else {
+                    $this->addFlash(
+                        'error',
+                        'Réservation Invalide.'
+                    );
+                    return new Response('Error', Response::HTTP_CONFLICT);
+                }
             } else {
+                $this->addFlash(
+                    'error',
+                    'Erreur dans la réservation.'
+                );
                 return new Response('Error', Response::HTTP_CONFLICT);
             }
         }

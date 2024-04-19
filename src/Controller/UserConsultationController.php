@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\SemaineReservation;
 use App\Repository\SemaineReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +15,6 @@ class UserConsultationController extends AbstractController
     public function consult(): Response
     {
         $user = $this->getUser();
-
         return $this->render('user_reservation/consultation.html.twig', [
             'controller_name' => 'UserConsultationController',
         ]);

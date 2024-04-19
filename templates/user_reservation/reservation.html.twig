@@ -9,9 +9,11 @@ block body %} {% include "nav/UserNav.html.twig" %}
       <select name="semaine" id="semaine"></select>
     </div>
     <div id="menuContainer">
-      <div class="d-flex flex-sm-row flex-column justify-content-around align-items-center">
+      <div
+        class="d-flex flex-sm-row flex-column justify-content-around align-items-center"
+      >
         <div class="jourContainer">
-          <h3>Monday</h3>
+          <h3>Lundi</h3>
           <div class="repasContainer" id="MondayRepas">
             <div class="repas green repasVide">
               <h4>Pas de Petit Déjeuner</h4>
@@ -35,7 +37,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Déjeuner B</h4>
-              <p class="Monday">Placeholder</p>
+              <p class="Monday"></p>
               <input
                 type="radio"
                 name="day[Monday][dejeuner]"
@@ -45,7 +47,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas grey">
               <h4>Diner</h4>
-              <p class="Monday">Placeholder</p>
+              <p class="Monday"></p>
               <input
                 type="hidden"
                 name="day[Monday][diner]"
@@ -71,7 +73,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
           <div class="repasContainer" id="TuesdayRepas">
             <div class="repas grey">
               <h4>Petit Déjeuner</h4>
-              <p class="Tuesday">Placeholder</p>
+              <p class="Tuesday"></p>
               <input
                 type="hidden"
                 name="day[Tuesday][petit_dejeuner]"
@@ -87,7 +89,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Déjeuner A</h4>
-              <p class="Tuesday">Placeholder</p>
+              <p class="Tuesday"></p>
               <input
                 type="hidden"
                 name="day[Tuesday][dejeuner]"
@@ -103,7 +105,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas grey">
               <h4>Déjeuner B</h4>
-              <p class="Tuesday">Placeholder</p>
+              <p class="Tuesday"></p>
               <input
                 type="radio"
                 name="day[Tuesday][dejeuner]"
@@ -113,7 +115,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Diner</h4>
-              <p class="Tuesday">Placeholder</p>
+              <p class="Tuesday"></p>
               <input
                 type="hidden"
                 name="day[Tuesday][diner]"
@@ -139,7 +141,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
           <div class="repasContainer" id="WednesdayRepas">
             <div class="repas green">
               <h4>Petit Déjeuner</h4>
-              <p class="Wednesday">Placeholder</p>
+              <p class="Wednesday"></p>
               <input
                 type="hidden"
                 name="day[Wednesday][petit_dejeuner]"
@@ -155,7 +157,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas grey">
               <h4>Déjeuner A</h4>
-              <p class="Wednesday">Placeholder</p>
+              <p class="Wednesday"></p>
               <input
                 type="hidden"
                 name="day[Wednesday][dejeuner]"
@@ -171,7 +173,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Déjeuner B</h4>
-              <p class="Wednesday">Placeholder</p>
+              <p class="Wednesday"></p>
               <input
                 type="radio"
                 name="day[Wednesday][dejeuner]"
@@ -181,7 +183,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas grey">
               <h4>Diner</h4>
-              <p class="Wednesday">Placeholder</p>
+              <p class="Wednesday"></p>
               <input
                 type="hidden"
                 name="day[Wednesday][diner]"
@@ -207,7 +209,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
           <div class="repasContainer" id="ThursdayRepas">
             <div class="repas grey">
               <h4>Petit Déjeuner</h4>
-              <p class="Thursday">Placeholder</p>
+              <p class="Thursday"></p>
               <input
                 type="hidden"
                 name="day[Thursday][petit_dejeuner]"
@@ -223,7 +225,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Déjeuner A</h4>
-              <p class="Thursday">Placeholder</p>
+              <p class="Thursday"></p>
               <input
                 type="hidden"
                 name="day[Thursday][dejeuner]"
@@ -239,7 +241,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas grey">
               <h4>Déjeuner B</h4>
-              <p class="Thursday">Placeholder</p>
+              <p class="Thursday"></p>
               <input
                 type="radio"
                 name="day[Thursday][dejeuner]"
@@ -249,7 +251,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="repas green">
               <h4>Diner</h4>
-              <p class="Thursday">Placeholder</p>
+              <p class="Thursday"></p>
               <input
                 type="hidden"
                 name="day[Thursday][diner]"
@@ -275,7 +277,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
           <div class="repasContainer Monday" id="FridayRepas">
             <div class="repas green">
               <h4>Petit Déjeuner</h4>
-              <p class="Friday">Placeholder</p>
+              <p class="Friday"></p>
               <input
                 type="hidden"
                 name="day[Friday][petit_dejeuner]"
@@ -312,7 +314,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
         {{ message }}
       </div>
       {% endfor %}
-      <div class="d-flex flex-row justify-content-between" id="menuBottomBar">
+      <div class="d-flex flex-sm-row flex-column justify-content-between" id="menuBottomBar">
         <div>
           Total:
           <input

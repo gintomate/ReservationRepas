@@ -149,15 +149,37 @@
   .repasVide:not(:first-of-type) {
     display: none;
   }
-  @media screen and (max-width: 666px) {
-    .repas {
-      height: 140px;
-    }
+  .ferie {
+    height: 650px;
   }
-  @media screen and (max-width: 576px) {
-    .jourContainer {
-      width: 95%;
-      margin-top: 5px;
-    }
+  .ferie#Friday {
+    height: 160px;
+  }
+}
+@media screen and (max-width: 666px) {
+  .repas {
+    height: 140px;
+  }
+  .ferie {
+    height: 570px;
+  }
+}
+@media screen and (max-width: 576px) {
+  #semaineContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  #semaine {
+    margin: 2px;
+  }
+  .jourContainer {
+    width: 95%;
+    margin-top: 5px;
+  }
+  #menuBottomBar {
+    margin: 10px;
+  }
+  .ferie {
+    height: 200px;
   }
 }
