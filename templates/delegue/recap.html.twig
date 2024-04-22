@@ -2,10 +2,10 @@
 endblock %}{% block importmap %} {{ importmap(["app", "delegue"]) }}{% endblock
 %}{% block body %} {% include "nav/Usernav.html.twig" %}
 <main id="cont">
-  <h1>Récapitulatif de la Section</h1>
-  <div class="d-flex flex-row justify-content-between" id="selectContainer">
+  <h1>Récapitulatif de la Section {{ section.abreviation }}</h1>
+  <div id="selectContainer">
     <div class="selectPart">
-      <label for="semaine">Selectionnez la semaine</label
+      <label for="semaine">Selectionnez la semaine </label
       ><select name="semaine" id="semaine"></select>
     </div>
   </div>
@@ -22,5 +22,4 @@ endblock %}{% block importmap %} {{ importmap(["app", "delegue"]) }}{% endblock
   </table>
   <button type="button" id="btnPrint">Imprimer</button>
 </main>
-{% include "nav/footer.html.twig" %}
-{% endblock %}
+{% include "nav/footer.html.twig" %} {% endblock %}

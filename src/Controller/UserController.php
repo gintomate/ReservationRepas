@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class UserController extends AbstractController
 {
+    // MENU 
+
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
@@ -19,18 +21,15 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
         ]);
     }
+
+    //PROFIL
+
     #[Route('/user/profil', name: 'user_profil')]
     public function consultProfil(): Response
     {
         $user = $this->getUser();
         $roles = $user->getRoles();
-        $delegue = false;
-        foreach ($roles as  $role) {
-            if ($role === "ROLE_DELEGUE") {
-                $delegue = true;
-            }
-        }
-
+        $delegue = in_array('ROLE_DELEGUE', $roles);
 
         return $this->render('user/profil.html.twig', [
             'controller_name' => 'UserController',
@@ -38,8 +37,11 @@ class UserController extends AbstractController
             'delegue' => $delegue
         ]);
     }
+
+    // MDP CHANGE
+
     #[Route('/user/changeMdp', name: 'user_change_mdp')]
-    public function changeMdp(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    public function changeMdp(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
 
@@ -56,12 +58,14 @@ class UserController extends AbstractController
                 $newPassword
             );
             $user->setPassword($hashedPassword);
-            $entityManager->persist($user);
+            $em->persist($user);
 
-            // $entityManager->flush();
-
-            // Redirect after successful password change
-            return $this->redirectToRoute('user_profile');
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'Votre Mot de passe a bien été changé.'
+            );
+            return $this->redirectToRoute('user_profil');
         }
 
         return $this->render('user/changeMdp.html.twig', [

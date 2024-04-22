@@ -20,7 +20,7 @@ class UserMdpType extends AbstractType
             ->add('userPassword', PasswordType::class, [
                 'constraints' => [
                     new UserPassword([
-                        'message' => 'Votre ancien mot de passe n\'est pas correct',
+                        'message' => 'Votre ancien mot de passe n\'est pas correct.',
                     ]),
                     new NotBlank(),
                 ],'label'=>'Votre ancien mot de passe'
@@ -31,7 +31,7 @@ class UserMdpType extends AbstractType
                 'second_options' => ['label' => 'Confirmez votre nouveau mot de passe'],
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[\W_])(?=.*\d).+/',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*\d).+/',
                         'message' => 'Votre nouveau mot de passe ne respecte pas les normes de sécurité.',
                     ]),
                     new NotBlank(),

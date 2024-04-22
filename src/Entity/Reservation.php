@@ -15,7 +15,7 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['reservation', 'consultation'])]
+    #[Groups(['reservation', 'consultation', 'semaine'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -24,7 +24,7 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation'])]
+    #[Groups(['reservation', 'semaine'])]
     private ?SemaineReservation $semaine = null;
 
     #[ORM\OneToMany(targetEntity: RepasReserve::class, mappedBy: 'reservation')]

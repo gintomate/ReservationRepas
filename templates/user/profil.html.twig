@@ -6,51 +6,71 @@ importmap %} {# do NOT call parent() #}
 
 <main>
   <h1>Mon Profil</h1>
-  <div class="d-flex flex-row">
+
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
+  <div class="d-flex flex-lg-row flex-column">
     <div id="infoPerso">
       <h3>Info Personnel</h3>
-      <div class="d-flex flex-row justify-content-evenly">
-        <div class="infoColumn d-flex flex-column justify-content-around">
-          <label>Nom</label>
-          <label>Prénom</label>
-          <label>Date de Naissance</label>
-          <label>Email</label>
-          <label>Identifiant</label>
-          <label>Mot de passe</label>
-        </div>
-        <div class="infoColumn d-flex flex-column justify-content-around">
+      <div class="d-flex flex-column justify-content-evenly">
+        <div class="infoColumn">
+          <p>Nom</p>
           <p>{{ user.userInfo.nom }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Prénom</p>
           <p>{{ user.userInfo.prenom }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Date de Naissance</p>
           <p>{{ user.userInfo.dateDeNaissance | date('d-m-Y') }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Email</p>
           <p>{{ user.email }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Identifiant</p>
           <p>{{ user.identifiant }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Mot de passe</p>
           <button id="btnModifier">Modifier</button>
         </div>
       </div>
     </div>
     <div id="infoAfpar">
       <h3>Info Afpar</h3>
-      <div class="d-flex flex-row justify-content-around">
-        <div class="infoColumn d-flex flex-column justify-content-around">
-          <label>Section</label>
-          <label>Promo</label>
-          <label>Date de Début</label>
-          <label>Date de Fin</label>
-          <label>Somme Total Dépenser</label>
-          <label>Délégué</label>
-        </div>
-        <div
-          class="infoColumn d-flex flex-column justify-content-evenly"
-          id="columnDelegue"
-        >
+      <div class="d-flex flex-column justify-content-around">
+        <div class="infoColumn">
+          <p>Section</p>
           <p>{{ user.userInfo.promo.section.nomSection }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Promo</p>
           <p>{{ user.userInfo.promo.nomPromo }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Date de Début</p>
           <p>{{ user.userInfo.promo.dateDebut | date('d-m-Y') }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Date de Fin</p>
           <p>{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
-          <p>{{ user.userInfo.montantGlobal }}
-          </p>
-          <input type="checkbox" disabled {% if delegue == true %} checked {%
-          endif %} />
+        </div>
+        <div class="infoColumn">
+          <p>Somme Total Dépensé</p>
+          <p>{{ user.userInfo.montantGlobal }}</p>
+        </div>
+        <div class="infoColumn">
+          <p>Délégué</p>
+          <div id="delegue">
+            <input type="checkbox" disabled id="delegue" {% if delegue == true
+            %} checked {% endif %} />
+          </div>
         </div>
       </div>
     </div>

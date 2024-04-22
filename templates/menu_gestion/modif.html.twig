@@ -5,23 +5,24 @@ block importmap %} {# do NOT call parent() #}
 {% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
 
 <main>
-  <h1>Créer un Menu</h1>
+  <h1>Modifier le menu de la semaine {{ semaine.numeroSemaine }}</h1>
 
   <form method="post">
     <div id="semaineContainer" ->
       <label for="semaine">{{semaine.dateDebut|date('d-m-Y')}}</label>
     </div>
 
-    <div class="d-flex flex-row justify-content-between">
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
+    >
       <div class="cardMenu">
         <h3>Lundi</h3>
-
         <label
           >Férié
-          <input type="hidden" name="day[lundi][ferie]" value="false" />
+          <input type="hidden" name="day[Monday][ferie]" value="false" />
           <input
             type="checkbox"
-            name="day[lundi][ferie]"
+            name="day[Monday][ferie]"
             class="lundi"
             value="true"
             {%
@@ -40,7 +41,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner A</h4>
           <textarea
             id="lundiDejA"
-            name="day[lundi][dejeuner_a]"
+            name="day[Monday][dejeuner_a]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -57,7 +58,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner B</h4>
           <textarea
             type="text"
-            name="day[lundi][dejeuner_b]"
+            name="day[Monday][dejeuner_b]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -74,7 +75,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Diner</h4>
           <textarea
             type="text"
-            name="day[lundi][diner]"
+            name="day[Monday][diner]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -92,10 +93,10 @@ block importmap %} {# do NOT call parent() #}
         <h3>Mardi</h3>
         <label
           >Férié
-          <input type="hidden" name="day[mardi][ferie]" value="false" />
+          <input type="hidden" name="day[Tuesday][ferie]" value="false" />
           <input
             type="checkbox"
-            name="day[mardi][ferie]"
+            name="day[Tuesday][ferie]"
             class="mardi"
             value="true"
             {%
@@ -114,8 +115,8 @@ block importmap %} {# do NOT call parent() #}
           <h4>Petit Déjeuner</h4>
           <textarea
             type="text"
-            name="day[mardi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
+            name="day[Tuesday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
             cols="25"
             rows="2"
             wrap="off"
@@ -131,7 +132,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner A</h4>
           <textarea
             type="text"
-            name="day[mardi][dejeuner_a]"
+            name="day[Tuesday][dejeuner_a]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -148,7 +149,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner B</h4>
           <textarea
             type="text"
-            name="day[mardi][dejeuner_b]"
+            name="day[Tuesday][dejeuner_b]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -164,7 +165,7 @@ block importmap %} {# do NOT call parent() #}
         <div class="repas">
           <h4>Diner</h4>
           <textarea
-            name="day[mardi][diner]"
+            name="day[Tuesday][diner]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -182,10 +183,10 @@ block importmap %} {# do NOT call parent() #}
         <h3>Mercredi</h3>
         <label
           >Férié
-          <input type="hidden" name="day[mercredi][ferie]" value="false" />
+          <input type="hidden" name="day[Wednesday][ferie]" value="false" />
           <input
             type="checkbox"
-            name="day[mercredi][ferie]"
+            name="day[Wednesday][ferie]"
             class="mercredi"
             value="true"
             {%
@@ -204,8 +205,8 @@ block importmap %} {# do NOT call parent() #}
           <h4>Petit Déjeuner</h4>
           <textarea
             type="text"
-            name="day[mercredi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
+            name="day[Wednesday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
             cols="25"
             rows="2"
             wrap="off"
@@ -221,7 +222,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner A</h4>
           <textarea
             type="text"
-            name="day[mercredi][dejeuner_a]"
+            name="day[Wednesday][dejeuner_a]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -238,7 +239,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner B</h4>
           <textarea
             type="text"
-            name="day[mercredi][dejeuner_b]"
+            name="day[Wednesday][dejeuner_b]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -255,7 +256,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Diner</h4>
           <textarea
             type="text"
-            name="day[mercredi][diner]"
+            name="day[Wednesday][diner]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -273,10 +274,10 @@ block importmap %} {# do NOT call parent() #}
         <h3>Jeudi</h3>
         <label
           >Férié
-          <input type="hidden" name="day[jeudi][ferie]" value="false" />
+          <input type="hidden" name="day[Thursday][ferie]" value="false" />
           <input
             type="checkbox"
-            name="day[jeudi][ferie]"
+            name="day[Thursday][ferie]"
             class="jeudi"
             value="true"
             {%
@@ -295,8 +296,8 @@ block importmap %} {# do NOT call parent() #}
           <h4>Petit Déjeuner</h4>
           <textarea
             type="text"
-            name="day[jeudi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
+            name="day[Thursday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
             cols="25"
             rows="2"
             wrap="off"
@@ -312,7 +313,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner A</h4>
           <textarea
             type="text"
-            name="day[jeudi][dejeuner_a]"
+            name="day[Thursday][dejeuner_a]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -329,7 +330,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Déjeuner B</h4>
           <textarea
             type="text"
-            name="day[jeudi][dejeuner_b]"
+            name="day[Thursday][dejeuner_b]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -346,7 +347,7 @@ block importmap %} {# do NOT call parent() #}
           <h4>Diner</h4>
           <textarea
             type="text"
-            name="day[jeudi][diner]"
+            name="day[Thursday][diner]"
             placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
             cols="25"
             rows="3"
@@ -364,10 +365,10 @@ block importmap %} {# do NOT call parent() #}
         <h3>Vendredi</h3>
         <label
           >Férié
-          <input type="hidden" name="day[vendredi][ferie]" value="false" />
+          <input type="hidden" name="day[Friday][ferie]" value="false" />
           <input
             type="checkbox"
-            name="day[vendredi][ferie]"
+            name="day[Friday][ferie]"
             class="vendredi"
             value="true"
             {%
@@ -386,8 +387,8 @@ block importmap %} {# do NOT call parent() #}
           <h4>Petit Déjeuner</h4>
           <textarea
             type="text"
-            name="day[vendredi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
+            name="day[Friday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
             cols="25"
             rows="2"
             wrap="off"
@@ -403,7 +404,7 @@ block importmap %} {# do NOT call parent() #}
     </div>
     <div role="alert" id="errorMsg"></div>
     <div class="text-end">
-      <button type="reset" class="btnCreer" id="btnReset">Annuler</button>
+      <button type="reset" class="btnCreer" id="btnReset">Réinitialiser</button>
       <button type="submit" class="btnCreer" id="btnValider">Valider</button>
     </div>
   </form>

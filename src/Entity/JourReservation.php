@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: JourReservationRepository::class)]
+#[UniqueEntity('dateJour')]
 class JourReservation
 {
     #[ORM\Id]
@@ -21,8 +23,6 @@ class JourReservation
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['reservation', 'semaineResa', 'consultation'])]
-    #[Assert\Date]
-    #[Assert\Unique]
     private ?\DateTimeInterface $dateJour = null;
 
     #[ORM\ManyToOne(inversedBy: 'jourReservation')]

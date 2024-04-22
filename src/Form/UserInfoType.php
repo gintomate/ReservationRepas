@@ -20,7 +20,9 @@ class UserInfoType extends AbstractType
             ->add('nom', TextType::class)
             ->add('prenom', TextType::class)
             ->add('dateDeNaissance', DateType::class, [
-                'placeholder' => 'Choisissez une date.',
+                'placeholder' =>  [
+                    'year' => 'Choisissez une année', 'month' => 'Choisissez un mois', 'day' => 'Choisissez un jour',
+                ],
                 'widget' => 'choice',
                 'by_reference' => true,
                 'format' => 'yyyy-MM-dd',

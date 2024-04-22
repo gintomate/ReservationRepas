@@ -12,8 +12,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-use function PHPUnit\Framework\throwException;
-
 class SecurityController extends AbstractController
 {
     #[Route('/security', name: 'app_security')]
@@ -23,6 +21,9 @@ class SecurityController extends AbstractController
             'controller_name' => 'SecurityController',
         ]);
     }
+
+    //CREATE USER
+
     #[Route('admin/inscription', name: 'security_registration')]
     public function registration(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -66,13 +67,19 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
 
             $entityManager->flush();
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash(
+                'success',
+                'L\' Utilisateur a bien été crée.'
+            );
+            return $this->redirectToRoute('admin_gestion_user');
         }
 
         return $this->render('security/registration.html.twig', [
             'form' => $form
         ]);
     }
+    //CONNECTION
+
     #[Route('/connection', name: 'login')]
 
     public function login(AuthenticationUtils $authenticationUtils): Response

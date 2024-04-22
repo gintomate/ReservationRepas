@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\JourReservationRepository;
 use App\Repository\PromoRepository;
 use App\Repository\ReservationRepository;
-use App\Repository\SectionRepository;
 use App\Repository\SemaineReservationRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

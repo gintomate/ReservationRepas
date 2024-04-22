@@ -236,17 +236,18 @@ function callValid(event) {
     // If form is not valid, prevent the default form submission
     event.preventDefault();
     errorMsg.innerHTML = "Veuillez cocher au moins une case.";
-    errorMsg.classList.add("alert");
+    errorMsg.classList.remove("alert");
     return false; // Ensure the form submission is blocked
   }
 }
-
 //remove error message
 var btnReset = document.getElementById("btnReset");
 btnReset.addEventListener("click", resetError);
-var errorMsg = document.getElementById("errorMsg");
 
 function resetError() {
-  errorMsg.classList.remove("alert");
-  errorMsg.innerHTML = "";
+  var errorMsgC = document.getElementsByClassName("errorMsg");
+  for (var i = 0; i < errorMsgC.length; i++) {
+    errorMsgC[i].classList.add("alert");
+    errorMsgC[i].innerHTML = "";
+  }
 }

@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %} {% block title %}Réservation de Repas{% endblock
-%} {% block importmap %} {{ importmap(["app", "userConsultation"]) }}{% endblock
-%}{% block body %} {% include "nav/UserNav.html.twig" %}
+{% extends 'base.html.twig' %} {% block title %}Réservation - Consultation{%
+endblock %} {% block importmap %} {{ importmap(["app", "userConsultation"]) }}{%
+endblock %}{% block body %} {% include "nav/UserNav.html.twig" %}
 <main>
   <h1>Consulter mes Réservations</h1>
   {% for message in app.flashes('success') %}
-  <div role="alert" class="alert alert-success text-center">
+  <div role="alert" class="alert text-center" id="successMsg">
     {{ message }}
   </div>
   {% endfor %}
@@ -45,10 +45,53 @@
       <input type="text" class="text-end" id="montant" value="0" disabled />
     </div>
     <div class="text-end">
+      <button
+        type="button"
+        class="btnCreer"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteModal"
+        id="btnSupprimer"
+      >
+        Supprimer
+      </button>
       <button type="button" class="btnCreer" id="btnValider">Modifier</button>
-      <button type="button" class="btnCreer">Supprimer</button>
     </div>
   </div>
 </main>
-
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Supprimer votre réservation?
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Etes-vous sûr de vouloir supprimer votre Réservation? Cette action est
+        definitif.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="btnDelete">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {% include "nav/footer.html.twig" %} {% endblock %}

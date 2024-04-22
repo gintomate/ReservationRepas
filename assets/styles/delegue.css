@@ -1,20 +1,28 @@
 #selectContainer {
   background-color: var(--main-color);
-  color: white;
-  border-radius: 20px;
-  border: 2px solid var(--tertiary-color);
-  padding: 5px 10px;
-  box-shadow: 5px 5px 3px grey;
-}
-#recapContainer {
-  background-color: var(--main-color);
+  display: inline-block;
   border-radius: 20px;
   border: 2px solid var(--tertiary-color);
   margin: 10px;
   padding: 5px 10px;
   color: white;
   box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+  border: 1px solid var(--tertiary-color);
+}
+#recapContainer {
+  background-color: var(--main-color);
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px auto;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
   border-collapse: collapse;
+  width: 100%;
 }
 #recapContainer th,
 #recapContainer td {

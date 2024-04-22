@@ -21,6 +21,9 @@ function insertOptions(data) {
   var sectionData = data["sections"];
   insertSemaine(semaineData);
   insertSection(sectionData);
+  var semainePassed = semaine.options[0].value;
+  var sectionPassed = section.options[0].value;
+  fetchRecap(sectionPassed, semainePassed);
 }
 
 //SELECT SEMAINE

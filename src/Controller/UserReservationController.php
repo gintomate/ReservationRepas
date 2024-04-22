@@ -18,8 +18,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserReservationController extends AbstractController
 {
+    //CREATE 
     #[Route('/user/reservation', name: 'user_reservation')]
-    public function reserver(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
+    public function reserver(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepo, ReservationRepository $reservationRepo, EntityManagerInterface $em): Response
     {
         //Get User Roles
         $user = $this->getUser();
@@ -31,9 +32,9 @@ class UserReservationController extends AbstractController
         if ($request->isMethod('POST')) {
 
             $semaineSelect =  $formData['semaine'];
-            $semaine = $semaineReservationRepository->find($semaineSelect);
+            $semaine = $semaineReservationRepo->find($semaineSelect);
             $repasArray =  $this->fetchRepas($semaine);
-            $existingReservation = $reservationRepository->findOneBy([
+            $existingReservation = $reservationRepo->findOneBy([
                 'semaine' => $semaine,
                 'Utilisateur' => $user
             ]);
@@ -65,7 +66,7 @@ class UserReservationController extends AbstractController
                                 $RepasReserve->setRepas($repas);
                             }
                         }
-                        $entityManager->persist($RepasReserve);
+                        $em->persist($RepasReserve);
                         $repasRes[] = $RepasReserve;
                     }
                 }
@@ -77,11 +78,15 @@ class UserReservationController extends AbstractController
                 $userInfo = $user->getUserInfo();
                 $violation = $validator->validate($Reservation);
                 if (count($violation) < 1) {
-                    $entityManager->persist($Reservation);
-                    $montantglobal = $this->calculateMontantGlobal($userInfo);
+                    $em->persist($Reservation);
+                    $montantglobal = $this->calculateMontantGlobal($user);
                     $userInfo->setMontantGlobal($montantglobal);
-                    $entityManager->persist($userInfo);
-                    $entityManager->flush();
+                    $em->persist($userInfo);
+                    $em->flush();
+                    $this->addFlash(
+                        'success',
+                        'Votre Reservation a bien été crée.'
+                    );
                     return $this->redirectToRoute('user_consultation');
                 } else {
                     $this->addFlash(
@@ -104,13 +109,14 @@ class UserReservationController extends AbstractController
         ]);
     }
 
+    //UPDATE
 
     #[Route('/user/reservation/modif/{id}', name: 'user_modif')]
-    public function modif(Request $request, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager, int $id, ValidatorInterface $validator): Response
+    public function modif(Request $request, ReservationRepository $reservationRepo, EntityManagerInterface $em, int $id, ValidatorInterface $validator): Response
     {
         //Get User Roles
         $user = $this->getUser();
-        $Reservation = $reservationRepository->find($id);
+        $Reservation = $reservationRepo->find($id);
         if ($Reservation->getUtilisateur() !== $user) {
             throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
         }
@@ -160,38 +166,42 @@ class UserReservationController extends AbstractController
                                 }
                             }
 
-                            $entityManager->persist($RepasReserve);
+                            $em->persist($RepasReserve);
                             $newRepasReserve[] = $RepasReserve;
                         }
                     }
                 }
             }
-
             // Remove existing RepasReserve entities that are not in the new reservation
             foreach ($existingRepasReserve as $existingRepas) {
                 if (!in_array($existingRepas, $newRepasReserve, true)) {
-                    $entityManager->remove($existingRepas);
+                    $em->remove($existingRepas);
                 }
             }
 
             // Update reservation with new RepasReserve entities
             if (count($newRepasReserve) > 0) {
                 //flush all repas first
-                $entityManager->flush();
+                $em->flush();
                 // Update reservation's total amount
                 $total = $this->calculateTotal($newRepasReserve, $tarifReduit);
                 $Reservation->setMontantTotal($total);
                 // Persist changes
                 $violation = $validator->validate($Reservation);
                 if (count($violation) < 1) {
-                    $entityManager->persist($Reservation);
-                    $entityManager->flush();
+                    $em->persist($Reservation);
+                    $em->flush();
                     // Update user's global amount
                     $userInfo = $user->getUserInfo();
                     $montantGlobal = $this->calculateMontantGlobal($user);
                     $userInfo->setMontantGlobal($montantGlobal);
-                    $entityManager->persist($userInfo);
-                    $entityManager->flush();
+                    $em->persist($userInfo);
+                    $em->flush();
+                    $this->addFlash(
+                        'success',
+                        'Votre Reservation a bien été modifié.'
+                    );
+                    return $this->redirectToRoute('user_consultation');
                 } else {
                     $this->addFlash(
                         'error',
@@ -214,6 +224,39 @@ class UserReservationController extends AbstractController
             'semaine' => $semaineId
         ]);
     }
+
+    //DELETE
+
+    #[Route('/user/reservation/delete/{id}', name: 'user_reservation_delete')]
+    public function delete(ReservationRepository $reservationRepo, int $id, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $Reservation = $reservationRepo->find($id);
+        if (!$Reservation) {
+            throw $this->createNotFoundException('La réservation n\'existe pas.');
+        }
+        if ($Reservation->getUtilisateur() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
+        }
+        foreach ($Reservation->getRepasReserves() as $repasReserve) {
+            $em->remove($repasReserve);
+        }
+        $em->remove($Reservation);
+        $em->flush();
+        // MISE A JOUR DU MONTANT GLOBAL
+        $userInfo = $user->getUserInfo();
+        $montantGlobal = $this->calculateMontantGlobal($user);
+        $userInfo->setMontantGlobal($montantGlobal);
+        $em->persist($userInfo);
+        $em->flush();
+        $this->addFlash(
+            'success',
+            'Votre Réservation a bien été supprimé'
+        );
+        return $this->redirectToRoute('user_consultation');
+    }
+
+    //FONCTION TO RETURN ALL THE REPAS FOR A RESERVATION
     private function fetchRepas($semaineToFetch)
     {
         $repasArray = [];
@@ -229,6 +272,8 @@ class UserReservationController extends AbstractController
         }
         return $repasArray;
     }
+
+    //FONCTION TO CALCULATE THE TOTAL OF ALL THE REPASRES
     private function calculateTotal($repasRes, $tarifReduit)
     {
         $total = 0;
@@ -245,6 +290,7 @@ class UserReservationController extends AbstractController
         }
         return $total;
     }
+    //FONCTION TO CALCULATE THE TOTAL OF ALL RESERVATION
     private function calculateMontantGlobal($user)
     {
         $reservations = $user->getReservations();
@@ -256,13 +302,15 @@ class UserReservationController extends AbstractController
         return $montantGlobal;
     }
 
+    //JSON FOR CREATE
+
     #[Route('/user/reservation/semaineJson', name: 'app_user_reservation_semaineJson')]
-    public function reserverJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepository): JsonResponse
+    public function reserverJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo): JsonResponse
     {
         $date = new \DateTime();
         $curd = date('Y-m-d');
 
-        $jourReservations = $jourReservationRepository->findAll();
+        $jourReservations = $jourReservationRepo->findAll();
 
         // Initialize an array to store semaine entities
         $semaines = [];
@@ -286,21 +334,21 @@ class UserReservationController extends AbstractController
     }
 
     #[Route('/user/reservation/repasJson/{id}', name: 'user_reservation_repasJson')]
-    public function repasJson(int $id, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository): JsonResponse
+    public function repasJson(int $id, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
         $date = new \DateTime();
-        $semaine = $semaineReservationRepository->find($id);
+        $semaine = $semaineReservationRepo->find($id);
         $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaineResa']);
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);
     }
     #[Route('/user/reservation/repasModifJson/{idSemaine}', name: 'user_reservation_repasJson_modif')]
-    public function repasModifJson(int $idSemaine, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, ReservationRepository $reservationRepository): JsonResponse
+    public function repasModifJson(int $idSemaine, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
         $date = new \DateTime();
         $user = $this->getUser();
         $reservations = $user->getReservations();
-        $semaine = $semaineReservationRepository->find($idSemaine);
+        $semaine = $semaineReservationRepo->find($idSemaine);
 
         $correctResa = null; // Initialize $correctResa variable
         foreach ($reservations as $reservation) {

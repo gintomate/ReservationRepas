@@ -44,7 +44,19 @@
 }
 textarea {
   max-width: 95%;
+  background-color: var(--main-color);
+  border: 2px solid var(--tertiary-color);
+  color: white;
 }
+::placeholder {
+  color: var(--grey-color);
+  opacity: 1; /* Firefox */
+}
+::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: var(--grey-color);
+}
+
 h3 {
   margin: 5px;
 }
@@ -75,6 +87,10 @@ h3 {
     margin-top: 5px;
     width: 20%;
     box-shadow: 5px 5px 3px grey;
+    padding: 0;
+  }
+  .repas {
+    margin: 5px;
   }
   .btnCreer {
     font-size: 22px;
@@ -88,16 +104,22 @@ h3 {
   .cardMenu {
     width: 33%;
     box-shadow: 5px 5px 3px grey;
+    padding: 2px;
   }
   .btnCreer {
     width: fit-content;
   }
 }
 @media screen and (max-width: 768px) {
+  .cardMenu {
+    width: 50%;
+    padding: 2px;
+  }
   .repas {
-    margin: 5px;
+    margin: 5px auto;
     padding: 2px;
     height: 125px;
+    width: 90%;
   }
 }
 @media screen and (max-width: 666px) {
@@ -112,16 +134,17 @@ h3 {
   .cardMenu {
     width: 80%;
     margin: 5px auto 5px;
-
     padding: 5px;
     box-shadow: 5px 5px 3px grey;
     align-items: center;
   }
+
   .repas {
     margin: 7px;
     padding: 2px;
-    height: 110px;
-    width: 90%;
+    height: 120px;
+    width: 100%;
+
   }
   textarea {
     width: 95%;

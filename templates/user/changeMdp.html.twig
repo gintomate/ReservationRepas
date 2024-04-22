@@ -1,47 +1,69 @@
-{% extends 'base.html.twig' %} {% block title %}Profil{% endblock %} {% block
-importmap %}
+{% extends 'base.html.twig' %} {% block title %}Profil - Changement de Mot de
+Passe{% endblock %} {% block importmap %}
 
 {{ importmap(["app", "profil"]) }}
 {% endblock %} {% block body %} {% include "nav/UserNav.html.twig" %}
 
 <main>
   <h1>Changer votre mot de Passe</h1>
-  {{ form_start(form) }}
-
-  {# Render the user password field without error message #}
-  <div class="form-row">
-    {{ form_label(form.userPassword) }}
-    {{ form_widget(form.userPassword) }}
+  {{ form_start(form ,{'attr': {'class': 'formMdp'}}) }} {# Render the user
+  password field without error message #}
+  <div class="mb-4 mt-2">
+    {{
+      form_label(form.userPassword, null, {
+        label_attr: { class: "form-label" }
+      })
+    }}
+    {{ form_widget(form.userPassword,{'attr': {'class': 'form-control'}}) }}
+    <div class="m-2">
+      <a href="">Mot de passe oublié?</a>
+    </div>
   </div>
 
-  {# Render the error message for user password field manually #}
+  {% if form_errors(form.userPassword) %}
   <div class="alert alert-danger">
-    {% if form_errors(form.userPassword) %}
     {{ form_errors(form.userPassword) }}
-    {% endif %}
   </div>
+  {% endif %}
 
-  <a href="">Mot de passe oublié?</a>
-
-  <p>
-    Votre nouveau mot de passe doit contenir au moins une lettre majuscule et un
-    numéro.
+  <p id="newMdpHelper" class="mb-4">
+    Votre nouveau mot de passe doit faire au moins 7 lettres, contenir au moins une lettre majuscule, une
+    lettre minuscule, un numéro et un caractére spécial.
   </p>
 
   {# Render the new password field without error message #}
-  <div class="form-row">
-    {{ form_widget(form.newPassword) }}
-  </div>
+  <div class="mb-4">
+    {{
+      form_label(form.newPassword.first, null, {
+        label_attr: { class: "form-label" }
+      })
+    }}
 
-  {# Render the error message for new password field manually #}
+    {{ form_widget(form.newPassword.first ,{'attr': {'class': 'form-control', 'aria-describedby': 'newMdpHelper'
+    }}) }}
+  </div>
+  <div class="mb-3">
+    {{
+      form_label(form.newPassword.second, null, {
+        label_attr: { class: "col-form-label" }
+      })
+    }}
+
+    {{ form_widget(form.newPassword.second ,{'attr': {'class': 'form-control', 'aria-describedby': 'newMdpHelper'
+    }}) }}
+  </div>  
+  {% if form_errors(form.newPassword.first) %}
   <div class="alert alert-danger">
-    {% if form_errors(form.newPassword) %}
-    {{ form_errors(form.newPassword) }}
-    {% endif %}
+    {{ form_errors(form.newPassword.first) }}
   </div>
+  {% endif %}
 
-  <button type="reset">Réinitialiser</button>
-  <button type="submit">Valider</button>
+  <div class="text-end">
+    <a href="{{ path('user_profil') }}"
+      ><button type="button" class="btnMdp">Annuler</button></a
+    >
+    <button type="submit" class="btnMdp">Valider</button>
+  </div>
   {{ form_end(form) }}
 </main>
 {% include "nav/footer.html.twig" %} {% endblock %}

@@ -1,3 +1,10 @@
+#successMsg {
+  background-color: var(--secondary-color);
+  border: 2px solid var(--tertiary-color);
+  color: black;
+  font-style: italic;
+}
+
 #semaineContainer {
   background-color: var(--main-color);
   display: inline-block;
@@ -80,6 +87,22 @@
   margin: 2px;
   box-shadow: 3px 3px 2px grey;
 }
+#btnSupprimer {
+  background-color: var(--alert-color);
+  color: white;
+}
+/* MODAL */
+#deleteModal .modal-content {
+  border: 2px solid var(--tertiary-color);
+  background-color: var(--secondary-color);
+  color: black;
+}
+#btnDelete {
+  background-color: var(--alert-color);
+  color: white;
+  border: 1px solid black;
+}
+
 @media screen and (max-width: 1300px) {
   .cardMenu {
     margin: 4px;
@@ -101,6 +124,9 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .cardMenu {
+    width: 50%;
+  }
   .repas {
     margin: 5px;
     padding: 2px;
@@ -133,7 +159,6 @@
   .repas {
     padding: 2px;
     height: 110px;
-
   }
   .emptyJour {
     margin: 5px;

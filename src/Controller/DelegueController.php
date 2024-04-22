@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ReservationRepository;
 use App\Repository\SemaineReservationRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,40 +24,43 @@ class DelegueController extends AbstractController
     #[Route('/delegue/recap', name: 'delegue_recap')]
     public function recap(): Response
     {
+        $user = $this->getUser();
+        $section = $user->getUserInfo()->getPromo()->getSection();
         return $this->render('delegue/recap.html.twig', [
             'controller_name' => 'DelegueController',
+            'section' => $section,
         ]);
     }
     #[Route('/delegue/SemaineJson', name: 'delegue_recap_semaine_json')]
-    public function recapSemaineJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository): JsonResponse
+    public function recapSemaineJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
-        $semaine = $semaineReservationRepository->findAll();
+        $date = new DateTime();
+        $semaine = $semaineReservationRepo->findAll();
         $serializedSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
         $jsonContent =  json_decode($serializedSemaine, true);
 
         return new JsonResponse($jsonContent);
     }
     #[Route('/delegue/recapJson/{semaine}', name: 'delegue_recap_json')]
-    public function recapJson(SerializerInterface $serializer, int $semaine, SemaineReservationRepository $semaineReservationRepository, UserRepository $userRepository, ReservationRepository $reservationRepository): JsonResponse
+    public function recapJson(SerializerInterface $serializer, int $semaine, UserRepository $userRepo, ReservationRepository $reservationRepo): JsonResponse
     {
         $user = $this->getUser();
-        $section = $user->getUserInfo()->getPromo()->getSection()->getAbreviation();
+        $promo = $user->getUserInfo()->getPromo()->getId();
 
 
-        $sectionChoisi = $userRepository
+        $sectionChoisi = $userRepo
             ->createQueryBuilder('u')
             ->innerJoin('u.userInfo', 'ui')
             ->innerJoin('ui.promo', 'p')
-            ->innerJoin('p.Section', 's')
-            ->where('s.abreviation = :section ')
-            ->setParameter('section', $section)
+            ->where('p.id = :promo ')
+            ->setParameter('promo', $promo)
             ->getQuery()
             ->getResult();
 
-        $semaineChoisi = $reservationRepository
+        $semaineChoisi = $reservationRepo
             ->createQueryBuilder('r')
             ->innerJoin('r.semaine', 'sr')
-            ->where('sr.numeroSemaine = :semaine ')
+            ->where('sr.id = :semaine ')
             ->setParameter('semaine', $semaine)
             ->getQuery()
             ->getResult();

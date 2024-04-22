@@ -18,22 +18,17 @@ axios
 var promoSelect = document.getElementById("promoSelect");
 function insertSectionOption(data) {
   promoSelect.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
-
     var promoId = item.id;
-
     var promoNom = item.nomPromo;
     var section = item.Section.nomSection;
-    var formattedText = "Section: " + section + " Promo: " + promoNom;
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent = formattedText;
-    option.value = promoId;
-    // Append the option to the select element
-    promoSelect.appendChild(option);
+    // Parse date strings to Date objects
+    optionsHTML += `<option value="${promoId}">Section: ${section} Promo: ${promoNom}</option>`;
   }
+  // Append the option to the select element
+  promoSelect.innerHTML = optionsHTML;
   var optionPassed = promoSelect.options[0].value;
   fetchUserList(optionPassed);
 }
@@ -61,21 +56,19 @@ function fetchUserList(value) {
 var user = document.getElementById("userSelect");
 function insertUserOption(data) {
   user.innerHTML = "";
+  var optionsHTML = "";
+
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
-
     var userId = item.id;
     var userNom = item.userInfo.nom;
     var userPrenom = item.userInfo.prenom;
-    var formattedText = userNom + " " + userPrenom;
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent = formattedText;
-    option.value = userId;
-    // Append the option to the select element
-    user.appendChild(option);
+    // Parse date strings to Date objects
+    optionsHTML += `<option value="${userId}"> ${userNom}  ${userPrenom}</option>`;
   }
+  // Append the option to the select element
+  user.innerHTML = optionsHTML;
+
   var optionPassed = user.options[0].value;
   fetchProfil(optionPassed);
 }
@@ -148,7 +141,18 @@ document.getElementById("btnModifier").addEventListener("click", function () {
   var selectedUserId = document.getElementById("userSelect").value;
 
   // Retrieve the path from the data attribute
-  var path = "/admin/menu/modif/" + selectedUserId;
+  var path = "/admin/gestion/modif/" + selectedUserId;
+
+  // Redirect to the constructed path
+  window.location.href = path;
+});
+
+document.getElementById("btnDelete").addEventListener("click", function () {
+  // Get the selected value of the select element
+  var selectedReservationId = document.getElementById("semaine").value;
+
+  // Retrieve the path from the data attribute
+  var path = "/user/reservation/delete/" + selectedReservationId;
 
   // Redirect to the constructed path
   window.location.href = path;

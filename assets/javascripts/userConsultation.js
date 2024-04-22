@@ -20,15 +20,13 @@ function insertOption(data) {
   var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
-    var semaineId = item.id;
+    var reservId = item.id;
     // Parse date strings to Date objects
-    optionsHTML += `<option value="${semaineId}">${
-      item.numeroSemaine
-    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
-      new Date(item.dateFin)
+    optionsHTML += `<option value="${reservId}">${
+      item.semaine.numeroSemaine
+    }: ${formatDate(new Date(item.semaine.dateDebut))} - ${formatDate(
+      new Date(item.semaine.dateFin)
     )}</option>`;
-
-    // Append the option to the select element
   }
   semaine.innerHTML = optionsHTML;
   var optionPassed = semaine.options[0].value;
@@ -110,10 +108,10 @@ function insertReservation(reservation) {
       const elements = repasByDay[day];
       var dayRepasContainer = document.getElementById(day);
       var recap = "";
+      dayRepasContainer.innerHTML = "";
       if (elements.length < 1) {
         // If there are no elements, set the content to indicate that it's empty
-        dayRepasContainer.innerHTML =
-          "<div class='emptyJour'>Pas de Repas</div>";
+        recap = "<div class='emptyJour'>Pas de Repas</div>";
       } else {
         // If there are elements, iterate through each element and build the HTML content
         elements.forEach((element) => {
@@ -148,6 +146,17 @@ document.getElementById("btnValider").addEventListener("click", function () {
 
   // Retrieve the path from the data attribute
   var path = "/user/reservation/modif/" + selectedReservationId;
+
+  // Redirect to the constructed path
+  window.location.href = path;
+});
+
+document.getElementById("btnDelete").addEventListener("click", function () {
+  // Get the selected value of the select element
+  var selectedReservationId = document.getElementById("semaine").value;
+
+  // Retrieve the path from the data attribute
+  var path = "/user/reservation/delete/" + selectedReservationId;
 
   // Redirect to the constructed path
   window.location.href = path;

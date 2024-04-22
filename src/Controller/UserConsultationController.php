@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\SemaineReservationRepository;
+use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,35 +24,16 @@ class UserConsultationController extends AbstractController
     {
         $user = $this->getUser();
         $reservations = $user->getReservations();
-        $semaines = [];
-
-        foreach ($reservations as $key => $reservation) {
-            $semaine = $reservation->getSemaine();
-            if (!in_array($semaine, $semaines, true)) {
-                // Add this Semaine to the array
-                $semaines[] = $semaine;
-            }
-        }
-        $serializeSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
+        $serializeSemaine = $serializer->serialize($reservations, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);
     }
     #[Route('/user/consultationJson/{numero}', name: 'user_consultation_Json')]
-    public function consultJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, int $numero): JsonResponse
+    public function consultJson(SerializerInterface $serializer, int $numero, ReservationRepository $reservationRepo): JsonResponse
     {
-        $user = $this->getUser();
-        $reservations = $user->getReservations();
-        $semaine = $semaineReservationRepository->find($numero);
-        $resa = null;
-        foreach ($reservations as $key => $reservation) {
-            $semaineReser = $reservation->getSemaine();
+        $reservation = $reservationRepo->find($numero);
 
-            if ($semaineReser == $semaine) {
-                $resa = $reservation;
-                break;
-            }
-        }
-        $serializeResa = $serializer->serialize($resa, 'json', ['groups' => 'consultation']);
+        $serializeResa = $serializer->serialize($reservation, 'json', ['groups' => 'consultation']);
         $jsonContent = json_decode($serializeResa, true);
         return new JsonResponse($jsonContent);
     }

@@ -17,26 +17,18 @@ axios
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
-
     var semaineId = item.id;
     // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
-
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.numeroSemaine + ": " + formattedDateDebut + " - " + formattedDateFin;
-    option.value = semaineId;
-    // Append the option to the select element
-    semaine.appendChild(option);
+    optionsHTML += `<option value="${semaineId}">${
+      item.numeroSemaine
+    }: ${formatDate(new Date(item.dateDebut))} - ${formatDate(
+      new Date(item.dateFin)
+    )}</option>`;
   }
+  semaine.innerHTML = optionsHTML;
   var optionPassed = semaine.options[0].value;
   fetchMenu(optionPassed);
 }
@@ -124,26 +116,29 @@ function insertMenu(menu) {
       const elements = repasByDay[day];
       var dayRepasContainer = document.getElementById(day);
       var recap = "";
-
-      elements.forEach((element) => {
-        var description = element.repas.description;
-        const formattedText = description.replace(/\n/g, "<br>");
-
-        var type = element.type;
-        recap +=
-          "<div class='repas'><h4>" +
-          type +
-          "</h4><p>" +
-          formattedText +
-          "</p></div>";
-      });
+      dayRepasContainer.innerHTML = "";
       if (elements.length < 1) {
-        recap = "<div class='ferie'><h4>Férie</h4></div>";
+        recap = "<div class='emptyJour'>Férié</div>";
+      } else {
+        elements.forEach((element) => {
+          var description = element.repas.description;
+          const formattedText = description.replace(/\n/g, "<br>");
+          var type = element.type;
+          recap +=
+            "<div class='repas'><h4>" +
+            type +
+            "</h4><p>" +
+            formattedText +
+            "</p></div>";
+        });
       }
+
       dayRepasContainer.innerHTML = recap;
     }
   }
 }
+
+//Modifier
 
 document.getElementById("btnModifier").addEventListener("click", function () {
   // Get the selected value of the select element
@@ -151,6 +146,19 @@ document.getElementById("btnModifier").addEventListener("click", function () {
 
   // Retrieve the path from the data attribute
   var path = "/admin/menu/modif/" + selectedReservationId;
+
+  // Redirect to the constructed path
+  window.location.href = path;
+});
+
+//Supprimer
+
+document.getElementById("btnDelete").addEventListener("click", function () {
+  // Get the selected value of the select element
+  var selectedReservationId = document.getElementById("semaine").value;
+
+  // Retrieve the path from the data attribute
+  var path = "/admin/menu/delete/" + selectedReservationId;
 
   // Redirect to the constructed path
   window.location.href = path;
