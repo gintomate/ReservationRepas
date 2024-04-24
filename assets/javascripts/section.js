@@ -19,26 +19,17 @@ axios
 function insertOption(data) {
   var promo = document.getElementById("promo");
   promo.innerHTML = "";
+  var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
     const item = data[i];
-
     var promoId = item.id;
     // Parse date strings to Date objects
-    var dateDebut = new Date(item.dateDebut);
-    var dateFin = new Date(item.dateFin);
-
-    // Format date components to d-m-Y format
-    var formattedDateDebut = formatDate(dateDebut);
-    var formattedDateFin = formatDate(dateFin);
-
-    // Create an option element and set its text content
-    const option = document.createElement("option");
-    option.textContent =
-      item.nomPromo + ": " + formattedDateDebut + " - " + formattedDateFin;
-    option.value = promoId;
-    // Append the option to the select element
-    promo.appendChild(option);
+    optionsHTML += `<option value="${promoId}">${item.nomPromo}: ${formatDate(
+      new Date(item.dateDebut)
+    )} - ${formatDate(new Date(item.dateFin))}</option>`;
   }
+  promo.innerHTML = optionsHTML;
+
   var optionPassed = promo.options[0].value;
   fetchUser(optionPassed);
 }
@@ -58,6 +49,7 @@ function formatDate(date) {
 promo.addEventListener("change", function () {
   var selectedOption = this.options[this.selectedIndex];
   var selectedOptionValue = selectedOption.value;
+  resetStyle();
   fetchUser(selectedOptionValue);
 });
 //FETCH RECAP
@@ -78,17 +70,14 @@ function fetchUser(selectedOptionValue) {
 
 //SHOW RECAP
 function insertRecap(data) {
-  console.log(data);
   var recap = document.getElementById("recap");
   data.forEach((user) => {
-    console.log(user);
     var montantGlobal = user.userInfo.montantGlobal;
     var nom = user.userInfo.nom;
     var prenom = user.userInfo.prenom;
     var email = user.email;
     var roles = user.roles;
     var userId = user.id;
-    console.log(roles);
     let statut = "STATUS INDEFINI";
     let delegueFound = false;
     for (let i = 0; i < roles.length; i++) {
@@ -102,7 +91,6 @@ function insertRecap(data) {
     if (!delegueFound) {
       for (let i = 0; i < roles.length; i++) {
         const role = roles[i];
-        console.log(role);
         switch (role) {
           case "ROLE_STAGIAIRE":
             statut = "Stagiaire";
@@ -155,3 +143,14 @@ function resetStyle() {
     recap.removeChild(row);
   });
 }
+
+document.getElementById("btnPromo").addEventListener("click", function () {
+  // Get the selected value of the select element
+  var selectedPromoId = document.getElementById("promo").value;
+
+  // Retrieve the path from the data attribute
+  var path = "/admin/promo/update/" + selectedPromoId;
+
+  // Redirect to the constructed path
+  window.location.href = path;
+});

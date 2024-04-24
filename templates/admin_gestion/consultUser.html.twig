@@ -13,13 +13,16 @@ block importmap %} {# do NOT call parent() #}
   </div>
   {% endfor %}
 
-  <div class="d-flex flex-row justify-content-between" id="selectContainer">
+  <div
+    class="d-flex flex-sm-row flex-column justify-content-between"
+    id="selectContainer"
+  >
     <div class="selectPart">
-      <label for="section">Selectionnez une section</label
+      <label for="section">Selectionnez une section :</label
       ><select name="promoSelect" id="promoSelect"></select>
     </div>
     <div class="selectPart">
-      <label for="user">Selectionnez un Utilisateur</label
+      <label for="user">Selectionnez un Utilisateur :</label
       ><select name="user" id="userSelect"></select>
     </div>
   </div>
@@ -27,8 +30,8 @@ block importmap %} {# do NOT call parent() #}
     <div id="infoPerso">
       <h3>Info Personnel</h3>
       <div class="d-flex flex-column justify-content-evenly">
-        <div class="infoColumn">
-          <label>Nom</label>
+        <div class="infoColumn d-flex flex-row justify-content-between">
+          <label>Nom:</label>
           <p id="nom"></p>
         </div>
         <div class="infoColumn">
@@ -48,46 +51,89 @@ block importmap %} {# do NOT call parent() #}
           <p id="identifiant"></p>
         </div>
         <div class="infoColumn">
-          <label>Mot de passe</label>
-          <p id="mdp"></p>
+          <label>Délégué</label>
+          <div id="delegue">
+            <input type="checkbox" id="delegueBtn" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="infoAfpar">
+      <h3>Info Afpar</h3>
+      <div class="d-flex flex-column justify-content-around">
+        <div class="infoColumn">
+          <label>Section</label>
+          <p id="section"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Promo</label>
+          <p id="promo"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Date de Début</label>
+          <p id="dateDeDebut"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Date de Fin</label>
+          <p id="dateDeFin"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Somme Total Dépenser</label>
+          <p id="montantGlobal"></p>
         </div>
       </div>
     </div>
   </div>
-  <div id="infoAfpar">
-    <h3>Info Afpar</h3>
-    <div class="d-flex flex-column justify-content-around">
-      <div class="infoColumn">
-        <label>Section</label>
-        <p id="section"></p>
-      </div>
-      <div class="infoColumn">
-        <label>Promo</label>
-        <p id="promo"></p>
-      </div>
-      <div class="infoColumn">
-        <label>Date de Début</label>
-        <p id="dateDeDebut"></p>
-      </div>
-      <div class="infoColumn">
-        <label>Date de Fin</label>
-        <p id="dateDeFin"></p>
-      </div>
-      <div class="infoColumn">
-        <label>Somme Total Dépenser</label>
-        <p id="montantGlobal"></p>
-      </div>
-      <div class="infoColumn">
-        <label>Délégué</label>
-        <div>
-          <input type="checkbox" id="delegue" />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <button id="btnSupprimer">Supprimer</button>
+  <div class="text-end">
+    <button
+      type="button"
+      class="btnCreer"
+      data-bs-toggle="modal"
+      data-bs-target="#deleteModal"
+      id="btnSupprimer"
+    >
+      Supprimer
+    </button>
     <button id="btnModifier">Modifier</button>
   </div>
 </main>
-{% include "nav/footer.html.twig" %} {% endblock %}
+
+<!-- Modal -->
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Supprimer cette Utilisateur ?
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Etes-vous sûr de vouloir supprimer cette Utilisateur? Cette action est
+        definitif.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="btnDelete">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -6,7 +6,7 @@ endblock %} {% block importmap %} {# do NOT call parent() #}
   <h1>Créer un Utilisateur</h1>
   {{ form_start(form,{'attr': {'class': 'formMdp'}}) }}
   <div class="d-flex flex-row">
-    <div class="d-flex flex-column card-section">
+    <div class="d-flex flex-column card-section" id="infoUser">
       <h3>Info Utilisateur</h3>
       <div class="m-3">
         {{
@@ -33,9 +33,12 @@ endblock %} {% block importmap %} {# do NOT call parent() #}
             label_attr: { class: "form-label" }
           })
         }}
-        {{ form_widget(form.userInfo.dateDeNaissance.year, {'attr': {'class': 'formDate' }}) }}
-        {{ form_widget(form.userInfo.dateDeNaissance.month, {'attr': {'class': 'formDate'}}) }}
-        {{ form_widget(form.userInfo.dateDeNaissance.day, {'attr': {'class': 'formDate'}}) }}
+        {{ form_widget(form.userInfo.dateDeNaissance.year, {'attr': {'class': 'formDate'
+        }}) }}
+        {{ form_widget(form.userInfo.dateDeNaissance.month, {'attr': {'class': 'formDate'
+        }}) }}
+        {{ form_widget(form.userInfo.dateDeNaissance.day, {'attr': {'class': 'formDate'
+        }}) }}
         {{ form_errors(form.userInfo.dateDeNaissance) }}
       </div>
       <div class="m-3">
@@ -48,7 +51,7 @@ endblock %} {% block importmap %} {# do NOT call parent() #}
         {{ form_errors(form.email) }}
       </div>
     </div>
-    <div class="d-flex flex-column card-section">
+    <div class="d-flex flex-column card-section" id="infoAfpar">
       <h3>Info Afpar</h3>
       <div class="m-3">
         {{
@@ -77,25 +80,49 @@ endblock %} {% block importmap %} {# do NOT call parent() #}
       </div>
     </div>
   </div>
-  <div >
+  <div class="card-section" id="infoSite">
     <h3>Site</h3>
-    <p>
+    <p class="textDisclaimer" id="identifiantHelper">
       L'identifiant doit faire au moins 5 lettres avoir au moins une lettre
       majuscule, une lettre miniscule et un chiffre.
     </p>
-    {{ form_label(form.identifiant) }}
-    {{ form_widget(form.identifiant) }}
+    <div class="row g-3 align-items-center">
+      <div class="col-2">
+        {{
+          form_label(form.identifiant, null, {
+            label_attr: { class: "col-form-label" }
+          })
+        }}
+      </div>
+      <div class="col-6">
+        {{ form_widget(form.identifiant,{'attr': {'class': 'form-control', 'aria-describedby': 'identifiantHelper'
+        }}) }}
+      </div>
+    </div>
     {{ form_errors(form.identifiant) }}
-    <p>
+    <p class="textDisclaimer" id="passwordHelper">
       Le mot de passe doit faire au moins 7 lettres avoir au moins une lettre
       majuscule, une lettre miniscule, un chiffre et un charactére spécial.
     </p>
-    {{ form_label(form.password) }}
-    {{ form_widget(form.password) }}
+    <div class="row g-3">
+      <div class="col-2">
+        {{
+          form_label(form.password, null, {
+            label_attr: { class: "col-form-label" }
+          })
+        }}
+      </div>
+      <div class="col-6">
+        {{ form_widget(form.password,{'attr': {'class': 'form-control','aria-describedby': 'passwordHelper'
+        }}) }}
+      </div>
+      <div class="col-auto">
+        <input type="checkbox" onclick="myFunction()" />
+      </div>
+    </div>
     {{ form_errors(form.password) }}
-    <input type="checkbox" onclick="myFunction()" />
   </div>
-  <button type="reset">Reset</button>
+  <button type="reset">Réinitialiser</button>
   <button type="submit">Valider</button>
   {{ form_end(form) }}
 </main>

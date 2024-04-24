@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "cuisine"]) }}{% endblock
+%}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Récapitulatif des Repas</h1>
+  <div id="semaineContainer" ->
+    <label for="semaine">Consulter les Repas pour la semaine: </label>
+    <select name="semaine" id="semaine"></select>
+  </div>
+  <div style="overflow-x: auto">
+    <table id="recapContainer">
+      <thead>
+        <th>Jour</th>
+        <th>Type de Repas</th>
+        <th>Description</th>
+        <th>Nombre de Repas Réservé</th>
+      </thead>
+      <tbody id="recap"></tbody>
+    </table>
+  </div>
+  <button type="button" id="btnPrint">Imprimer</button>
+</main>
+{% endblock %}

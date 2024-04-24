@@ -24,13 +24,13 @@ class AdminRecapController extends AbstractController
     }
 
     #[Route('admin/recap/SemaineJson', name: 'admin_recap_semaine_json')]
-    public function recapSemaineJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, JourReservationRepository $jourReservationRepository, PromoRepository $promoRepository): JsonResponse
+    public function recapSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo, PromoRepository $promoRepo): JsonResponse
     {
-        $promoBySection = $promoRepository->createQueryBuilder('p')
+        $promoBySection = $promoRepo->createQueryBuilder('p')
             ->groupBy('p.Section')
             ->getQuery()
             ->getResult();
-        $jourReservations = $jourReservationRepository->findAll();
+        $jourReservations = $jourReservationRepo->findAll();
 
         // Initialize an array to store semaine entities
         $semaines = [];

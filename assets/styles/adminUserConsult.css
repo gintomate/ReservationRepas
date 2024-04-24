@@ -1,3 +1,24 @@
+#selectContainer {
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  padding: 5px 10px;
+  box-shadow: 5px 5px 3px grey;
+  margin: 2px;
+}
+.selectPart {
+  width: 45%;
+  margin: 0 10px 10px;
+}
+#promoSelect,
+#userSelect {
+  background-color: var(--main-color);
+  color: white;
+  border: 1px solid var(--tertiary-color);
+  width: 100%;
+}
+
 #successMsg {
   background-color: var(--secondary-color);
   border: 2px solid var(--tertiary-color);
@@ -19,7 +40,7 @@
 }
 .infoColumn {
   text-align: left;
-  margin: 4px 2px;
+  margin: 8px 8px;
   padding: 5px;
   border-top: 1px solid var(--tertiary-color);
   border-bottom: 1px solid var(--tertiary-color);
@@ -32,12 +53,14 @@
   display: inline-block;
   width: 48%;
 }
-#btnModifier {
-  padding: 2px;
-  width: 45%;
-  margin: 1px;
+#btnModifier,
+#btnSupprimer {
+  width: 15%;
   text-align: center;
-  box-shadow: 0px 2px 1px white;
+  font-size: 28px;
+  margin: 10px;
+  padding: 5px;
+  box-shadow: 5px 5px 3px grey;
 }
 #delegue {
   margin-bottom: 0;
@@ -48,41 +71,18 @@
   width: 17px;
   height: 17px;
 }
-#textDisclaimer {
-  font-style: italic;
-  text-align: center;
-  text-decoration: underline;
-  margin: 2px;
-}
 
-/*ChangeMdp*/
+/* MODAL */
 
-.formMdp {
-  background-color: var(--main-color);
-  width: 80%;
-  color: white;
-  border-radius: 20px;
+#deleteModal .modal-content {
   border: 2px solid var(--tertiary-color);
-  margin: 15px auto;
-  padding: 15px;
-  box-shadow: 5px 5px 3px grey;
+  background-color: var(--secondary-color);
+  color: black;
 }
-#newMdpHelper {
-  text-decoration: underline;
-  text-align: justify;
-  font-style: italic;
-  color: var(--secondary-color);
-}
-.btnMdp {
-  padding: 5px 10px;
-  margin: 3px;
-  text-align: center;
-  box-shadow: 0px 2px 1px white;
-  font-size: 22px;
-}
-.alert ul {
-  margin-bottom: 0;
-  list-style: none;
+#btnDelete {
+  background-color: var(--alert-color);
+  color: white;
+  border: 1px solid black;
 }
 
 @media screen and (max-width: 1024px) {
@@ -98,6 +98,11 @@
     padding: 5px;
     border-bottom: 1px solid var(--tertiary-color);
   }
+  #btnModifier,
+  #btnSupprimer {
+    width: fit-content;
+    margin: 7px;
+  }
 }
 @media screen and (max-width: 768px) {
   #infoPerso,
@@ -108,10 +113,24 @@
   .infoColumn {
     margin: 4px 2px;
     padding: 3px;
+    overflow-wrap: break-word;
   }
-  .btnMdp {
+  #btnModifier,
+  #btnSupprimer {
     padding: 4px 7px;
     margin: 2px;
     font-size: 18px;
+  }
+}
+@media screen and (max-width: 576px) {
+  #selectContainer {
+    text-align: center;
+    margin: 7px;
+    padding: 5px 10px;
+    align-items: center;
+  }
+  .selectPart {
+    width: 90%;
+    margin: 3px auto;
   }
 }

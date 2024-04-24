@@ -74,7 +74,7 @@ class AdminGestionController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'success',
-                'Les données de l\'utilisateur à bien été modifié'
+                'Les données de l\'utilisateur' . $user->getId() . '  à bien été modifié'
             );
             return $this->redirectToRoute('admin_gestion_user');
         }
@@ -85,15 +85,17 @@ class AdminGestionController extends AbstractController
     }
     //  DELETE USER 
 
-    #[Route('/admin/gestion/modif/{id}', name: 'admin_gestion_modif_user')]
+    #[Route('/admin/gestion/delete/{id}', name: 'admin_gestion_delete_user')]
     public function deleteUser(Request $request, EntityManagerInterface $em, UserRepository $userRepo, int $id): Response
     {
         $user = $userRepo->find($id);
-
+        $userInfo = $user->getUserInfo();
+        $em->remove($userInfo);
+        $em->remove($user);
         $em->flush();
         $this->addFlash(
             'success',
-            'L\'Utilisateur a bien été supprimé.'
+            'L\'utilisateur ' . $user->getId() . ' a bien été supprimé.'
         );
         return $this->redirectToRoute('admin_consultation');
     }

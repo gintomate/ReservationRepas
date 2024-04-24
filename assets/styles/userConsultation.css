@@ -92,6 +92,7 @@
   color: white;
 }
 /* MODAL */
+
 #deleteModal .modal-content {
   border: 2px solid var(--tertiary-color);
   background-color: var(--secondary-color);

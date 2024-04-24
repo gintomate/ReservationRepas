@@ -84,4 +84,8 @@ return [
         'path' => './assets/javascripts/section.js',
         'entrypoint' => true,
     ],
+    'cuisine' => [
+        'path' => './assets/javascripts/cuisine.js',
+        'entrypoint' => true,
+    ],
 ];

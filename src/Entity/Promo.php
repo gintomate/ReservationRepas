@@ -21,12 +21,10 @@ class Promo
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
-    #[Assert\Date]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['section', 'userInfo','secureUserInfo'])]
-    #[Assert\Date]
     private ?\DateTimeInterface $dateFin = null;
 
 
@@ -46,7 +44,6 @@ class Promo
         minMessage: 'Le nom doit faire au moins {{ limit }} charactères.',
         maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} charactères.',
     )]
-    #[Assert\Unique]
 
     private ?string $nomPromo = null;
 

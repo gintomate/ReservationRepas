@@ -17,27 +17,27 @@ importmap %} {# do NOT call parent() #}
       <h3>Info Personnel</h3>
       <div class="d-flex flex-column justify-content-evenly">
         <div class="infoColumn">
-          <p>Nom</p>
+          <label>Nom</label>
           <p>{{ user.userInfo.nom }}</p>
         </div>
         <div class="infoColumn">
-          <p>Prénom</p>
+          <label>Prénom</label>
           <p>{{ user.userInfo.prenom }}</p>
         </div>
         <div class="infoColumn">
-          <p>Date de Naissance</p>
+          <label>Date de Naissance</label>
           <p>{{ user.userInfo.dateDeNaissance | date('d-m-Y') }}</p>
         </div>
         <div class="infoColumn">
-          <p>Email</p>
+          <label>Email</label>
           <p>{{ user.email }}</p>
         </div>
         <div class="infoColumn">
-          <p>Identifiant</p>
+          <label>Identifiant</label>
           <p>{{ user.identifiant }}</p>
         </div>
         <div class="infoColumn">
-          <p>Mot de passe</p>
+          <label>Mot de passe</label>
           <button id="btnModifier">Modifier</button>
         </div>
       </div>
@@ -46,30 +46,30 @@ importmap %} {# do NOT call parent() #}
       <h3>Info Afpar</h3>
       <div class="d-flex flex-column justify-content-around">
         <div class="infoColumn">
-          <p>Section</p>
+          <label>Section</label>
           <p>{{ user.userInfo.promo.section.nomSection }}</p>
         </div>
         <div class="infoColumn">
-          <p>Promo</p>
+          <label>Promo</label>
           <p>{{ user.userInfo.promo.nomPromo }}</p>
         </div>
         <div class="infoColumn">
-          <p>Date de Début</p>
+          <label>Date de Début</label>
           <p>{{ user.userInfo.promo.dateDebut | date('d-m-Y') }}</p>
         </div>
         <div class="infoColumn">
-          <p>Date de Fin</p>
+          <label>Date de Fin</label>
           <p>{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
         </div>
         <div class="infoColumn">
-          <p>Somme Total Dépensé</p>
+          <label>Somme Total Dépensé</label>
           <p>{{ user.userInfo.montantGlobal }}</p>
         </div>
         <div class="infoColumn">
-          <p>Délégué</p>
+          <label>Délégué</label>
           <div id="delegue">
-            <input type="checkbox" disabled id="delegue" {% if delegue == true
-            %} checked {% endif %} />
+            <input type="checkbox" id="delegueBtn" disabled {% if delegue ==
+            true %} checked {% endif %} />
           </div>
         </div>
       </div>

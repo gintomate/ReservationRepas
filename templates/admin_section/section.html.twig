@@ -3,6 +3,11 @@ endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
 endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
 <main id="cont">
   <h1>Gérer les Sections</h1>
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
   <table id="recapContainer">
     <thead>
       <th>Abréviation</th>
@@ -38,6 +43,10 @@ endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
       {% endfor %}
     </tbody>
   </table>
-  <button type="button" id="btnPrint">Imprimer</button>
+  <a href="{{ path('admin_section_new') }}">
+    <button type="button" id="btnSection">
+      Ajouter une nouvelle Section
+    </button></a
+  >
 </main>
 {% endblock %}

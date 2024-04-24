@@ -1,8 +1,13 @@
 {% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
-endblock %}{% block importmap %} {{ importmap(["app", "section"]) }}{%
-endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+endblock %}{% block importmap %} {{ importmap(["app", "section"]) }}{% endblock
+%}{% block body %} {% include "nav/AdminNav.html.twig" %}
 <main id="cont">
   <h1>Section {{ section.abreviation }}</h1>
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
   <div class="d-flex flex-row justify-content-between" id="selectContainer">
     <div class="selectPart">
       <label for="promo">Selectionnez la promo</label
@@ -20,7 +25,13 @@ endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
     </thead>
     <tbody id="recap"></tbody>
   </table>
-  <button type="button" id="btnPrint">Imprimer</button>
+  <a href="{{ path('admin_promo_new', { id: section.id }) }}"
+    ><button type="button">Ajouter Promo</button></a
+  >
+  <a href=""><button type="button" id="btnPromo">Modifier Promo</button></a>
+  <a href="{{ path('admin_section_update', { id: section.id }) }}"
+    ><button type="button">Modifier la Section</button></a
+  >
 </main>
-<div class="js-user" data-section="{{section.id}}"></div>
+<div class="js-user" data-section="{{ section.id }}"></div>
 {% endblock %}

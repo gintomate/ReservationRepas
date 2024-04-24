@@ -1,5 +1,5 @@
 import axios from "axios";
-import "../styles/profil.css";
+import "../styles/adminUserConsult.css";
 
 axios
   .get("/admin/gestion/user/promoJson")
@@ -117,10 +117,10 @@ function insertProfil(data) {
   document.getElementById("montantGlobal").textContent = montantGlobal;
   for (let i = 0; i < roles.length; i++) {
     if (roles[i] === "ROLE_DELEGUE") {
-      document.getElementById("delegue").checked = true;
+      document.getElementById("delegueBtn").checked = true;
       break;
     } else {
-      document.getElementById("delegue").checked = false;
+      document.getElementById("delegueBtn").checked = false;
     }
   }
 }
@@ -149,10 +149,10 @@ document.getElementById("btnModifier").addEventListener("click", function () {
 
 document.getElementById("btnDelete").addEventListener("click", function () {
   // Get the selected value of the select element
-  var selectedReservationId = document.getElementById("semaine").value;
+  var selectedReservationId = document.getElementById("userSelect").value;
 
   // Retrieve the path from the data attribute
-  var path = "/user/reservation/delete/" + selectedReservationId;
+  var path = "/admin/gestion/delete/" + selectedReservationId;
 
   // Redirect to the constructed path
   window.location.href = path;
