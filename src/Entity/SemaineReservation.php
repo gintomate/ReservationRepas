@@ -43,6 +43,10 @@ class SemaineReservation
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'semaine')]
     private Collection $reservations;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['reservation', 'semaineResa'])]
+    private ?\DateTimeInterface $dateLimit = null;
+
     public function __construct()
     {
         $this->jourReservation = new ArrayCollection();
@@ -146,6 +150,18 @@ class SemaineReservation
                 $reservation->setSemaine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateLimit(): ?\DateTimeInterface
+    {
+        return $this->dateLimit;
+    }
+
+    public function setDateLimit(\DateTimeInterface $dateLimit): static
+    {
+        $this->dateLimit = $dateLimit;
 
         return $this;
     }

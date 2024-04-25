@@ -75,9 +75,32 @@ function fetchMenu(value) {
       // dans tous les cas
     });
 }
+var isEventListenerAdded = false;
+var btnValider = document.getElementById("btnValider");
 function insertRepas(data) {
-  const jour = data.jourReservation;
+  var dateJour = new Date();
+  const dateLimit = new Date(data.dateLimit);
+  const options = { timeZone: "Indian/Reunion" };
+  const formatter = new Intl.DateTimeFormat("fr-Fr", options);
+  const dateSub = subtractDays(dateLimit, 1);
+  const dateRéu = formatter.format(dateSub);
+  const dateContainer = document.getElementById("dateLimit");
+  dateContainer.innerHTML = dateRéu;
 
+  // Check the condition and add or remove the event listener accordingly
+  if (dateJour >= dateLimit && !isEventListenerAdded) {
+    btnValider.addEventListener("click", preventDefaultOnClick, false);
+    isEventListenerAdded = true; // Set flag to true as listener is added
+  } else if (dateJour < dateLimit && isEventListenerAdded) {
+    btnValider.removeEventListener("click", preventDefaultOnClick);
+    isEventListenerAdded = false; // Set flag to false as listener is removed
+  }
+  // Check the condition and add or remove the event listener accordingly
+  if (dateJour >= dateLimit) {
+    errorMsg.innerHTML = "Réservation Terminé.";
+    errorMsg.classList.remove("alert");
+  }
+  const jour = data.jourReservation;
   for (let i = 0; i < jour.length; i++) {
     const date = new Date(jour[i].dateJour);
     const options = { weekday: "long" };
@@ -133,6 +156,22 @@ function insertRepas(data) {
   }
 }
 
+//FUNCTION to PREVENT DEFAULT
+
+function preventDefaultOnClick(event) {
+  event.preventDefault();
+}
+
+//FUNCTION TO SUBSTRACT THE DAY TO SHOW THE LAST DAY OF THE RESERVATION
+
+function subtractDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() - days);
+  return result;
+}
+
+//FUNCTION TO RETURN AN ARRAY OF EVERY INPUT
+
 function getDayClass(day) {
   var dayClass = document.getElementsByClassName(day);
   const dayArray = Array.from(dayClass);
@@ -140,6 +179,7 @@ function getDayClass(day) {
 }
 
 // RESET THE SYLE ON CHANGE
+
 function resetStyles() {
   var repasContainer = document.getElementsByClassName("repasContainer");
   var ferieContainer = document.getElementsByClassName("ferie");
@@ -231,10 +271,24 @@ function callValid(event) {
   }
 }
 
-//remove error message
-var btnReset = document.getElementById("btnReset");
-btnReset.addEventListener("click", resetError);
+// ON RESET CLEAN AND START OVER
 
+var btnReset = document.getElementById("btnReset");
+var semaineSelect;
+btnReset.addEventListener("click", function () {
+  var semaineValue = document.getElementById("semaine").value;
+  semaineSelect = semaine.selectedIndex;
+  semaine.selectedIndex = semaineSelect;
+  resetError();
+  fetchMenu(semaineValue);
+  test();
+  console.log(semaine.selectedIndex);
+});
+
+function test() {
+  semaine.selectedIndex = 2;
+  console.log(semaine.selectedIndex);
+}
 function resetError() {
   var errorMsgC = document.getElementsByClassName("errorMsg");
   for (var i = 0; i < errorMsgC.length; i++) {

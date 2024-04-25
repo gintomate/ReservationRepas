@@ -314,7 +314,10 @@ block body %} {% include "nav/UserNav.html.twig" %}
         {{ message }}
       </div>
       {% endfor %}
-      <div class="d-flex flex-sm-row flex-column justify-content-between" id="menuBottomBar">
+      <div
+        class="d-flex flex-sm-row flex-column justify-content-between"
+        id="menuBottomBar"
+      >
         <div>
           Total:
           <input
@@ -325,6 +328,9 @@ block body %} {% include "nav/UserNav.html.twig" %}
             disabled
           />
           €
+        </div>
+        <div>
+          <p>Date limite de Réservation : <span id="dateLimit"> </span></p>
         </div>
         <div>
           <button type="reset" id="btnReset">Réinitialiser</button>

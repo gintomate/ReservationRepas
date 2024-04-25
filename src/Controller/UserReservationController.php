@@ -19,13 +19,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserReservationController extends AbstractController
 {
     //CREATE 
+
     #[Route('/user/reservation', name: 'user_reservation')]
     public function reserver(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepo, ReservationRepository $reservationRepo, EntityManagerInterface $em): Response
     {
-        //Get User Roles
-        $user = $this->getUser();
-        $date = new \DateTime();
 
+        //SET TIMEZONE TO LA REUNION 
+
+        date_default_timezone_set("Indian/Reunion");
+
+        $user = $this->getUser();
+        $dateJour = new \DateTime();
+
+        //Get User Roles
         $roles = $user->getRoles();
         $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
         $formData = $request->request->all();
@@ -33,74 +39,83 @@ class UserReservationController extends AbstractController
 
             $semaineSelect =  $formData['semaine'];
             $semaine = $semaineReservationRepo->find($semaineSelect);
-            $repasArray =  $this->fetchRepas($semaine);
-            $existingReservation = $reservationRepo->findOneBy([
-                'semaine' => $semaine,
-                'Utilisateur' => $user
-            ]);
-
-            if ($existingReservation) {
+            $dateLimit = $semaine->getDateLimit();
+            if ($dateJour >= $dateLimit) {
                 $this->addFlash(
                     'error',
-                    'Une réservation pour cette semaine existe déja.'
+                    'La date de Réservation est dépassé.'
                 );
-                return new Response('Reservation already exists', Response::HTTP_CONFLICT);
-            }
-            //new Reservation
-            $Reservation = new Reservation;
-            $Reservation->setSemaine($semaine);
-            $Reservation->setUtilisateur($user);
+                return new Response('Error', Response::HTTP_CONFLICT);
+            } else {
+                $repasArray =  $this->fetchRepas($semaine);
+                $existingReservation = $reservationRepo->findOneBy([
+                    'semaine' => $semaine,
+                    'Utilisateur' => $user
+                ]);
 
-            $repasRes = [];
-            foreach ($formData['day'] as $jourIndex => $day) {
-                foreach ($day as $key => $repasCommande) {
+                if ($existingReservation) {
+                    $this->addFlash(
+                        'error',
+                        'Une réservation pour cette semaine existe déja.'
+                    );
+                    return new Response('Reservation already exists', Response::HTTP_CONFLICT);
+                }
+                //new Reservation
+                $Reservation = new Reservation;
+                $Reservation->setSemaine($semaine);
+                $Reservation->setUtilisateur($user);
 
-                    if ($repasCommande !== 'false') {
+                $repasRes = [];
+                foreach ($formData['day'] as $jourIndex => $day) {
+                    foreach ($day as $key => $repasCommande) {
 
-                        $RepasReserve = new RepasReserve;
-                        $RepasReserve->setReservation($Reservation);
+                        if ($repasCommande !== 'false') {
 
-                        foreach ($repasArray[$jourIndex] as $key => $repas) {
-                            $type = $repas->getTypeRepas()->getType();
-                            if ($repasCommande === $type) {
-                                $RepasReserve->setRepas($repas);
+                            $RepasReserve = new RepasReserve;
+                            $RepasReserve->setReservation($Reservation);
+
+                            foreach ($repasArray[$jourIndex] as $key => $repas) {
+                                $type = $repas->getTypeRepas()->getType();
+                                if ($repasCommande === $type) {
+                                    $RepasReserve->setRepas($repas);
+                                }
                             }
+                            $em->persist($RepasReserve);
+                            $repasRes[] = $RepasReserve;
                         }
-                        $em->persist($RepasReserve);
-                        $repasRes[] = $RepasReserve;
                     }
                 }
-            }
 
-            if (count($repasRes) > 0) {
-                $total = $this->calculateTotal($repasRes, $tarifReduit);
-                $Reservation->setMontantTotal($total);
-                $userInfo = $user->getUserInfo();
-                $violation = $validator->validate($Reservation);
-                if (count($violation) < 1) {
-                    $em->persist($Reservation);
-                    $montantglobal = $this->calculateMontantGlobal($user);
-                    $userInfo->setMontantGlobal($montantglobal);
-                    $em->persist($userInfo);
-                    $em->flush();
-                    $this->addFlash(
-                        'success',
-                        'Votre Reservation a bien été crée.'
-                    );
-                    return $this->redirectToRoute('user_consultation');
+                if (count($repasRes) > 0) {
+                    $total = $this->calculateTotal($repasRes, $tarifReduit);
+                    $Reservation->setMontantTotal($total);
+                    $userInfo = $user->getUserInfo();
+                    $violation = $validator->validate($Reservation);
+                    if (count($violation) < 1) {
+                        $em->persist($Reservation);
+                        $montantglobal = $this->calculateMontantGlobal($user);
+                        $userInfo->setMontantGlobal($montantglobal);
+                        $em->persist($userInfo);
+                        $em->flush();
+                        $this->addFlash(
+                            'success',
+                            'Votre Reservation a bien été crée.'
+                        );
+                        return $this->redirectToRoute('user_consultation');
+                    } else {
+                        $this->addFlash(
+                            'error',
+                            'Réservation Invalide.'
+                        );
+                        return new Response('Error', Response::HTTP_CONFLICT);
+                    }
                 } else {
                     $this->addFlash(
                         'error',
-                        'Réservation Invalide.'
+                        'Erreur dans la réservation.'
                     );
                     return new Response('Error', Response::HTTP_CONFLICT);
                 }
-            } else {
-                $this->addFlash(
-                    'error',
-                    'Erreur dans la réservation.'
-                );
-                return new Response('Error', Response::HTTP_CONFLICT);
             }
         }
         return $this->render('user_reservation/reservation.html.twig', [
@@ -114,18 +129,21 @@ class UserReservationController extends AbstractController
     #[Route('/user/reservation/modif/{id}', name: 'user_modif')]
     public function modif(Request $request, ReservationRepository $reservationRepo, EntityManagerInterface $em, int $id, ValidatorInterface $validator): Response
     {
-        //Get User Roles
+        //Get User
         $user = $this->getUser();
+        //Get User Roles
+
+        $roles = $user->getRoles();
+        $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
         $Reservation = $reservationRepo->find($id);
         if ($Reservation->getUtilisateur() !== $user) {
             throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
         }
 
         $date = new \DateTime();
-        $roles = $user->getRoles();
+
         $semaine = $Reservation->getSemaine();
         $semaineId = $semaine->getId();
-        $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
 
         $formData = $request->request->all();
         if ($request->isMethod('POST')) {
