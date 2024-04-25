@@ -88,4 +88,8 @@ return [
         'path' => './assets/javascripts/cuisine.js',
         'entrypoint' => true,
     ],
+    'index' => [
+        'path' => './assets/javascripts/index.js',
+        'entrypoint' => true,
+    ],
 ];

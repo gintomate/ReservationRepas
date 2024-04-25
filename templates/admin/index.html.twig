@@ -3,17 +3,27 @@
 <main>
   <h1>Bienvenue sur le Hub de l'Administration</h1>
 
-  <a href="{{ path('admin_menu') }}">
-    <img src="" alt="" />
-    <h2>Gérer les Menu</h2>
-  </a>
-  <a href="{{ path('admin_recap') }}">
-    <img src="" alt="" />
-    <h2>Récapitulatif des Réservations</h2>
-  </a>
-  <a href="{{ path('admin_gestion') }}">
-    <img src="" alt="" />
-    <h2>Gérer les Utilisateurs</h2>
-  </a>
+  <div class="d-flex flex-row justify-content-around">
+    <a href="{{ path('admin_menu') }}" class="card-link">
+      <div class="card">
+        <img src="{{ asset('image/afparLogo.pg') }}" alt="Truc" />
+        <h2>Gérer les Menus</h2>
+      </div>
+    </a>
+    <a href="{{ path('admin_recap') }}" class="card-link">
+      <div class="card">
+        <img src="" alt="" />
+        <h2>Récapitulatif des Réservations</h2>
+      </div>
+    </a>
+
+    <a href="{{ path('admin_gestion') }}" class="card-link">
+      <div class="card">
+        <img src="" alt="" />
+        <h2>Gérer les Utilisateurs</h2>
+      </div>
+    </a>
+  </div>
 </main>
+
 {% endblock %}
