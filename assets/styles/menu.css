@@ -47,6 +47,7 @@ textarea {
   background-color: var(--main-color);
   border: 2px solid var(--tertiary-color);
   color: white;
+  max-height: 5em;
 }
 ::placeholder {
   color: var(--grey-color);

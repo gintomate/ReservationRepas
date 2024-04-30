@@ -38,7 +38,9 @@
               {{ app.user.userInfo.nom }} {{ app.user.userInfo.prenom }}
             </p>
             <a href="{{ path('logout') }}" id="deco"
-              >Se déconnecter <i class="fas fa-arrow-right"></i
+              ><p class="d-flex flex-row align-items-center">
+                <span id="decoText">Se déconnecter</span>
+                <i class="fas fa-arrow-right"></i></p
             ></a>
           </div>
         </ul>

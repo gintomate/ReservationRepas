@@ -1,5 +1,13 @@
 import axios from "axios";
 import "../styles/reservation.css";
+import { formatDate } from "./global.js";
+
+// Initialisation
+var btnValider = document.getElementById("btnValider");
+var isEventListenerAdded = false;
+const form = document.querySelector("form");
+var choices = document.querySelectorAll('input[type="checkbox"]');
+var weekday = ["Monday", "Tuesday", "Wednesday", "Thursday"];
 
 // Fetch Semaine pour option select
 axios
@@ -36,29 +44,6 @@ function insertOption(data) {
   fetchMenu(optionPassed);
 }
 
-// Function to format a Date object to d-m-Y format
-function formatDate(date) {
-  var day = date.getDate();
-  var month = date.getMonth() + 1; // Months are zero-based
-  var year = date.getFullYear();
-
-  // Ensure leading zeros for day and month if necessary
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-
-  // Return the formatted date string
-  return day + "-" + month + "-" + year;
-}
-
-//function to change on select
-semaine.addEventListener("change", function () {
-  var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionValue = selectedOption.value;
-  resetStyles();
-  resetError();
-  fetchMenu(selectedOptionValue);
-});
-
 // function to fetch the menu
 
 function fetchMenu(value) {
@@ -75,10 +60,9 @@ function fetchMenu(value) {
       // dans tous les cas
     });
 }
-var isEventListenerAdded = false;
-var btnValider = document.getElementById("btnValider");
+
 function insertRepas(data) {
-  var dateJour = new Date();
+  const dateJour = new Date();
   const dateLimit = new Date(data.dateLimit);
   const options = { timeZone: "Indian/Reunion" };
   const formatter = new Intl.DateTimeFormat("fr-Fr", options);
@@ -87,11 +71,13 @@ function insertRepas(data) {
   const dateContainer = document.getElementById("dateLimit");
   dateContainer.innerHTML = dateRéu;
 
+  const isReservationClosed = dateJour >= dateLimit;
+
   // Check the condition and add or remove the event listener accordingly
-  if (dateJour >= dateLimit && !isEventListenerAdded) {
+  if (isReservationClosed && !isEventListenerAdded) {
     btnValider.addEventListener("click", preventDefaultOnClick, false);
     isEventListenerAdded = true; // Set flag to true as listener is added
-  } else if (dateJour < dateLimit && isEventListenerAdded) {
+  } else if (!isReservationClosed && isEventListenerAdded) {
     btnValider.removeEventListener("click", preventDefaultOnClick);
     isEventListenerAdded = false; // Set flag to false as listener is removed
   }
@@ -101,6 +87,7 @@ function insertRepas(data) {
     errorMsg.classList.remove("alert");
   }
   const jour = data.jourReservation;
+  
   for (let i = 0; i < jour.length; i++) {
     const date = new Date(jour[i].dateJour);
     const options = { weekday: "long" };
@@ -155,6 +142,24 @@ function insertRepas(data) {
     }
   }
 }
+// Function to make checkbox behave like Radio
+
+weekday.forEach((day) => {
+  var checkboxes = document.querySelectorAll(
+    'input[type="checkbox"][class="radio' + day + '"]'
+  );
+  checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", function () {
+      if (this.checked) {
+        checkboxes.forEach(function (cb) {
+          if (cb !== checkbox) {
+            cb.checked = false;
+          }
+        });
+      }
+    });
+  });
+});
 
 //FUNCTION to PREVENT DEFAULT
 
@@ -207,13 +212,6 @@ function resetStyles() {
 
 //afficher total avec JS
 
-var choices = document.querySelectorAll(
-  'input[type="checkbox"], input[type="radio"]'
-);
-choices.forEach(function (input) {
-  input.addEventListener("click", calculatePrice);
-});
-
 function calculatePrice() {
   var caseTotal = document.getElementById("caseTotal");
   var total = 0;
@@ -235,9 +233,6 @@ function calculatePrice() {
 }
 
 // FORM CONTROL
-
-const form = document.querySelector("form");
-form.addEventListener("submit", callValid);
 
 function validateForm() {
   const checkboxes = document.querySelectorAll(
@@ -271,24 +266,6 @@ function callValid(event) {
   }
 }
 
-// ON RESET CLEAN AND START OVER
-
-var btnReset = document.getElementById("btnReset");
-var semaineSelect;
-btnReset.addEventListener("click", function () {
-  var semaineValue = document.getElementById("semaine").value;
-  semaineSelect = semaine.selectedIndex;
-  semaine.selectedIndex = semaineSelect;
-  resetError();
-  fetchMenu(semaineValue);
-  test();
-  console.log(semaine.selectedIndex);
-});
-
-function test() {
-  semaine.selectedIndex = 2;
-  console.log(semaine.selectedIndex);
-}
 function resetError() {
   var errorMsgC = document.getElementsByClassName("errorMsg");
   for (var i = 0; i < errorMsgC.length; i++) {
@@ -296,3 +273,18 @@ function resetError() {
     errorMsgC[i].innerHTML = "";
   }
 }
+
+//call select change
+semaine.addEventListener("change", function () {
+  var selectedOption = this.options[this.selectedIndex];
+  var selectedOptionValue = selectedOption.value;
+  resetStyles();
+  resetError();
+  fetchMenu(selectedOptionValue);
+});
+//call check price change
+choices.forEach(function (input) {
+  input.addEventListener("click", calculatePrice);
+});
+//call form control
+form.addEventListener("submit", callValid);

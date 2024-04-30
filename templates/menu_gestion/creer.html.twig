@@ -18,7 +18,7 @@ block importmap %} {# do NOT call parent() #}
       <div class="cardMenu">
         <h3>Lundi</h3>
         <label
-          >Férié
+          >Pas de Repas
           <input type="hidden" name="day[lundi][ferie]" value="false" />
           <input
             type="checkbox"
@@ -69,7 +69,7 @@ block importmap %} {# do NOT call parent() #}
       <div class="cardMenu">
         <h3>Mardi</h3>
         <label
-          >Férié
+          >Pas de Repas
           <input type="hidden" name="day[mardi][ferie]" value="false" />
           <input
             type="checkbox"
@@ -132,7 +132,7 @@ block importmap %} {# do NOT call parent() #}
       <div class="cardMenu">
         <h3>Mercredi</h3>
         <label
-          >Férié
+          >Pas de Repas
           <input type="hidden" name="day[mercredi][ferie]" value="false" />
           <input
             type="checkbox"
@@ -196,7 +196,7 @@ block importmap %} {# do NOT call parent() #}
       <div class="cardMenu">
         <h3>Jeudi</h3>
         <label
-          >Férié
+          >Pas de Repas
           <input type="hidden" name="day[jeudi][ferie]" value="false" />
           <input
             type="checkbox"
@@ -260,7 +260,7 @@ block importmap %} {# do NOT call parent() #}
       <div class="cardMenu">
         <h3>Vendredi</h3>
         <label
-          >Férié
+          >Pas de Repas
           <input type="hidden" name="day[vendredi][ferie]" value="false" />
           <input
             type="checkbox"
@@ -290,7 +290,7 @@ block importmap %} {# do NOT call parent() #}
     {% endfor %}
     <div role="alert" id="errorMsg" class="errorMsg"></div>
     <div class="d-flex justify-content-sm-end justify-content-around">
-      <button type="reset" class="btnCreer" id="btnReset">Réinitialiser</button>
+      <button type="button" class="btnCreer" id="btnReset">Annuler</button>
       <button type="submit" class="btnCreer" id="btnValider">Valider</button>
     </div>
   </form>

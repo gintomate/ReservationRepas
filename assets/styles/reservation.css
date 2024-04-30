@@ -65,10 +65,17 @@
   background-color: var(--grey-color);
   margin: 10px;
 }
+#limitDiv {
+  margin: 5px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
 #btnValider,
 #btnReset {
   margin: 5px 10px;
   font-size: 28px;
+  padding: 5px 15px;
   text-align: center;
   box-shadow: 2px 2px 2px var(--grey-color);
 }
@@ -97,7 +104,7 @@
   height: 100%;
 }
 .ferieText {
-  color: black;
+  color: white;
 }
 .hidden {
   display: none;
@@ -180,6 +187,9 @@
     margin: 10px;
   }
   .ferie {
-    height: 200px;
+    height: 140px;
+  }
+  .repasVide:first-of-type {
+    display: none;
   }
 }

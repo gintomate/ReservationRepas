@@ -25,13 +25,13 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <input
                 type="hidden"
                 name="day[Monday][dejeuner]"
-                class=""
+                class="radioMonday"
                 value="false"
               />
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Monday][dejeuner]"
-                class=""
+                class="radioMonday"
                 value="déjeuner_a"
               />
             </div>
@@ -39,9 +39,9 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <h4>Déjeuner B</h4>
               <p class="Monday"></p>
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Monday][dejeuner]"
-                class=""
+                class="radioMonday"
                 value="déjeuner_b"
               />
             </div>
@@ -93,13 +93,13 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <input
                 type="hidden"
                 name="day[Tuesday][dejeuner]"
-                class=""
+                class="radioTuesday"
                 value="false"
               />
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Tuesday][dejeuner]"
-                class=""
+                class="radioTuesday"
                 value="déjeuner_a"
               />
             </div>
@@ -107,9 +107,9 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <h4>Déjeuner B</h4>
               <p class="Tuesday"></p>
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Tuesday][dejeuner]"
-                class=""
+                class="radioTuesday"
                 value="déjeuner_b"
               />
             </div>
@@ -161,13 +161,13 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <input
                 type="hidden"
                 name="day[Wednesday][dejeuner]"
-                class=""
+                class="radioWednesday"
                 value="false"
               />
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Wednesday][dejeuner]"
-                class=""
+                class="radioWednesday"
                 value="déjeuner_a"
               />
             </div>
@@ -175,9 +175,9 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <h4>Déjeuner B</h4>
               <p class="Wednesday"></p>
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Wednesday][dejeuner]"
-                class=""
+                class="radioWednesday"
                 value="déjeuner_b"
               />
             </div>
@@ -229,13 +229,13 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <input
                 type="hidden"
                 name="day[Thursday][dejeuner]"
-                class=""
+                class="radioThursday"
                 value="false"
               />
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Thursday][dejeuner]"
-                class=""
+                class="radioThursday"
                 value="déjeuner_a"
               />
             </div>
@@ -243,9 +243,9 @@ block body %} {% include "nav/UserNav.html.twig" %}
               <h4>Déjeuner B</h4>
               <p class="Thursday"></p>
               <input
-                type="radio"
+                type="checkbox"
                 name="day[Thursday][dejeuner]"
-                class=""
+                class="radioThursday"
                 value="déjeuner_b"
               />
             </div>
@@ -315,7 +315,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
       </div>
       {% endfor %}
       <div
-        class="d-flex flex-sm-row flex-column justify-content-between"
+        class="d-flex flex-lg-row flex-column justify-content-between"
         id="menuBottomBar"
       >
         <div>
@@ -329,11 +329,12 @@ block body %} {% include "nav/UserNav.html.twig" %}
           />
           €
         </div>
-        <div>
-          <p>Date limite de Réservation : <span id="dateLimit"> </span></p>
+        <div class="limitDiv">
+          <p>Date limite de Réservation :</p>
+          <span id="dateLimit"> </span>
         </div>
         <div>
-          <button type="reset" id="btnReset">Réinitialiser</button>
+          <a href=""><button type="button" id="btnReset">Annuler</button></a>
           <button type="submit" id="btnValider">Valider</button>
         </div>
       </div>

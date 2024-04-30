@@ -35,8 +35,9 @@ class UserReservationController extends AbstractController
         $roles = $user->getRoles();
         $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
         $formData = $request->request->all();
-        if ($request->isMethod('POST')) {
 
+
+        if ($request->isMethod('POST')) {
             $semaineSelect =  $formData['semaine'];
             $semaine = $semaineReservationRepo->find($semaineSelect);
             $dateLimit = $semaine->getDateLimit();
@@ -127,7 +128,7 @@ class UserReservationController extends AbstractController
     //UPDATE
 
     #[Route('/user/reservation/modif/{id}', name: 'user_modif')]
-    public function modif(Request $request, ReservationRepository $reservationRepo, EntityManagerInterface $em, int $id, ValidatorInterface $validator): Response
+    public function modif(Request $request, EntityManagerInterface $em, Reservation $Reservation, ValidatorInterface $validator): Response
     {
         //Get User
         $user = $this->getUser();
@@ -135,7 +136,6 @@ class UserReservationController extends AbstractController
 
         $roles = $user->getRoles();
         $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
-        $Reservation = $reservationRepo->find($id);
         if ($Reservation->getUtilisateur() !== $user) {
             throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
         }
@@ -322,11 +322,11 @@ class UserReservationController extends AbstractController
 
     //JSON FOR CREATE
 
-    #[Route('/user/reservation/semaineJson', name: 'app_user_reservation_semaineJson')]
+    #[Route('/user/reservation/semaineJson', name: 'user_reservation_semaineJson')]
     public function reserverJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo): JsonResponse
     {
-        $date = new \DateTime();
-        $curd = date('Y-m-d');
+        date_default_timezone_set("Indian/Reunion");
+        $dateJour = new \DateTime();
 
         $jourReservations = $jourReservationRepo->findAll();
 
@@ -338,13 +338,15 @@ class UserReservationController extends AbstractController
             // Retrieve the Semaine associated with this JourReservation
             $semaine = $jourReservation->getSemaineReservation();
             //to change
-            if ($semaine->getDateFin() > $curd) {
+            if ($semaine->getDateFin() >  $dateJour) {
                 if (!in_array($semaine, $semaines, true)) {
                     // Add this Semaine to the array
                     $semaines[] = $semaine;
                 }
             }
         }
+
+        //Serialyse in Json
 
         $serializeSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
