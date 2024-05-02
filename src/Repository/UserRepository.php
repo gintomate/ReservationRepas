@@ -40,6 +40,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // FIND SEMAINE NOT ALREADY WITH A MENU CREATE
+    public function findBySection($section): array
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.userInfo', 'ui')
+            ->innerJoin('ui.promo', 'p')
+            ->where('p.id = :section ')
+            ->setParameter('section', $section)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

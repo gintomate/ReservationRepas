@@ -87,7 +87,7 @@ function insertRepas(data) {
     errorMsg.classList.remove("alert");
   }
   const jour = data.jourReservation;
-  
+
   for (let i = 0; i < jour.length; i++) {
     const date = new Date(jour[i].dateJour);
     const options = { weekday: "long" };
@@ -199,9 +199,7 @@ function resetStyles() {
     // Remove the 'hidden' class if present
     element.classList.add("hidden");
   });
-  var input = document.querySelectorAll(
-    'input[type="checkbox"], input[type="radio"]'
-  );
+  var input = document.querySelectorAll('input[type="checkbox"]');
 
   // Loop through each checkbox and uncheck it
   input.forEach(function (checkbox) {
@@ -216,9 +214,7 @@ function calculatePrice() {
   var caseTotal = document.getElementById("caseTotal");
   var total = 0;
   //When unchecked the checkbox disapear from the list
-  var checkboxes = document.querySelectorAll(
-    'input[type="checkbox"]:checked, input[type=radio]:checked'
-  );
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
   checkboxes.forEach(function (input) {
     var associatedPrice = input.parentNode.querySelector("p span");
@@ -234,27 +230,6 @@ function calculatePrice() {
 
 // FORM CONTROL
 
-function validateForm() {
-  const checkboxes = document.querySelectorAll(
-    'input[type="checkbox"], input[type="radio"]'
-  );
-  var validForm = false;
-  var checkboxCheck = false;
-  var radioChecked = false;
-  checkboxes.forEach(function (input) {
-    if (input.type === "checkbox" && input.checked) {
-      checkboxCheck = true;
-    }
-    if (input.type === "radio" && input.checked) {
-      radioChecked = true;
-    }
-  });
-  if (radioChecked || checkboxCheck) {
-    validForm = true;
-  }
-  return validForm;
-}
-
 function callValid(event) {
   var errorMsg = document.getElementById("errorMsg");
   if (!validateForm()) {
@@ -265,6 +240,25 @@ function callValid(event) {
     return false; // Ensure the form submission is blocked
   }
 }
+
+//Validator
+
+function validateForm() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  var validForm = false;
+  var checkboxCheck = false;
+  checkboxes.forEach(function (input) {
+    if (input.type === "checkbox" && input.checked) {
+      checkboxCheck = true;
+    }
+  });
+  if (checkboxCheck) {
+    validForm = true;
+  }
+  return validForm;
+}
+
+//FUNCTION TO Hide/SHOW THE ERROR MSG
 
 function resetError() {
   var errorMsgC = document.getElementsByClassName("errorMsg");

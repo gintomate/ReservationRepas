@@ -21,7 +21,7 @@ class SemaineReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, SemaineReservation::class);
     }
 
-
+    // FIND SEMAINE NOT ALREADY WITH A MENU CREATE
     public function findWithoutJourReservation(): array
     {
         return $this->createQueryBuilder('s')

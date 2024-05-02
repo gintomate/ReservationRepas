@@ -1,6 +1,12 @@
 import axios from "axios";
 import "../styles/menu.css";
+import { formatDate } from "./global.js";
 
+//INITIALISATION VARIABLE
+const btnValider = document.getElementById("btnValider");
+const btnReset = document.getElementById("btnReset");
+const semaine = document.getElementById("semaine");
+const errorMsg = document.getElementById("errorMsg");
 // Requêter pour chercher Semaine Json.
 axios
   .get("/admin/menu/creerJson")
@@ -15,8 +21,8 @@ axios
   });
 
 // Requêter pour inserer Semaine Select.
+
 function insertOption(data) {
-  var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
   var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
@@ -32,28 +38,31 @@ function insertOption(data) {
   semaine.innerHTML = optionsHTML;
 }
 
-// Function to format a Date object to d-m-Y format
-function formatDate(date) {
-  var day = date.getDate();
-  var month = date.getMonth() + 1; // Months are zero-based
-  var year = date.getFullYear();
-
-  // Ensure leading zeros for day and month if necessary
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-
-  // Return the formatted date string
-  return day + "-" + month + "-" + year;
-}
-
-//call to validate the form
-
-var btnValider = document.getElementById("btnValider");
-btnValider.addEventListener("click", formControl);
+//FORM CONTROL
 
 function formControl(event) {
   callValid(validateForm(), event);
 }
+
+// function to add the error message
+function callValid(formValid, event) {
+  var errorMsg = document.getElementById("errorMsg");
+  if (!formValid) {
+    errorMsg.innerHTML =
+      "Tous les champs d'un jour non coché doivent étre remplis.";
+    errorMsg.style.display = "block";
+    event.preventDefault();
+  }
+}
+
+//Function to Make the error msg dissapear
+
+function resetStyle() {
+  errorMsg.style.display = "none";
+  errorMsg.innerHTML = "";
+}
+
+//Validator
 
 function validateForm() {
   const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi"];
@@ -69,25 +78,10 @@ function validateForm() {
   return true;
 }
 
-// function to add the error message
-function callValid(formValid, event) {
-  var errorMsg = document.getElementById("errorMsg");
-  if (!formValid) {
-    errorMsg.innerHTML = "Tous les champs non férié doivent étre remplis.";
-    errorMsg.style.display = "block";
-    event.preventDefault();
-  }
-}
+//CALL
 
-//remove error message
-var btnReset = document.getElementById("btnReset");
-btnReset.addEventListener("click", resetStyle);
-var errorMsg = document.getElementById("errorMsg");
-function resetStyle() {
-  errorMsg.style.display = "none";
-  errorMsg.innerHTML = "";
-}
-
+btnValider.addEventListener("click", formControl);
 semaine.addEventListener("change", function () {
   resetStyle();
 });
+btnReset.addEventListener("click", resetStyle);

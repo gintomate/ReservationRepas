@@ -231,7 +231,18 @@ class MenuGestionController extends AbstractController
     #[Route('admin/menu/creerJson', name: 'admin_menu_creer_json')]
     public function creerJson(SemaineReservationRepository $semaineReservationRepo, SerializerInterface $serializer): JsonResponse
     {
-        $semaine = $semaineReservationRepo->findAll();
+        date_default_timezone_set("Indian/Reunion");
+
+        $dateJour = new \DateTime();
+
+        $semaineWithoutMenu = $semaineReservationRepo->findWithoutJourReservation();
+        $semaine = [];
+        foreach ($semaineWithoutMenu as $key => $semaineWithout) {
+            if ($semaineWithout->getDateFin() > $dateJour) {
+                $semaine[] = $semaineWithout;
+            }
+        }
+
         $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);

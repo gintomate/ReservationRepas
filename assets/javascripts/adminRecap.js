@@ -1,5 +1,12 @@
 import axios from "axios";
 import "../styles/adminRecap.css";
+import { formatDate } from "./global.js";
+
+//INITIALISATION
+const btnPrint = document.getElementById("btnPrint");
+const section = document.getElementById("section");
+const semaine = document.getElementById("semaine");
+const recap = document.getElementById("recap");
 
 //Fetch Options pour select
 
@@ -16,6 +23,8 @@ axios
     // dans tous les cas
   });
 
+//FUNTION TO INSERT BOTH SELECT
+
 function insertOptions(data) {
   var semaineData = data["semaines"];
   var sectionData = data["sections"];
@@ -29,7 +38,6 @@ function insertOptions(data) {
 //SELECT SEMAINE
 
 function insertSemaine(data) {
-  var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
   var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
@@ -47,8 +55,8 @@ function insertSemaine(data) {
 }
 
 ////SELECT SECTION
+
 function insertSection(data) {
-  var section = document.getElementById("section");
   section.innerHTML = "";
   var optionsHTML = "";
   for (let i = 0; i < Math.min(data.length, 20); i++) {
@@ -58,27 +66,10 @@ function insertSection(data) {
   }
   section.innerHTML = optionsHTML;
 }
-function formatDate(date) {
-  var day = date.getDate();
-  var month = date.getMonth() + 1; // Months are zero-based
-  var year = date.getFullYear();
-
-  // Ensure leading zeros for day and month if necessary
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-
-  // Return the formatted date string
-  return day + "-" + month + "-" + year;
-}
 
 //CHANGE ON SELECT
 
-var section = document.getElementById("section");
-var semaine = document.getElementById("semaine");
-section.addEventListener("change", handleChange);
-semaine.addEventListener("change", handleChange);
-
-function handleChange(event) {
+function handleChange() {
   //semaine
   var semaineValue = document.getElementById("semaine").value;
   //section
@@ -106,7 +97,6 @@ function fetchRecap(sectionChoisi, SemaineChoisi) {
 
 //SHOW RECAP
 function insertRecap(data) {
-  var recap = document.getElementById("recap");
   data.forEach((userData) => {
     var user = userData.user;
     var reservation = userData.reservation;
@@ -118,7 +108,7 @@ function insertRecap(data) {
 
     var newRow = document.createElement("tr");
 
-    newRowData = "<tr>" + "<td class='nomRow'>" + formattedNom + "</td>";
+    newRowData = "<tr>" + "<td class='nomColumn'>" + formattedNom + "</td>";
 
     if (reservation != null) {
       var JourReservation = reservation.semaine.jourReservation;
@@ -144,9 +134,9 @@ function insertRecap(data) {
             });
           });
           if (reserveValid === true) {
-            newRowData += "<td class='responsiveHide'>" + tarif + "</td>";
+            newRowData += "<td class='responsiveHide  recapData'>" + tarif + "</td>";
           } else {
-            newRowData += "<td class='responsiveHide'></td>";
+            newRowData += "<td class='responsiveHide recapData'></td>";
           }
         });
       });
@@ -154,7 +144,7 @@ function insertRecap(data) {
       newRowData += "<td>" + montant + "</td></tr>";
     } else {
       for (let i = 0; i < 16; i++) {
-        newRowData += " <td class='responsiveHide'></td>";
+        newRowData += " <td class='responsiveHide  recapData'></td>";
       }
       newRowData += "<td>0</td></tr>";
     }
@@ -165,15 +155,15 @@ function insertRecap(data) {
 }
 //RESET STYLE
 function resetStyle() {
-  var recap = document.getElementById("recap");
   var dynamicRows = recap.querySelectorAll("tr:not(:first-child)");
   dynamicRows.forEach(function (row) {
     recap.removeChild(row);
   });
 }
-//Print
 
-var btnPrint = document.getElementById("btnPrint");
+section.addEventListener("change", handleChange);
+semaine.addEventListener("change", handleChange);
+//Print
 btnPrint.addEventListener("click", function () {
   window.print();
 });

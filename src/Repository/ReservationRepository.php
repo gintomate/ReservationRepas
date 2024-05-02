@@ -20,7 +20,15 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
-
+    public function findBySemaine($semaine): array
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.semaine', 'sr')
+            ->where('sr.id = :semaine ')
+            ->setParameter('semaine', $semaine)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Reservation[] Returns an array of Reservation objects
     //     */

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Section;
+use App\Entity\SemaineReservation;
 use App\Repository\JourReservationRepository;
 use App\Repository\PromoRepository;
 use App\Repository\ReservationRepository;
@@ -14,6 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AdminRecapController extends AbstractController
 {
+    //INDEX
+
     #[Route('admin/recap', name: 'admin_recap')]
     public function recap(): Response
     {
@@ -21,6 +25,8 @@ class AdminRecapController extends AbstractController
             'controller_name' => 'AdminRecapController',
         ]);
     }
+
+    //JSON SEMAINE AND SECTIONS
 
     #[Route('admin/recap/SemaineJson', name: 'admin_recap_semaine_json')]
     public function recapSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo, PromoRepository $promoRepo): JsonResponse
@@ -55,26 +61,16 @@ class AdminRecapController extends AbstractController
         return new JsonResponse($jsonContent);
     }
 
+    // JSON TO SHOW RECAP
 
     #[Route('admin/recapJson/{section}/{semaine}', name: 'admin_recap_json')]
-    public function recapJson(SerializerInterface $serializer, UserRepository $userRepository, ReservationRepository $reservationRepository, int $semaine, int $section): JsonResponse
+    public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine, Section $section): JsonResponse
     {
-        $sectionChoisi = $userRepository
-            ->createQueryBuilder('u')
-            ->innerJoin('u.userInfo', 'ui')
-            ->innerJoin('ui.promo', 'p')
-            ->where('p.id = :section ')
-            ->setParameter('section', $section)
-            ->getQuery()
-            ->getResult();
+        $sectionChoisi = $userRepo
+            ->findBySection($section);
 
-        $semaineChoisi = $reservationRepository
-            ->createQueryBuilder('r')
-            ->innerJoin('r.semaine', 'sr')
-            ->where('sr.id = :semaine ')
-            ->setParameter('semaine', $semaine)
-            ->getQuery()
-            ->getResult();
+        $semaineChoisi = $reservationRepo
+            ->findBySemaine($semaine);
 
         $usersWithReservations = [];
 

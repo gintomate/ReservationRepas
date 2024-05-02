@@ -1,5 +1,6 @@
 import axios from "axios";
 import "../styles/UserConsultation.css";
+import { formatDate } from "./global.js";
 
 axios
   .get("/user/consultationSemaineJson")
@@ -33,26 +34,6 @@ function insertOption(data) {
   fetchReservation(optionPassed);
 }
 
-// Function to format a Date object to d-m-Y format
-function formatDate(date) {
-  var day = date.getDate();
-  var month = date.getMonth() + 1; // Months are zero-based
-  var year = date.getFullYear();
-
-  // Ensure leading zeros for day and month if necessary
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-
-  // Return the formatted date string
-  return day + "-" + month + "-" + year;
-}
-//function to change on select
-semaine.addEventListener("change", function () {
-  var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionValue = selectedOption.value;
-  fetchReservation(selectedOptionValue);
-});
-
 function fetchReservation(value) {
   axios
     .get("/user/consultationJson/" + value)
@@ -67,6 +48,8 @@ function fetchReservation(value) {
       // dans tous les cas
     });
 }
+
+
 function insertReservation(reservation) {
   insertMontant(reservation);
   const repasReserves = reservation.repasReserves;
@@ -160,4 +143,11 @@ document.getElementById("btnDelete").addEventListener("click", function () {
 
   // Redirect to the constructed path
   window.location.href = path;
+});
+
+//function to change on select
+semaine.addEventListener("change", function () {
+  var selectedOption = this.options[this.selectedIndex];
+  var selectedOptionValue = selectedOption.value;
+  fetchReservation(selectedOptionValue);
 });

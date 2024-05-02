@@ -75,6 +75,9 @@
 #deco:hover {
   color: black; /* Text color on hover */
 }
+
+/*FOOTER */
+
 #userFooter {
   background-color: var(--secondary-color);
   border-top: 2px solid var(--tertiary-color);

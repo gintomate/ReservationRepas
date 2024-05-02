@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\JourReservationRepository;
 use App\Repository\ReservationRepository;
-use App\Repository\SemaineReservationRepository;
 use App\Repository\UserRepository;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,11 +31,31 @@ class DelegueController extends AbstractController
         ]);
     }
     #[Route('/delegue/SemaineJson', name: 'delegue_recap_semaine_json')]
-    public function recapSemaineJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
+    public function recapSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo): JsonResponse
     {
-        $date = new DateTime();
-        $semaine = $semaineReservationRepo->findAll();
-        $serializedSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
+
+        date_default_timezone_set("Indian/Reunion");
+
+        $dateJour = new \DateTime();
+        $jourReservations = $jourReservationRepo->findAll();
+
+        // Initialize an array to store semaine entities
+        $semaines = [];
+
+        // Iterate through each JourReservation entity
+        foreach ($jourReservations as $jourReservation) {
+            // Retrieve the Semaine associated with this JourReservation
+            $semaine = $jourReservation->getSemaineReservation();
+            //to change
+            if ($dateJour < $jourReservation->getDateJour()) {
+                if (!in_array($semaine, $semaines, true)) {
+                    // Add this Semaine to the array
+                    $semaines[] = $semaine;
+                }
+            }
+        }
+
+        $serializedSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent =  json_decode($serializedSemaine, true);
 
         return new JsonResponse($jsonContent);

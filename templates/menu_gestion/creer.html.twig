@@ -1,12 +1,10 @@
 {% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %} {%
-block importmap %} {# do NOT call parent() #}
-
+block importmap %}
 {{ importmap(["app", "menu"]) }}
 {% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
 
 <main>
   <h1>Créer un Menu</h1>
-
   <form method="post">
     <div id="semaineContainer">
       <label for="semaine">Créer un menu pour la Semaine: </label>
@@ -15,274 +13,48 @@ block importmap %} {# do NOT call parent() #}
     <div
       class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
     >
+      {% set jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] %} {%
+      for jour in jours %}
       <div class="cardMenu">
-        <h3>Lundi</h3>
+        <h3>{{ jour }}</h3>
         <label
           >Pas de Repas
-          <input type="hidden" name="day[lundi][ferie]" value="false" />
+          <input
+            type="hidden"
+            name="day[{{ jour | lower }}][ferie]"
+            value="false"
+          />
           <input
             type="checkbox"
-            name="day[lundi][ferie]"
-            class="lundi"
+            name="day[{{ jour | lower }}][ferie]"
+            class="{{ jour | lower }}"
             value="true"
-        /></label>
+          />
+        </label>
+        {% if jour == 'Lundi' %} {% set repas = ['Déjeuner A', 'Déjeuner B',
+        'Diner'] %} {% elseif jour == 'Vendredi' %} {% set repas = ['Petit
+        Déjeuner'] %} {% else %} {% set repas = ['Petit Déjeuner', 'Déjeuner A',
+        'Déjeuner B', 'Diner'] %} {% endif %} {% for repas_type in repas %}
         <div class="repas">
-          <h4>Déjeuner A</h4>
-          <textarea
-            id="lundiDejA"
-            name="day[lundi][dejeuner_a]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="lundi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner B</h4>
+          <h4>{{ repas_type }}</h4>
           <textarea
             type="text"
-            name="day[lundi][dejeuner_b]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            name="day[{{
+              jour | lower
+            }}][{{ repas_type|lower|replace({' ': '_'}) }}]"
+            placeholder="{{ repas_type }}"
             cols="25"
-            rows="3"
+            rows="{% if jour == 'Petit Déjeuner' %}2{% else %}3{% endif %}"
             wrap="off"
-            maxlength="300"
-            class="lundi"
+            maxlength="{% if jour == 'Petit Déjeuner' %}100{% else %}300{% endif %}"
+            class="{{ jour | lower }}"
           ></textarea>
         </div>
-        <div class="repas">
-          <h4>Diner</h4>
-          <textarea
-            type="text"
-            name="day[lundi][diner]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="lundi"
-          ></textarea>
-        </div>
+        {% endfor %}
       </div>
-      <div class="cardMenu">
-        <h3>Mardi</h3>
-        <label
-          >Pas de Repas
-          <input type="hidden" name="day[mardi][ferie]" value="false" />
-          <input
-            type="checkbox"
-            name="day[mardi][ferie]"
-            class="mardi"
-            value="true"
-        /></label>
-        <div class="repas">
-          <h4>Petit Déjeuner</h4>
-          <textarea
-            type="text"
-            name="day[mardi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
-            cols="25"
-            rows="2"
-            wrap="off"
-            maxlength="100"
-            class="mardi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner A</h4>
-          <textarea
-            type="text"
-            name="day[mardi][dejeuner_a]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mardi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner B</h4>
-          <textarea
-            type="text"
-            name="day[mardi][dejeuner_b]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mardi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Diner</h4>
-          <textarea
-            name="day[mardi][diner]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mardi"
-          ></textarea>
-        </div>
-      </div>
-      <div class="cardMenu">
-        <h3>Mercredi</h3>
-        <label
-          >Pas de Repas
-          <input type="hidden" name="day[mercredi][ferie]" value="false" />
-          <input
-            type="checkbox"
-            name="day[mercredi][ferie]"
-            class="mercredi"
-            value="true"
-        /></label>
-        <div class="repas">
-          <h4>Petit Déjeuner</h4>
-          <textarea
-            type="text"
-            name="day[mercredi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
-            cols="25"
-            rows="2"
-            wrap="off"
-            maxlength="100"
-            class="mercredi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner A</h4>
-          <textarea
-            type="text"
-            name="day[mercredi][dejeuner_a]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mercredi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner B</h4>
-          <textarea
-            type="text"
-            name="day[mercredi][dejeuner_b]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mercredi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Diner</h4>
-          <textarea
-            type="text"
-            name="day[mercredi][diner]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="mercredi"
-          ></textarea>
-        </div>
-      </div>
-      <div class="cardMenu">
-        <h3>Jeudi</h3>
-        <label
-          >Pas de Repas
-          <input type="hidden" name="day[jeudi][ferie]" value="false" />
-          <input
-            type="checkbox"
-            name="day[jeudi][ferie]"
-            class="jeudi"
-            value="true"
-        /></label>
-        <div class="repas">
-          <h4>Petit Déjeuner</h4>
-          <textarea
-            type="text"
-            name="day[jeudi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
-            cols="25"
-            rows="2"
-            wrap="off"
-            maxlength="100"
-            class="jeudi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner A</h4>
-          <textarea
-            type="text"
-            name="day[jeudi][dejeuner_a]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="jeudi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Déjeuner B</h4>
-          <textarea
-            type="text"
-            name="day[jeudi][dejeuner_b]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="jeudi"
-          ></textarea>
-        </div>
-        <div class="repas">
-          <h4>Diner</h4>
-          <textarea
-            type="text"
-            name="day[jeudi][diner]"
-            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
-            cols="25"
-            rows="3"
-            wrap="off"
-            maxlength="300"
-            class="jeudi"
-          ></textarea>
-        </div>
-      </div>
-      <div class="cardMenu">
-        <h3>Vendredi</h3>
-        <label
-          >Pas de Repas
-          <input type="hidden" name="day[vendredi][ferie]" value="false" />
-          <input
-            type="checkbox"
-            name="day[vendredi][ferie]"
-            class="vendredi"
-            value="true"
-        /></label>
-        <div class="repas">
-          <h4>Petit Déjeuner</h4>
-          <textarea
-            type="text"
-            name="day[vendredi][petit_dejeuner]"
-            placeholder="Petit Déjeuner"
-            cols="25"
-            rows="2"
-            wrap="off"
-            maxlength="100"
-            class="vendredi"
-          ></textarea>
-        </div>
-      </div>
+      {% endfor %}
     </div>
+
     {% for message in app.flashes('error') %}
     <div role="alert" class="errorMsg">
       {{ message }}

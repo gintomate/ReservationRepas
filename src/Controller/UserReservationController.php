@@ -139,9 +139,6 @@ class UserReservationController extends AbstractController
         if ($Reservation->getUtilisateur() !== $user) {
             throw $this->createAccessDeniedException('Vous n\'étes pas autorisé à accéder à cette page.');
         }
-
-        $date = new \DateTime();
-
         $semaine = $Reservation->getSemaine();
         $semaineId = $semaine->getId();
 

@@ -29,9 +29,12 @@
   border-collapse: collapse;
   overflow: hidden;
   width: 100%;
+  table-layout: fixed;
 }
 #repasRow td {
   font-weight: bold;
+  width: 10%;
+  overflow-wrap: break-word;
 }
 
 #recapContainer th,
@@ -42,6 +45,10 @@
   border-collapse: collapse;
   border-radius: 20px;
 }
+.nomColumn{
+
+  width: 200px;
+}
 #btnPrint {
   width: 15%;
   text-align: center;
@@ -49,6 +56,11 @@
   margin: 10px;
   padding: 5px;
   box-shadow: 5px 5px 3px grey;
+}
+@media screen and (max-width: 1320px) {
+  #recapContainer {
+    table-layout: auto;
+  }
 }
 @media screen and (max-width: 1024px) {
   #btnPrint {
@@ -72,7 +84,12 @@
     width: 50vw;
   }
 }
-
+@media screen and (max-width: 576px) {
+  .selectPart {
+    width: 90%;
+    margin: 10px auto;
+  }
+}
 @media print {
   /* Hide the header and any other unwanted elements when printing */
   header,

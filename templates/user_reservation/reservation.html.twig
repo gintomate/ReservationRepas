@@ -12,301 +12,62 @@ block body %} {% include "nav/UserNav.html.twig" %}
       <div
         class="d-flex flex-sm-row flex-column justify-content-around align-items-center"
       >
+      {% set days = [
+        {'name': 'Lundi', 'id': 'Monday', 'repas': [
+            {'name': 'Pas de Petit Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Déjeuner A', 'class': 'grey', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Diner', 'class': 'grey', 'input_name': 'day[Monday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Mardi', 'id': 'Tuesday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'grey', 'input_name': 'day[Tuesday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'green', 'input_name': 'day[Tuesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'grey', 'input_name': 'day[Tuesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'green', 'input_name': 'day[Tuesday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Mercredi', 'id': 'Wednesday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'green', 'input_name': 'day[Wednesday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'grey', 'input_name': 'day[Wednesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Wednesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'grey', 'input_name': 'day[Wednesday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Jeudi', 'id': 'Thursday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'grey', 'input_name': 'day[Thursday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'green', 'input_name': 'day[Thursday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'grey', 'input_name': 'day[Thursday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'green', 'input_name': 'day[Thursday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Vendredi', 'id': 'Friday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'green', 'input_name': 'day[Friday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Friday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Pas de Déjeuner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Pas de Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Pas de Diner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''}
+        ]}
+    ] %}
+    
+    {% for day in days %}
         <div class="jourContainer">
-          <h3>Lundi</h3>
-          <div class="repasContainer" id="MondayRepas">
-            <div class="repas green repasVide">
-              <h4>Pas de Petit Déjeuner</h4>
-              <p class="Monday" style="display: none"></p>
+            <h3>{{ day.name }}</h3>
+            <div class="repasContainer" id="{{ day.id }}Repas">
+                {% for repas in day.repas %}
+                    <div class="repas {{ repas.class }}">
+                        <h4>{{ repas.name }}</h4>
+                        <p class="{{ day.id }}"></p>
+                        {% if repas.input_name != '' %}
+                            <input type="hidden" name="{{ repas.input_name }}" class="" value="{{ repas.input_value }}" />
+                            <input type="checkbox" name="{{ repas.checkbox_name }}" class="" value="{{ repas.checkbox_value }}" />
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="repas grey">
-              <h4>Déjeuner A</h4>
-              <p name="day[Monday][dejeuner_a]" class="Monday"></p>
-              <input
-                type="hidden"
-                name="day[Monday][dejeuner]"
-                class="radioMonday"
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Monday][dejeuner]"
-                class="radioMonday"
-                value="déjeuner_a"
-              />
+            <div class="ferie hidden" id="{{ day.id }}">
+                <div class="d-flex flex-column justify-content-center">
+                    <h3 class="ferieText">Férie</h3>
+                </div>
             </div>
-            <div class="repas green">
-              <h4>Déjeuner B</h4>
-              <p class="Monday"></p>
-              <input
-                type="checkbox"
-                name="day[Monday][dejeuner]"
-                class="radioMonday"
-                value="déjeuner_b"
-              />
-            </div>
-            <div class="repas grey">
-              <h4>Diner</h4>
-              <p class="Monday"></p>
-              <input
-                type="hidden"
-                name="day[Monday][diner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Monday][diner]"
-                class=""
-                value="diner"
-              />
-            </div>
-          </div>
-          <div class="ferie hidden" id="Monday">
-            <div class="d-flex flex-column justify-content-center">
-              <h3 class="ferieText">Férie</h3>
-            </div>
-          </div>
         </div>
-        <div class="jourContainer">
-          <h3>Mardi</h3>
-          <div class="repasContainer" id="TuesdayRepas">
-            <div class="repas grey">
-              <h4>Petit Déjeuner</h4>
-              <p class="Tuesday"></p>
-              <input
-                type="hidden"
-                name="day[Tuesday][petit_dejeuner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Tuesday][petit_dejeuner]"
-                class=""
-                value="petit_déjeuner"
-              />
-            </div>
-            <div class="repas green">
-              <h4>Déjeuner A</h4>
-              <p class="Tuesday"></p>
-              <input
-                type="hidden"
-                name="day[Tuesday][dejeuner]"
-                class="radioTuesday"
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Tuesday][dejeuner]"
-                class="radioTuesday"
-                value="déjeuner_a"
-              />
-            </div>
-            <div class="repas grey">
-              <h4>Déjeuner B</h4>
-              <p class="Tuesday"></p>
-              <input
-                type="checkbox"
-                name="day[Tuesday][dejeuner]"
-                class="radioTuesday"
-                value="déjeuner_b"
-              />
-            </div>
-            <div class="repas green">
-              <h4>Diner</h4>
-              <p class="Tuesday"></p>
-              <input
-                type="hidden"
-                name="day[Tuesday][diner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Tuesday][diner]"
-                class=""
-                value="diner"
-              />
-            </div>
-          </div>
-          <div class="ferie hidden" id="Tuesday">
-            <div class="d-flex flex-column justify-content-center">
-              <h3 class="ferieText">Férie</h3>
-            </div>
-          </div>
-        </div>
-        <div class="jourContainer">
-          <h3>Mercredi</h3>
-          <div class="repasContainer" id="WednesdayRepas">
-            <div class="repas green">
-              <h4>Petit Déjeuner</h4>
-              <p class="Wednesday"></p>
-              <input
-                type="hidden"
-                name="day[Wednesday][petit_dejeuner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Wednesday][petit_dejeuner]"
-                class=""
-                value="petit_déjeuner"
-              />
-            </div>
-            <div class="repas grey">
-              <h4>Déjeuner A</h4>
-              <p class="Wednesday"></p>
-              <input
-                type="hidden"
-                name="day[Wednesday][dejeuner]"
-                class="radioWednesday"
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Wednesday][dejeuner]"
-                class="radioWednesday"
-                value="déjeuner_a"
-              />
-            </div>
-            <div class="repas green">
-              <h4>Déjeuner B</h4>
-              <p class="Wednesday"></p>
-              <input
-                type="checkbox"
-                name="day[Wednesday][dejeuner]"
-                class="radioWednesday"
-                value="déjeuner_b"
-              />
-            </div>
-            <div class="repas grey">
-              <h4>Diner</h4>
-              <p class="Wednesday"></p>
-              <input
-                type="hidden"
-                name="day[Wednesday][diner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Wednesday][diner]"
-                class=""
-                value="diner"
-              />
-            </div>
-          </div>
-          <div class="ferie hidden" id="Wednesday">
-            <div class="d-flex flex-column justify-content-center">
-              <h3 class="ferieText">Férie</h3>
-            </div>
-          </div>
-        </div>
-        <div class="jourContainer">
-          <h3>Jeudi</h3>
-          <div class="repasContainer" id="ThursdayRepas">
-            <div class="repas grey">
-              <h4>Petit Déjeuner</h4>
-              <p class="Thursday"></p>
-              <input
-                type="hidden"
-                name="day[Thursday][petit_dejeuner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Thursday][petit_dejeuner]"
-                class=""
-                value="petit_déjeuner"
-              />
-            </div>
-            <div class="repas green">
-              <h4>Déjeuner A</h4>
-              <p class="Thursday"></p>
-              <input
-                type="hidden"
-                name="day[Thursday][dejeuner]"
-                class="radioThursday"
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Thursday][dejeuner]"
-                class="radioThursday"
-                value="déjeuner_a"
-              />
-            </div>
-            <div class="repas grey">
-              <h4>Déjeuner B</h4>
-              <p class="Thursday"></p>
-              <input
-                type="checkbox"
-                name="day[Thursday][dejeuner]"
-                class="radioThursday"
-                value="déjeuner_b"
-              />
-            </div>
-            <div class="repas green">
-              <h4>Diner</h4>
-              <p class="Thursday"></p>
-              <input
-                type="hidden"
-                name="day[Thursday][diner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Thursday][diner]"
-                class=""
-                value="diner"
-              />
-            </div>
-          </div>
-          <div class="ferie hidden" id="Thursday">
-            <div class="d-flex flex-column justify-content-center">
-              <h3 class="ferieText">Férie</h3>
-            </div>
-          </div>
-        </div>
-        <div class="jourContainer">
-          <h3>Vendredi</h3>
-          <div class="repasContainer Monday" id="FridayRepas">
-            <div class="repas green">
-              <h4>Petit Déjeuner</h4>
-              <p class="Friday"></p>
-              <input
-                type="hidden"
-                name="day[Friday][petit_dejeuner]"
-                class=""
-                value="false"
-              />
-              <input
-                type="checkbox"
-                name="day[Friday][petit_dejeuner]"
-                class=""
-                value="petit_déjeuner"
-              />
-            </div>
-            <div class="repas grey repasVide">
-              <h4>Pas de Déjeuner</h4>
-            </div>
-            <div class="repas green repasVide">
-              <h4>Pas de Déjeuner</h4>
-            </div>
-            <div class="repas grey repasVide">
-              <h4>Pas de Diner</h4>
-            </div>
-          </div>
-          <div class="ferie hidden" id="Friday">
-            <div class="d-flex flex-column justify-content-center">
-              <h3 class="ferieText">Férie</h3>
-            </div>
-          </div>
-        </div>
+    {% endfor %}
+    
       </div>
       <div role="alert" id="errorMsg" class="errorMsg alert"></div>
       {% for message in app.flashes('error') %}

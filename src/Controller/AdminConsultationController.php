@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\SemaineReservation;
 use App\Repository\JourReservationRepository;
-use App\Repository\SemaineReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +20,10 @@ class AdminConsultationController extends AbstractController
         ]);
     }
     #[Route('/admin/consultationSemaineJson', name: 'admin_consultation_semaineJson')]
-    public function consultSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepository): JsonResponse
+    public function consultSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo): JsonResponse
     {
         $today = date('Y-m-d');
-        $jourReservations = $jourReservationRepository->findAll();
+        $jourReservations = $jourReservationRepo->findAll();
 
         // Initialize an array to store semaine entities
         $semaines = [];
@@ -46,10 +46,10 @@ class AdminConsultationController extends AbstractController
         return new JsonResponse($jsonContent);
     }
     #[Route('/admin/consultationJson/{id}', name: 'admin_consultation_Json')]
-    public function consultJson(SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepository, int $id): JsonResponse
+    public function consultJson(SerializerInterface $serializer, SemaineReservation $semaineReservation): JsonResponse
     {
-        $semaine = $semaineReservationRepository->find($id);
-        $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaineResa']);
+
+        $serializeSemaine = $serializer->serialize($semaineReservation, 'json', ['groups' => 'semaineResa']);
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);
     }
