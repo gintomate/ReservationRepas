@@ -3,22 +3,10 @@ import "../styles/menu.css";
 import { formatDate } from "./global.js";
 
 //INITIALISATION VARIABLE
+
 const btnValider = document.getElementById("btnValider");
-const btnReset = document.getElementById("btnReset");
 const semaine = document.getElementById("semaine");
 const errorMsg = document.getElementById("errorMsg");
-// Requêter pour chercher Semaine Json.
-axios
-  .get("/admin/menu/creerJson")
-  .then(function (response) {
-    insertOption(response.data);
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-  .finally(function () {
-    // dans tous les cas
-  });
 
 // Requêter pour inserer Semaine Select.
 
@@ -46,7 +34,6 @@ function formControl(event) {
 
 // function to add the error message
 function callValid(formValid, event) {
-  var errorMsg = document.getElementById("errorMsg");
   if (!formValid) {
     errorMsg.innerHTML =
       "Tous les champs d'un jour non coché doivent étre remplis.";
@@ -80,8 +67,16 @@ function validateForm() {
 
 //CALL
 
-btnValider.addEventListener("click", formControl);
-semaine.addEventListener("change", function () {
-  resetStyle();
+document.addEventListener("DOMContentLoaded", () => {
+  // Requêter pour chercher Semaine Json.
+  axios
+    .get("/admin/menu/creerJson")
+    .then(function (response) {
+      insertOption(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  btnValider.addEventListener("click", formControl);
+  semaine.addEventListener("change", resetStyle);
 });
-btnReset.addEventListener("click", resetStyle);

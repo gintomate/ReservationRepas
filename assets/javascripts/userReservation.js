@@ -8,21 +8,23 @@ var isEventListenerAdded = false;
 const form = document.querySelector("form");
 var choices = document.querySelectorAll('input[type="checkbox"]');
 var weekday = ["Monday", "Tuesday", "Wednesday", "Thursday"];
+const dateContainer = document.getElementById("dateLimit");
+var repasContainer = document.getElementsByClassName("repasContainer");
+var ferieContainer = document.getElementsByClassName("ferie");
 
 // Fetch Semaine pour option select
-axios
-  .get("/user/reservation/semaineJson")
-  .then(function (response) {
-    insertOption(response.data);
-  })
-  .catch(function (error) {
-    // en cas d’échec de la requête
-    console.log(error);
-  })
-  .finally(function () {
-    // dans tous les cas
-  });
-
+function fetchSemaine() {
+  axios
+    .get("/user/reservation/semaineJson")
+    .then(function (response) {
+      insertOption(response.data);
+    })
+    .catch(function (error) {
+      // en cas d’échec de la requête
+      console.log(error);
+    });
+}
+//Insert Select
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
@@ -68,20 +70,19 @@ function insertRepas(data) {
   const formatter = new Intl.DateTimeFormat("fr-Fr", options);
   const dateSub = subtractDays(dateLimit, 1);
   const dateRéu = formatter.format(dateSub);
-  const dateContainer = document.getElementById("dateLimit");
   dateContainer.innerHTML = dateRéu;
-
   const isReservationClosed = dateJour >= dateLimit;
 
-  // Check the condition and add or remove the event listener accordingly
+  //Check reservation is closed and the prevent default is already there
+
   if (isReservationClosed && !isEventListenerAdded) {
     btnValider.addEventListener("click", preventDefaultOnClick, false);
-    isEventListenerAdded = true; // Set flag to true as listener is added
+    isEventListenerAdded = true;
   } else if (!isReservationClosed && isEventListenerAdded) {
     btnValider.removeEventListener("click", preventDefaultOnClick);
     isEventListenerAdded = false; // Set flag to false as listener is removed
   }
-  // Check the condition and add or remove the event listener accordingly
+
   if (dateJour >= dateLimit) {
     errorMsg.innerHTML = "Réservation Terminé.";
     errorMsg.classList.remove("alert");
@@ -93,10 +94,9 @@ function insertRepas(data) {
     const options = { weekday: "long" };
     const jourIndex = date.toLocaleDateString("en-EN", options);
 
+    //Hide the repas and show the ferie div if its ferie
     if (jour[i].ferie === true) {
-      var repasContainer = document.getElementsByClassName("repasContainer");
       var repasHidden = repasContainer[jourIndex + "Repas"];
-      var ferieContainer = document.getElementsByClassName("ferie");
       var ferie = ferieContainer[jourIndex];
       ferie.classList.remove("hidden");
       repasHidden.classList.add("hidden");
@@ -142,11 +142,12 @@ function insertRepas(data) {
     }
   }
 }
+
 // Function to make checkbox behave like Radio
 
 weekday.forEach((day) => {
   var checkboxes = document.querySelectorAll(
-    'input[type="checkbox"][class="radio' + day + '"]'
+    'input[type="checkbox"][name="day[' + day + '][dejeuner]"]'
   );
   checkboxes.forEach(function (checkbox) {
     checkbox.addEventListener("change", function () {
@@ -186,8 +187,6 @@ function getDayClass(day) {
 // RESET THE SYLE ON CHANGE
 
 function resetStyles() {
-  var repasContainer = document.getElementsByClassName("repasContainer");
-  var ferieContainer = document.getElementsByClassName("ferie");
   var repasArray = Array.from(repasContainer);
   var ferieArray = Array.from(ferieContainer);
 
@@ -269,16 +268,20 @@ function resetError() {
 }
 
 //call select change
-semaine.addEventListener("change", function () {
-  var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionValue = selectedOption.value;
-  resetStyles();
-  resetError();
-  fetchMenu(selectedOptionValue);
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchSemaine();
+  semaine.addEventListener("change", function () {
+    var selectedOption = this.options[this.selectedIndex];
+    var selectedOptionValue = selectedOption.value;
+    resetStyles();
+    resetError();
+    fetchMenu(selectedOptionValue);
+  });
+  //call check price change
+  choices.forEach(function (input) {
+    input.addEventListener("click", calculatePrice);
+  });
+  //call form control
+  form.addEventListener("submit", callValid);
 });
-//call check price change
-choices.forEach(function (input) {
-  input.addEventListener("click", calculatePrice);
-});
-//call form control
-form.addEventListener("submit", callValid);

@@ -23,7 +23,7 @@ class UserMdpType extends AbstractType
                         'message' => 'Votre ancien mot de passe n\'est pas correct.',
                     ]),
                     new NotBlank(),
-                ],'label'=>'Votre ancien mot de passe'
+                ], 'label' => 'Votre ancien mot de passe'
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

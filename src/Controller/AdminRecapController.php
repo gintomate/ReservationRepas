@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Promo;
 use App\Entity\Section;
 use App\Entity\SemaineReservation;
 use App\Repository\JourReservationRepository;
@@ -63,11 +64,11 @@ class AdminRecapController extends AbstractController
 
     // JSON TO SHOW RECAP
 
-    #[Route('admin/recapJson/{section}/{semaine}', name: 'admin_recap_json')]
-    public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine, Section $section): JsonResponse
+    #[Route('admin/recapJson/{promo}/{semaine}', name: 'admin_recap_json')]
+    public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine, Promo $promo): JsonResponse
     {
         $sectionChoisi = $userRepo
-            ->findBySection($section);
+            ->findByPromo($promo);
 
         $semaineChoisi = $reservationRepo
             ->findBySemaine($semaine);

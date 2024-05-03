@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %} {% block title %}Profil{% endblock %} {% block
-importmap %} {# do NOT call parent() #}
+importmap %}
 
 {{ importmap(["app", "profil"]) }}
 {% endblock %} {% block body %} {% include "nav/UserNav.html.twig" %}
@@ -13,60 +13,66 @@ importmap %} {# do NOT call parent() #}
   </div>
   {% endfor %}
   <div class="d-flex flex-lg-row flex-column">
+    <!-- Personnel Info -->
     <div id="infoPerso">
       <h3>Info Personnel</h3>
       <div class="d-flex flex-column justify-content-evenly">
         <div class="infoColumn">
-          <label>Nom</label>
-          <p>{{ user.userInfo.nom }}</p>
+          <label for="nom">Nom</label>
+          <p id="nom ">{{ user.userInfo.nom }}</p>
         </div>
         <div class="infoColumn">
-          <label>Prénom</label>
-          <p>{{ user.userInfo.prenom }}</p>
+          <label for="prenom">Prénom</label>
+          <p id="prenom">{{ user.userInfo.prenom }}</p>
         </div>
         <div class="infoColumn">
-          <label>Date de Naissance</label>
-          <p>{{ user.userInfo.dateDeNaissance | date('d-m-Y') }}</p>
+          <label for="dateNaissance">Date de Naissance</label>
+          <p id="dateNaissance">
+            {{ user.userInfo.dateDeNaissance | date('d-m-Y') }}
+          </p>
         </div>
         <div class="infoColumn">
-          <label>Email</label>
-          <p>{{ user.email }}</p>
+          <label for="email">Email</label>
+          <p id="email">{{ user.email }}</p>
         </div>
         <div class="infoColumn">
-          <label>Identifiant</label>
-          <p>{{ user.identifiant }}</p>
+          <label for="identifiant">Identifiant</label>
+          <p id="identifiant">{{ user.identifiant }}</p>
         </div>
         <div class="infoColumn">
-          <label>Mot de passe</label>
+          <label for="btnModifier">Mot de passe</label>
           <button id="btnModifier">Modifier</button>
         </div>
       </div>
     </div>
+    <!-- Afpar Info -->
     <div id="infoAfpar">
       <h3>Info Afpar</h3>
       <div class="d-flex flex-column justify-content-around">
         <div class="infoColumn">
-          <label>Section</label>
-          <p>{{ user.userInfo.promo.section.nomSection }}</p>
+          <label for="section">Section</label>
+          <p id="section">{{ user.userInfo.promo.section.nomSection }}</p>
         </div>
         <div class="infoColumn">
-          <label>Promo</label>
-          <p>{{ user.userInfo.promo.nomPromo }}</p>
+          <label for="promo">Promo</label>
+          <p id="promo">{{ user.userInfo.promo.nomPromo }}</p>
         </div>
         <div class="infoColumn">
-          <label>Date de Début</label>
-          <p>{{ user.userInfo.promo.dateDebut | date('d-m-Y') }}</p>
+          <label for="dateDebut">Date de Début</label>
+          <p id="dateDebut">
+            {{ user.userInfo.promo.dateDebut | date('d-m-Y') }}
+          </p>
         </div>
         <div class="infoColumn">
-          <label>Date de Fin</label>
-          <p>{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
+          <label for="dateFin">Date de Fin</label>
+          <p id="dateFin">{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
         </div>
         <div class="infoColumn">
-          <label>Somme Total Dépensé</label>
-          <p>{{ user.userInfo.montantGlobal }}</p>
+          <label for="somme">Somme Total Dépensé</label>
+          <p id="somme">{{ user.userInfo.montantGlobal }}</p>
         </div>
         <div class="infoColumn">
-          <label>Délégué</label>
+          <label for="delegue">Délégué</label>
           <div id="delegue">
             <input type="checkbox" id="delegueBtn" disabled {% if delegue ==
             true %} checked {% endif %} />
@@ -75,6 +81,7 @@ importmap %} {# do NOT call parent() #}
       </div>
     </div>
   </div>
+  <!--  Fin cadre -->
   <p id="textDisclaimer">
     Si vous constater que ces informations sont érronés ou qu'elles ont changer,
     veuillez contacter l'administration.

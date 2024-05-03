@@ -41,13 +41,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     // FIND SEMAINE NOT ALREADY WITH A MENU CREATE
-    public function findBySection($section): array
+    public function findByPromo($promo): array
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.userInfo', 'ui')
             ->innerJoin('ui.promo', 'p')
-            ->where('p.id = :section ')
-            ->setParameter('section', $section)
+            ->where('p.id = :promo ')
+            ->setParameter('promo', $promo)
             ->getQuery()
             ->getResult();
     }

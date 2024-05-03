@@ -9,14 +9,15 @@
 .navbar-brand img {
   max-height: 40px;
 }
-
+.nav-item{
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
 .navbar-nav .nav-link,
 .dropdown-item {
   color: white;
   font-size: 18px;
   padding: 10px;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
 }
 
 .navbar-nav .nav-link:hover {

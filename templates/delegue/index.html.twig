@@ -3,23 +3,34 @@
 
 <main>
   <h1>Bienvenue sur le Hub du Délégué</h1>
-
-  <a href="{{ path('user_reservation') }}">
-    <img src="" alt="" />
-    <h2>Réserver mes Repas</h2>
-  </a>
-  <a href="{{ path('user_consultation') }}">
-    <img src="" alt="" />
-    <h2>Consulter mes Réservations</h2>
-  </a>
-  <a href="{{ path('user_profil') }}">
-    <img src="" alt="" />
-    <h2>Consulter mon Profil</h2>
-  </a>
-  <a href="{{ path('delegue_recap') }}">
-    <img src="" alt="" />
-    <h2>Récapitulatif Délégué</h2>
-  </a>
+  <div
+    class="d-flex flex-md-row flex-column justify-content-between"
+    id="delegueRow"
+  >
+    <a href="{{ path('user_reservation') }}">
+      <div class="blocIndex">
+        <img src="" alt="logo" class="imgIndex"/>
+        <h2>Réserver mes Repas</h2>
+      </div>
+    </a>
+    <a href="{{ path('user_consultation') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex"/>
+        <h2>Consulter mes Réservations</h2>
+      </div>
+    </a>
+    <a href="{{ path('user_profil') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex"/>
+        <h2>Consulter mon Profil</h2>
+      </div>
+    </a>
+    <a href="{{ path('delegue_recap') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex" />
+        <h2>Récapitulatif de votre Section</h2>
+      </div>
+    </a>
+  </div>
 </main>
-{% include "nav/footer.html.twig" %}
-{% endblock %}
+{% include "nav/footer.html.twig" %} {% endblock %}

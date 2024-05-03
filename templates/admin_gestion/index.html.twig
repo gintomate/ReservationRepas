@@ -2,18 +2,28 @@
 %} {% block body %} {% include "nav/AdminNav.html.twig" %}
 <main>
   <h1>Gestion des Utilisateurs</h1>
-
-  <a href="{{ path('security_registration') }}">
-    <img src="" alt="" />
-    <h2>Créer un Utilisateur</h2>
-  </a>
-  <a href="{{ path('admin_gestion_user') }}">
-    <img src="" alt="" />
-    <h2>Gérer un Utilisateur</h2>
-  </a>
-  <a href="{{ path('admin_section') }}">
-    <img src="" alt="" />
-    <h2>Gérer les Sections</h2>
-  </a>
+  <div
+    class="d-flex flex-md-row flex-column justify-content-around"
+    id="indexRow"
+  >
+    <a href="{{ path('security_registration') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex" />
+        <h2>Créer un Utilisateur</h2>
+      </div>
+    </a>
+    <a href="{{ path('admin_gestion_user') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex" />
+        <h2>Gérer un Utilisateur</h2>
+      </div>
+    </a>
+    <a href="{{ path('admin_section') }}">
+      <div class="blocIndex">
+        <img src="" alt="img" class="imgIndex" />
+        <h2>Gérer les Sections</h2>
+      </div>
+    </a>
+  </div>
 </main>
 {% endblock %}

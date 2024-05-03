@@ -66,9 +66,48 @@ Accueil
   background-color: var(--main-color);
   color: white;
 }
+
+/*
+Index
+*/
+#indexRow a {
+  width: 28%;
+  text-decoration: none;
+}
+#delegueRow a {
+  width: 23%;
+  text-decoration: none;
+}
+
+.blocIndex {
+  background-color: var(--main-color);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px;
+  height: 400px;
+  border-radius: 50px;
+  box-shadow: 5px 5px 3px grey;
+  overflow-wrap: anywhere;
+}
 @media screen and (max-width: 1300px) {
   main {
     width: 95%;
+  }
+  #delegueRow a {
+    width: 24%;
+  }
+}
+@media screen and (max-width: 1150px) {
+  #delegueRow h2 {
+    font-size: 28px;
+  }
+  #indexRow h2 {
+    font-size: 28px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -84,6 +123,20 @@ Accueil
   h3 {
     font-size: 32px;
   }
+  #delegueRow a {
+    width: 90%;
+    margin: 10px auto;
+  }
+  #indexRow a {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .imgIndex {
+    display: none;
+  }
+  .blocIndex {
+    height: 100px;
+  }
 }
 @media screen and (max-width: 666px) {
   body {
@@ -97,5 +150,18 @@ Accueil
   }
   h3 {
     font-size: 28px;
+  }
+}
+@media screen and (max-width: 568px) {
+  #delegueRow h2 {
+    font-size: 22px;
+    margin: 5px;
+  }
+  #indexRow h2 {
+    font-size: 22px;
+    margin: 5px;
+  }
+  .blocIndex {
+    height: 80px;
   }
 }

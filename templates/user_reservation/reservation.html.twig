@@ -11,7 +11,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
     <div id="menuContainer">
       <div
         class="d-flex flex-sm-row flex-column justify-content-around align-items-center"
-      >
+      {# >
       {% set days = [
         {'name': 'Lundi', 'id': 'Monday', 'repas': [
             {'name': 'Pas de Petit Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
@@ -43,7 +43,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             {'name': 'Pas de Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
             {'name': 'Pas de Diner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''}
         ]}
-    ] %}
+    ] %} #}
     
     {% for day in days %}
         <div class="jourContainer">
@@ -62,7 +62,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             </div>
             <div class="ferie hidden" id="{{ day.id }}">
                 <div class="d-flex flex-column justify-content-center">
-                    <h3 class="ferieText">Férie</h3>
+                    <h3 class="ferieText">Pas de Repas</h3>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\SemaineReservation;
 use App\Repository\JourReservationRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
@@ -60,29 +61,18 @@ class DelegueController extends AbstractController
 
         return new JsonResponse($jsonContent);
     }
-    #[Route('/delegue/recapJson/{semaine}', name: 'delegue_recap_json')]
-    public function recapJson(SerializerInterface $serializer, int $semaine, UserRepository $userRepo, ReservationRepository $reservationRepo): JsonResponse
+    #[Route('/delegue/recapJson/{id}', name: 'delegue_recap_json')]
+    public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine): JsonResponse
     {
         $user = $this->getUser();
         $promo = $user->getUserInfo()->getPromo()->getId();
 
 
         $sectionChoisi = $userRepo
-            ->createQueryBuilder('u')
-            ->innerJoin('u.userInfo', 'ui')
-            ->innerJoin('ui.promo', 'p')
-            ->where('p.id = :promo ')
-            ->setParameter('promo', $promo)
-            ->getQuery()
-            ->getResult();
+            ->findByPromo($promo);
 
         $semaineChoisi = $reservationRepo
-            ->createQueryBuilder('r')
-            ->innerJoin('r.semaine', 'sr')
-            ->where('sr.id = :semaine ')
-            ->setParameter('semaine', $semaine)
-            ->getQuery()
-            ->getResult();
+            ->findBySemaine($semaine);
 
         $usersWithReservations = [];
         foreach ($sectionChoisi as $userSection) {
