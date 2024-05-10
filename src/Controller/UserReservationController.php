@@ -18,112 +18,131 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserReservationController extends AbstractController
 {
-    //CREATE 
-
+    //CREATE TWIG
     #[Route('/user/reservation', name: 'user_reservation')]
-    public function reserver(Request $request, ValidatorInterface $validator, SemaineReservationRepository $semaineReservationRepo, ReservationRepository $reservationRepo, EntityManagerInterface $em): Response
+    public function reserver(): Response
     {
 
-        //SET TIMEZONE TO LA REUNION 
+        $user = $this->getUser();
+        //Get User Roles
+        $roles = $user->getRoles();
+        $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
 
+        return $this->render('user_reservation/reservation.html.twig', [
+            'controller_name' => 'UserReservationController',
+            'tarifReduit' => $tarifReduit
+        ]);
+    }
+
+    //CREATE FORM 
+    #[Route('/user/reservation/submit', name: 'user_reservation_submit', methods: ['POST'])]
+    public function submitReservation(
+        Request $request,
+        ValidatorInterface $validator,
+        SemaineReservationRepository $semaineReservationRepo,
+        ReservationRepository $reservationRepo,
+        EntityManagerInterface $em
+    ): Response {
+        //SET TIMEZONE TO LA REUNION 
         date_default_timezone_set("Indian/Reunion");
 
-        $user = $this->getUser();
+
+        if (!$request->isMethod('POST')) {
+            $this->addFlash(
+                'error',
+                'Methode Invalide.'
+            );
+            return new Response('Error', Response::HTTP_CONFLICT);
+        }
         $dateJour = new \DateTime();
+        $user = $this->getUser();
 
         //Get User Roles
         $roles = $user->getRoles();
         $tarifReduit = in_array('ROLE_STAGIAIRE', $roles);
         $formData = $request->request->all();
 
+        $semaineSelect =  $formData['semaine'];
+        $semaine = $semaineReservationRepo->find($semaineSelect);
+        $dateLimit = $semaine->getDateLimit();
+        if ($dateJour >= $dateLimit) {
+            $this->addFlash(
+                'error',
+                'La date de Réservation est dépassé.'
+            );
+            return new Response('Error', Response::HTTP_CONFLICT);
+        } else {
+            $repasArray =  $this->fetchRepas($semaine);
+            $existingReservation = $reservationRepo->findOneBy([
+                'semaine' => $semaine,
+                'Utilisateur' => $user
+            ]);
 
-        if ($request->isMethod('POST')) {
-            $semaineSelect =  $formData['semaine'];
-            $semaine = $semaineReservationRepo->find($semaineSelect);
-            $dateLimit = $semaine->getDateLimit();
-            if ($dateJour >= $dateLimit) {
+            if ($existingReservation) {
                 $this->addFlash(
                     'error',
-                    'La date de Réservation est dépassé.'
+                    'Une réservation pour cette semaine existe déja.'
                 );
                 return new Response('Error', Response::HTTP_CONFLICT);
-            } else {
-                $repasArray =  $this->fetchRepas($semaine);
-                $existingReservation = $reservationRepo->findOneBy([
-                    'semaine' => $semaine,
-                    'Utilisateur' => $user
-                ]);
+            }
+            //new Reservation
+            $Reservation = new Reservation;
+            $Reservation->setSemaine($semaine);
+            $Reservation->setUtilisateur($user);
 
-                if ($existingReservation) {
-                    $this->addFlash(
-                        'error',
-                        'Une réservation pour cette semaine existe déja.'
-                    );
-                    return new Response('Reservation already exists', Response::HTTP_CONFLICT);
-                }
-                //new Reservation
-                $Reservation = new Reservation;
-                $Reservation->setSemaine($semaine);
-                $Reservation->setUtilisateur($user);
+            $repasRes = [];
+            foreach ($formData['day'] as $jourIndex => $day) {
+                foreach ($day as $key => $repasCommande) {
 
-                $repasRes = [];
-                foreach ($formData['day'] as $jourIndex => $day) {
-                    foreach ($day as $key => $repasCommande) {
-
-                        if ($repasCommande !== 'false') {
-
-                            $RepasReserve = new RepasReserve;
-                            $RepasReserve->setReservation($Reservation);
-
-                            foreach ($repasArray[$jourIndex] as $key => $repas) {
-                                $type = $repas->getTypeRepas()->getType();
-                                if ($repasCommande === $type) {
-                                    $RepasReserve->setRepas($repas);
-                                }
+                    if ($repasCommande !== 'false') {
+                        $RepasReserve = new RepasReserve;
+                        $RepasReserve->setReservation($Reservation);
+                        foreach ($repasArray[$jourIndex] as $key => $repas) {
+                            $type = $repas->getTypeRepas()->getType();
+                            if ($repasCommande === $type) {
+                                $RepasReserve->setRepas($repas);
                             }
-                            $em->persist($RepasReserve);
-                            $repasRes[] = $RepasReserve;
                         }
+                        $em->persist($RepasReserve);
+                        $repasRes[] = $RepasReserve;
                     }
                 }
+            }
 
-                if (count($repasRes) > 0) {
-                    $total = $this->calculateTotal($repasRes, $tarifReduit);
-                    $Reservation->setMontantTotal($total);
-                    $userInfo = $user->getUserInfo();
-                    $violation = $validator->validate($Reservation);
-                    if (count($violation) < 1) {
-                        $em->persist($Reservation);
-                        $montantglobal = $this->calculateMontantGlobal($user);
-                        $userInfo->setMontantGlobal($montantglobal);
-                        $em->persist($userInfo);
-                        $em->flush();
-                        $this->addFlash(
-                            'success',
-                            'Votre Reservation a bien été crée.'
-                        );
-                        return $this->redirectToRoute('user_consultation');
-                    } else {
-                        $this->addFlash(
-                            'error',
-                            'Réservation Invalide.'
-                        );
-                        return new Response('Error', Response::HTTP_CONFLICT);
-                    }
+            if (count($repasRes) > 0) {
+                $total = $this->calculateTotal($repasRes, $tarifReduit);
+
+                $Reservation->setMontantTotal($total);
+                $userInfo = $user->getUserInfo();
+                $violation = $validator->validate($Reservation);
+                if (count($violation) < 1) {
+                    $em->persist($Reservation);
+                    $montantglobal = $this->calculateMontantGlobal($user);
+                    $userInfo->setMontantGlobal($montantglobal);
+                    $em->persist($userInfo);
+                    $em->flush();
+                    $this->addFlash(
+                        'success',
+                        'Votre Reservation a bien été crée.'
+                    );
+                    return $this->redirectToRoute('user_consultation');
                 } else {
                     $this->addFlash(
                         'error',
-                        'Erreur dans la réservation.'
+                        'Réservation Invalide.'
                     );
                     return new Response('Error', Response::HTTP_CONFLICT);
                 }
+            } else {
+                $this->addFlash(
+                    'error',
+                    'Erreur dans la réservation.'
+                );
+                return new Response('Error', Response::HTTP_CONFLICT);
             }
         }
-        return $this->render('user_reservation/reservation.html.twig', [
-            'controller_name' => 'UserReservationController',
-            'tarifReduit' => $tarifReduit
-        ]);
     }
+
 
     //UPDATE
 
@@ -276,10 +295,12 @@ class UserReservationController extends AbstractController
     {
         $repasArray = [];
         foreach ($semaineToFetch->getJourReservation() as $key => $jour) {
+
             $repasForJour = [];
             $date = $jour->getDateJour();
             $timestamp = $date->getTimestamp();
             $jourIndex = date("l", $timestamp);
+
             foreach ($jour->getRepas() as $key => $repasToFetch) {
                 $repasForJour[] = $repasToFetch;
             }
@@ -342,27 +363,39 @@ class UserReservationController extends AbstractController
                 }
             }
         }
-
         //Serialyse in Json
-
         $serializeSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
+        // Sort the array based on 'dateDebut' field
+        usort($jsonContent, function ($a, $b) {
+            // Convert date strings to timestamps
+            $timestampA = strtotime($a['dateDebut']);
+            $timestampB = strtotime($b['dateDebut']);
+            // Compare timestamps
+            if ($timestampA === $timestampB) {
+                return 0;
+            }
+            return ($timestampA < $timestampB) ? -1 : 1;
+        });
         return new JsonResponse($jsonContent);
     }
+
+    //JSON FOR THE MENU
 
     #[Route('/user/reservation/repasJson/{id}', name: 'user_reservation_repasJson')]
     public function repasJson(int $id, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
-        $date = new \DateTime();
         $semaine = $semaineReservationRepo->find($id);
         $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaineResa']);
         $jsonContent = json_decode($serializeSemaine, true);
         return new JsonResponse($jsonContent);
     }
+
+    //JSON FOR MENU MODIF
+
     #[Route('/user/reservation/repasModifJson/{idSemaine}', name: 'user_reservation_repasJson_modif')]
     public function repasModifJson(int $idSemaine, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
-        $date = new \DateTime();
         $user = $this->getUser();
         $reservations = $user->getReservations();
         $semaine = $semaineReservationRepo->find($idSemaine);

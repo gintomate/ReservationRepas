@@ -14,6 +14,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class DelegueController extends AbstractController
 {
+
+    //INDEX DELEGUE
     #[Route('/delegue', name: 'app_delegue')]
     public function index(): Response
     {
@@ -21,20 +23,26 @@ class DelegueController extends AbstractController
             'controller_name' => 'DelegueController',
         ]);
     }
+    //RECAP DELEGUE 
     #[Route('/delegue/recap', name: 'delegue_recap')]
     public function recap(): Response
     {
         $user = $this->getUser();
+
+        //ASSERT USER TO THE ENTITY INSTEAD OF USERINTERFACE
+        assert($user instanceof \App\Entity\User);
+
         $section = $user->getUserInfo()->getPromo()->getSection();
         return $this->render('delegue/recap.html.twig', [
             'controller_name' => 'DelegueController',
             'section' => $section,
         ]);
     }
+    //SEMAINE JSON FOR RECAP DELEGUE
     #[Route('/delegue/SemaineJson', name: 'delegue_recap_semaine_json')]
     public function recapSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo): JsonResponse
     {
-
+        //SET TIMEZONE REUNION
         date_default_timezone_set("Indian/Reunion");
 
         $dateJour = new \DateTime();
@@ -58,48 +66,59 @@ class DelegueController extends AbstractController
 
         $serializedSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent =  json_decode($serializedSemaine, true);
+        usort($jsonContent, function ($a, $b) {
+            // Convert date strings to timestamps
+            $timestampA = strtotime($a['dateDebut']);
+            $timestampB = strtotime($b['dateDebut']);
+            // Compare timestamps
+            if ($timestampA === $timestampB) {
+                return 0;
+            }
+            return ($timestampA < $timestampB) ? -1 : 1;
+        });
 
         return new JsonResponse($jsonContent);
     }
+
+    //JSON FOR RECAP DELEGUE
     #[Route('/delegue/recapJson/{id}', name: 'delegue_recap_json')]
     public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine): JsonResponse
     {
         $user = $this->getUser();
+
+        //ASSERT USER TO THE ENTITY INSTEAD OF USERINTERFACE
+        assert($user instanceof \App\Entity\User);
         $promo = $user->getUserInfo()->getPromo()->getId();
 
-
-        $sectionChoisi = $userRepo
+        $promoChoisi = $userRepo
             ->findByPromo($promo);
 
         $semaineChoisi = $reservationRepo
             ->findBySemaine($semaine);
 
         $usersWithReservations = [];
-        foreach ($sectionChoisi as $userSection) {
-            $userReservations = $userSection->getReservations();
+        foreach ($promoChoisi as $userPromo) {
+            $userReservations = $userPromo->getReservations();
 
-            if (count($userReservations) < 1) {
+            $userExists = false;
+            foreach ($userReservations as $reservation) {
+
+                $montant = $reservation->getMontantTotal();
+                if (in_array($reservation, $semaineChoisi)) {
+                    $userExists = true;
+                    break;
+                }
+            }
+            if ($userExists) {
                 $usersWithReservations[] = [
-                    'user' => $userSection,
-                    'montantTotal' => 0
+                    'user' => $userPromo,
+                    'montantTotal' => $montant
                 ];
             } else {
-                foreach ($userReservations as $reservation) {
-
-                    $montant = $reservation->getMontantTotal();
-                    if (in_array($reservation, $semaineChoisi)) {
-                        $usersWithReservations[] = [
-                            'user' => $userSection,
-                            'montantTotal' => $montant
-                        ];
-                        break; // No need to continue checking other reservations for this user
-                    } else {
-                        $usersWithReservations[] = [
-                            'user' => $userSection,
-                            'montantTotal' => 0
-                        ];
-                    }
-                }
+                $usersWithReservations[] = [
+                    'user' => $userPromo,
+                    'montantTotal' => 0
+                ];
             }
         }
 

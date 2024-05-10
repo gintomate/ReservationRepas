@@ -1,5 +1,6 @@
 import axios from "axios";
 import "../styles/delegue.css";
+import { formatDate } from "./global.js";
 
 axios
   .get("/delegue/SemaineJson")
@@ -32,19 +33,7 @@ function insertOption(data) {
   var optionPassed = semaine.options[0].value;
   fetchMenu(optionPassed);
 }
-// Function to format a Date object to d-m-Y format
-function formatDate(date) {
-  var day = date.getDate();
-  var month = date.getMonth() + 1; // Months are zero-based
-  var year = date.getFullYear();
 
-  // Ensure leading zeros for day and month if necessary
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-
-  // Return the formatted date string
-  return day + "-" + month + "-" + year;
-}
 //function to change on select
 semaine.addEventListener("change", function () {
   var selectedOption = this.options[this.selectedIndex];
@@ -71,10 +60,11 @@ function fetchMenu(selectedOption) {
 
 //SHOW RECAP
 function insertRecap(data) {
+  console.log(data);
   var recap = document.getElementById("recap");
   data.forEach((userData) => {
     var user = userData.user;
-    var montantTotal = userData.montantTotal; 
+    var montantTotal = userData.montantTotal;
     var nom = user.userInfo.nom;
     var prenom = user.userInfo.prenom;
     var newRowData = "";
@@ -89,7 +79,7 @@ function insertRecap(data) {
       prenom +
       "</td><td>" +
       montantTotal +
-      "</td><td></td><td></td><td></td>";
+      "</td><td class='responsiveHide'></td><td class='responsiveHide'></td><td class='responsiveHide'></td>";
 
     newRow.innerHTML = newRowData;
     recap.appendChild(newRow);

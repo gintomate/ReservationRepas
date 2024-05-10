@@ -1,10 +1,10 @@
-#selectContainer {
+#semaineContainer {
   background-color: var(--main-color);
   display: inline-block;
   border-radius: 20px;
   border: 2px solid var(--tertiary-color);
   margin: 10px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   color: white;
   box-shadow: 5px 5px 3px grey;
 }
@@ -12,6 +12,7 @@
   background-color: var(--main-color);
   color: white;
   border: 1px solid var(--tertiary-color);
+  margin: 0 5px;
 }
 #recapContainer {
   background-color: var(--main-color);
@@ -22,7 +23,9 @@
   color: white;
   box-shadow: 5px 5px 3px grey;
   border-collapse: collapse;
+  overflow: hidden;
   width: 100%;
+  table-layout: fixed;
 }
 #recapContainer th,
 #recapContainer td {
@@ -31,4 +34,61 @@
   text-align: center;
   border-collapse: collapse;
   border-radius: 20px;
+}
+#btnPrint {
+  width: 15%;
+  text-align: center;
+  font-size: 28px;
+  margin: 10px;
+  padding: 5px;
+  box-shadow: 5px 5px 3px grey;
+}
+@media screen and (max-width: 1320px) {
+  #recapContainer {
+    table-layout: auto;
+  }
+}
+@media screen and (max-width: 1024px) {
+  #btnPrint {
+    width: fit-content;
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .responsiveHide {
+    display: none;
+  }
+  #semaineContainer {
+    margin: 5px;
+    padding: 5px 10px;
+    box-shadow: 3px 3px 2px grey;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  #recapContainer {
+    margin: 20px auto;
+    padding: 20px 10px;
+  }
+  #repasRow td {
+    padding: 16px 12px;
+    width: 50vw;
+  }
+}
+@media screen and (max-width: 576px) {
+  #semaineContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  #semaine {
+    margin: 2px;
+  }
+}
+
+@media print {
+  /* Hide the header and any other unwanted elements when printing */
+  header,
+  footer {
+    display: none;
+  }
 }

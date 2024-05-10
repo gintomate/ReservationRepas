@@ -2,18 +2,17 @@ import axios from "axios";
 import "../styles/UserConsultation.css";
 import { formatDate } from "./global.js";
 
-axios
-  .get("/user/consultationSemaineJson")
-  .then(function (response) {
-    insertOption(response.data);
-  })
-  .catch(function (error) {
-    // en cas d’échec de la requête
-    console.log(error);
-  })
-  .finally(function () {
-    // dans tous les cas
-  });
+function fetchSemaine() {
+  axios
+    .get("/user/consultationSemaineJson")
+    .then(function (response) {
+      insertOption(response.data);
+    })
+    .catch(function (error) {
+      // en cas d’échec de la requête
+      console.log(error);
+    });
+}
 
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
@@ -43,12 +42,8 @@ function fetchReservation(value) {
     .catch(function (error) {
       // en cas d’échec de la requête
       console.log(error);
-    })
-    .finally(function () {
-      // dans tous les cas
     });
 }
-
 
 function insertReservation(reservation) {
   insertMontant(reservation);
@@ -137,17 +132,18 @@ document.getElementById("btnValider").addEventListener("click", function () {
 document.getElementById("btnDelete").addEventListener("click", function () {
   // Get the selected value of the select element
   var selectedReservationId = document.getElementById("semaine").value;
-
   // Retrieve the path from the data attribute
   var path = "/user/reservation/delete/" + selectedReservationId;
-
   // Redirect to the constructed path
   window.location.href = path;
 });
 
-//function to change on select
-semaine.addEventListener("change", function () {
-  var selectedOption = this.options[this.selectedIndex];
-  var selectedOptionValue = selectedOption.value;
-  fetchReservation(selectedOptionValue);
+document.addEventListener("DOMContentLoaded", () => {
+  fetchSemaine();
+  //function to change on select
+  semaine.addEventListener("change", function () {
+    var selectedOption = this.options[this.selectedIndex];
+    var selectedOptionValue = selectedOption.value;
+    fetchReservation(selectedOptionValue);
+  });
 });

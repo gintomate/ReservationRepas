@@ -30,6 +30,7 @@ class UserConsultationController extends AbstractController
         $reservations = $user->getReservations();
         $serializeSemaine = $serializer->serialize($reservations, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
+        
         return new JsonResponse($jsonContent);
     }
 

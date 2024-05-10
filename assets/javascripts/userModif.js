@@ -254,6 +254,10 @@ function validateForm() {
   return validForm;
 }
 
+function preventDefaultOnClick(event) {
+  event.preventDefault();
+}
+
 //afficher total avec JS
 choices.forEach(function (input) {
   input.addEventListener("click", calculatePrice);

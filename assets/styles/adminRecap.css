@@ -1,11 +1,12 @@
 #selectContainer {
   background-color: var(--main-color);
-  color: white;
+  display: inline-block;
   border-radius: 20px;
   border: 2px solid var(--tertiary-color);
+  margin: 10px;
   padding: 5px 10px;
+  color: white;
   box-shadow: 5px 5px 3px grey;
-  margin: 2px;
 }
 .selectPart {
   width: 45%;

@@ -41,8 +41,19 @@ class AdminConsultationController extends AbstractController
             }
         }
 
-        $serializeSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
+        $serializeSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine', 'ASC' => "numeroSemaine" ]);
         $jsonContent = json_decode($serializeSemaine, true);
+        usort($jsonContent, function($a, $b) {
+            // Convert date strings to timestamps
+            $timestampA = strtotime($a['dateDebut']);
+            $timestampB = strtotime($b['dateDebut']);
+        
+            // Compare timestamps
+            if ($timestampA === $timestampB) {
+                return 0;
+            }
+            return ($timestampA < $timestampB) ? -1 : 1;
+        });
         return new JsonResponse($jsonContent);
     }
     #[Route('/admin/consultationJson/{id}', name: 'admin_consultation_Json')]

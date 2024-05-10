@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Promo;
-use App\Entity\Section;
 use App\Entity\SemaineReservation;
 use App\Repository\JourReservationRepository;
 use App\Repository\PromoRepository;
@@ -32,10 +31,7 @@ class AdminRecapController extends AbstractController
     #[Route('admin/recap/SemaineJson', name: 'admin_recap_semaine_json')]
     public function recapSemaineJson(SerializerInterface $serializer, JourReservationRepository $jourReservationRepo, PromoRepository $promoRepo): JsonResponse
     {
-        $promoBySection = $promoRepo->createQueryBuilder('p')
-            ->groupBy('p.Section')
-            ->getQuery()
-            ->getResult();
+        $promoBySection = $promoRepo->groupBySection();
         $jourReservations = $jourReservationRepo->findAll();
 
         // Initialize an array to store semaine entities
@@ -52,6 +48,14 @@ class AdminRecapController extends AbstractController
                 $semaines[] = $semaine;
             }
         }
+
+        usort($semaines, function ($a, $b) {
+            // Compare timestamps
+            if ($a->getDateDebut() == $b->getDateDebut()) {
+                return 0;
+            }
+            return ($a->getDateDebut() < $b->getDateDebut()) ? -1 : 1;
+        });
         $serializedSection = $serializer->serialize($promoBySection, 'json', ['groups' => 'userInfo']);
         $serializedSemaine = $serializer->serialize($semaines, 'json', ['groups' => 'semaine']);
         $jsonContent = [
@@ -67,41 +71,37 @@ class AdminRecapController extends AbstractController
     #[Route('admin/recapJson/{promo}/{semaine}', name: 'admin_recap_json')]
     public function recapJson(SerializerInterface $serializer, UserRepository $userRepo, ReservationRepository $reservationRepo, SemaineReservation $semaine, Promo $promo): JsonResponse
     {
-        $sectionChoisi = $userRepo
+        $promoChoisi = $userRepo
             ->findByPromo($promo);
 
         $semaineChoisi = $reservationRepo
             ->findBySemaine($semaine);
 
         $usersWithReservations = [];
-
-        foreach ($sectionChoisi as $user) {
-            $userReservations = $user->getReservations();
-            $roles = $user->getRoles();
+        foreach ($promoChoisi as $userPromo) {
+            $userReservations = $userPromo->getReservations();
+            $roles = $userPromo->getRoles();
             $tarifReduc = in_array('ROLE_STAGIAIRE', $roles);
-            //no reservation at all
-            if (count($userReservations) < 1) {
+            $userExists = false;
+            foreach ($userReservations as $reservation) {
+
+                $montant = $reservation->getMontantTotal();
+                if (in_array($reservation, $semaineChoisi)) {
+                    $userExists = true;
+                    break;
+                }
+            }
+            if ($userExists) {
                 $usersWithReservations[] = [
-                    'user' => $user,
-                    'reservation' => null
+                    'user' => $userPromo,
+                    'reservation' => $reservation,
+                    'tarifReduc' => $tarifReduc
                 ];
             } else {
-                foreach ($userReservations as $reservation) {
-
-                    if (in_array($reservation, $semaineChoisi)) {
-                        $usersWithReservations[] = [
-                            'user' => $user,
-                            'reservation' => $reservation,
-                            'tarifReduc' => $tarifReduc
-                        ];
-                        break; // No need to continue checking other reservations for this user
-                    } else {
-                        $usersWithReservations[] = [
-                            'user' => $user,
-                            'reservation' => null
-                        ];
-                    }
-                }
+                $usersWithReservations[] = [
+                    'user' => $userPromo,
+                    'reservation' => null
+                ];
             }
         }
         $userSerialised = $serializer->serialize($usersWithReservations, 'json', ['groups' => ['userInfo', 'reservation']]);

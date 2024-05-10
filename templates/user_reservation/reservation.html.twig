@@ -1,22 +1,22 @@
-{% extends 'base.html.twig' %} {% block title %}Réservation de Repas{% endblock
+{% extends 'base.html.twig' %} {% block title %}Réservation - Réserver{% endblock
 %} {% block importmap %} {{ importmap(["app", "reservation"]) }}{% endblock %}{%
 block body %} {% include "nav/UserNav.html.twig" %}
 <main>
   <h1>Réserver un Repas</h1>
-  <form action="" method="post">
+  <form action="{{ path('user_reservation_submit') }}" method="post">
     <div id="semaineContainer">
       <label for="semaine">Réserver pour la Semaine: </label>
       <select name="semaine" id="semaine"></select>
     </div>
     <div id="menuContainer">
       <div
-        class="d-flex flex-sm-row flex-column justify-content-around align-items-center"
-      {# >
+        class="d-flex flex-sm-row flex-column justify-content-around align-items-center">
+      
       {% set days = [
         {'name': 'Lundi', 'id': 'Monday', 'repas': [
             {'name': 'Pas de Petit Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
             {'name': 'Déjeuner A', 'class': 'grey', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
-            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
             {'name': 'Diner', 'class': 'grey', 'input_name': 'day[Monday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][diner]', 'checkbox_value': 'diner'}
         ]},
         {'name': 'Mardi', 'id': 'Tuesday', 'repas': [
@@ -43,7 +43,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             {'name': 'Pas de Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
             {'name': 'Pas de Diner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''}
         ]}
-    ] %} #}
+    ] %}
     
     {% for day in days %}
         <div class="jourContainer">
@@ -54,7 +54,10 @@ block body %} {% include "nav/UserNav.html.twig" %}
                         <h4>{{ repas.name }}</h4>
                         <p class="{{ day.id }}"></p>
                         {% if repas.input_name != '' %}
-                            <input type="hidden" name="{{ repas.input_name }}" class="" value="{{ repas.input_value }}" />
+                        {% if repas.name == 'Petit Déjeuner'or repas.name == 'Déjeuner A'or repas.name == 'Diner'  %}
+                        <input type="hidden" name="{{ repas.input_name }}" class="" value="{{ repas.input_value }}" />
+                        {% endif %}
+
                             <input type="checkbox" name="{{ repas.checkbox_name }}" class="" value="{{ repas.checkbox_value }}" />
                         {% endif %}
                     </div>

@@ -23,7 +23,7 @@ class UserInfoType extends AbstractType
                 'placeholder' =>  [
                     'year' => 'Choisissez une année', 'month' => 'Choisissez un mois', 'day' => 'Choisissez un jour',
                 ],
-                'widget' => 'choice',
+                'widget' => 'text',
                 'by_reference' => true,
                 'format' => 'yyyy-MM-dd',
                 'years' =>  range(1907, date('Y')),

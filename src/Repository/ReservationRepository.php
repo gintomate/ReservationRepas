@@ -20,6 +20,8 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
+
+    //To find by semaine id
     public function findBySemaine($semaine): array
     {
         return $this->createQueryBuilder('r')

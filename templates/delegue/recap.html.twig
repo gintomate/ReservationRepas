@@ -3,23 +3,23 @@ endblock %}{% block importmap %} {{ importmap(["app", "delegue"]) }}{% endblock
 %}{% block body %} {% include "nav/Usernav.html.twig" %}
 <main id="cont">
   <h1>Récapitulatif de la Section {{ section.abreviation }}</h1>
-  <div id="selectContainer">
-    <div class="selectPart">
-      <label for="semaine">Selectionnez la semaine </label
+  <div id="semaineContainer">
+      <label for="semaine">Selectionnez la semaine : </label
       ><select name="semaine" id="semaine"></select>
-    </div>
   </div>
-  <table id="recapContainer">
-    <thead>
-      <td>Nom</td>
-      <td>Prénom</td>
-      <td>Total de la Réservation</td>
-      <td>Somme Donnée</td>
-      <td>Somme à Rendre</td>
-      <td>Signature</td>
-    </thead>
-    <tbody id="recap"></tbody>
-  </table>
+  <div>
+    <table id="recapContainer">
+      <thead>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Total de la Réservation</th>
+        <th class="responsiveHide">Somme Donnée</th>
+        <th class="responsiveHide">Somme à Rendre</th>
+        <th class="responsiveHide">Signature</th>
+      </thead>
+      <tbody id="recap"></tbody>
+    </table>
+  </div>
   <button type="button" id="btnPrint">Imprimer</button>
 </main>
 {% include "nav/footer.html.twig" %} {% endblock %}

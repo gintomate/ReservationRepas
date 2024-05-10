@@ -2,15 +2,17 @@ import axios from "axios";
 import "../styles/reservation.css";
 import { formatDate } from "./global.js";
 
-// Initialisation
-var btnValider = document.getElementById("btnValider");
-var isEventListenerAdded = false;
+// Constants
+const weekday = ["Monday", "Tuesday", "Wednesday", "Thursday"];
+
+// DOM Elements
+const btnValider = document.getElementById("btnValider");
 const form = document.querySelector("form");
-var choices = document.querySelectorAll('input[type="checkbox"]');
-var weekday = ["Monday", "Tuesday", "Wednesday", "Thursday"];
+const choices = document.querySelectorAll('input[type="checkbox"]');
 const dateContainer = document.getElementById("dateLimit");
-var repasContainer = document.getElementsByClassName("repasContainer");
-var ferieContainer = document.getElementsByClassName("ferie");
+const repasContainer = document.getElementsByClassName("repasContainer");
+const ferieContainer = document.getElementsByClassName("ferie");
+let isEventListenerAdded = false;
 
 // Fetch Semaine pour option select
 function fetchSemaine() {
@@ -67,58 +69,50 @@ function insertRepas(data) {
   const dateJour = new Date();
   const dateLimit = new Date(data.dateLimit);
   const options = { timeZone: "Indian/Reunion" };
-  const formatter = new Intl.DateTimeFormat("fr-Fr", options);
+  const formatter = new Intl.DateTimeFormat("fr-FR", options);
   const dateSub = subtractDays(dateLimit, 1);
   const dateRéu = formatter.format(dateSub);
   dateContainer.innerHTML = dateRéu;
+
   const isReservationClosed = dateJour >= dateLimit;
 
-  //Check reservation is closed and the prevent default is already there
-
+  // Add event listener only if reservation is closed and listener not added
   if (isReservationClosed && !isEventListenerAdded) {
     btnValider.addEventListener("click", preventDefaultOnClick, false);
     isEventListenerAdded = true;
   } else if (!isReservationClosed && isEventListenerAdded) {
     btnValider.removeEventListener("click", preventDefaultOnClick);
-    isEventListenerAdded = false; // Set flag to false as listener is removed
+    isEventListenerAdded = false;
   }
 
-  if (dateJour >= dateLimit) {
-    errorMsg.innerHTML = "Réservation Terminé.";
+  // Display error message if reservation is closed
+  if (isReservationClosed) {
+    errorMsg.textContent = "Réservation Terminée.";
     errorMsg.classList.remove("alert");
   }
-  const jour = data.jourReservation;
 
-  for (let i = 0; i < jour.length; i++) {
-    const date = new Date(jour[i].dateJour);
-    const options = { weekday: "long" };
-    const jourIndex = date.toLocaleDateString("en-EN", options);
+  const jours = data.jourReservation;
 
-    //Hide the repas and show the ferie div if its ferie
-    if (jour[i].ferie === true) {
-      var repasHidden = repasContainer[jourIndex + "Repas"];
-      var ferie = ferieContainer[jourIndex];
-      ferie.classList.remove("hidden");
-      repasHidden.classList.add("hidden");
-      continue; // Skip further processing if it's a holiday
+  for (const jour of jours) {
+    const date = new Date(jour.dateJour);
+    const jourIndex = date.toLocaleDateString("en-EN", { weekday: "long" });
+
+    if (jour.ferie) {
+      hideAndShowElements(jourIndex, true);
+      continue;
     }
 
-    const repas = jour[i].repas;
+    const repas = jour.repas;
     const dayArray = getDayClass(jourIndex);
 
-    for (let j = 0; j < repas.length; j++) {
-      const type = repas[j].typeRepas.type;
+    for (const repasItem of repas) {
+      const type = repasItem.typeRepas.type;
       const userJs = document.querySelector(".js-user");
       const userTarif = userJs.getAttribute("data-tarif");
-      let tarif;
-
-      if (userTarif) {
-        tarif = repas[j].typeRepas.tarifReduit;
-      } else {
-        tarif = repas[j].typeRepas.tarifPlein;
-      }
-
-      const description = repas[j].description;
+      const tarif = userTarif
+        ? repasItem.typeRepas.tarifReduit
+        : repasItem.typeRepas.tarifPlein;
+      const description = repasItem.description;
       const formattedText =
         description.replace(/\n/g, "<br>") +
         `<br><span class='prix'>${tarif} €</span>`;
@@ -141,6 +135,13 @@ function insertRepas(data) {
       }
     }
   }
+}
+
+function hideAndShowElements(dayIndex, isHoliday) {
+  const repasHidden = repasContainer[dayIndex + "Repas"];
+  const ferie = ferieContainer[dayIndex];
+  ferie.classList.toggle("hidden", !isHoliday);
+  repasHidden.classList.toggle("hidden", isHoliday);
 }
 
 // Function to make checkbox behave like Radio
@@ -223,7 +224,6 @@ function calculatePrice() {
       total += prixSeul;
     }
   });
-
   caseTotal.value = total.toFixed(2); // Set total value to 2 decimal places
 }
 
@@ -269,7 +269,7 @@ function resetError() {
 
 //call select change
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", () => {
   fetchSemaine();
   semaine.addEventListener("change", function () {
     var selectedOption = this.options[this.selectedIndex];
@@ -285,3 +285,4 @@ document.addEventListener("DOMContentLoaded", () => {
   //call form control
   form.addEventListener("submit", callValid);
 });
+

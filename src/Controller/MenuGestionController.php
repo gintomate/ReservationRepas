@@ -72,7 +72,7 @@ class MenuGestionController extends AbstractController
                         $jourReservation->setFerie(true);
                     } else {
                         $jourReservation->setFerie(false);
-                        foreach (['petit_dejeuner', 'dejeuner_a', 'dejeuner_b', 'diner'] as $mealType) {
+                        foreach (['petit_déjeuner', 'déjeuner_a', 'déjeuner_b', 'diner'] as $mealType) {
                             if (isset($day[$mealType])) {
                                 $repas = new Repas;
                                 $typeRepas = $typeRepasRepo->findOneBy(['type' => $mealType]);
@@ -221,7 +221,7 @@ class MenuGestionController extends AbstractController
         $em->flush();
         $this->addFlash(
             'success',
-            'Le Menu de la semaine' . $numeroSemaine . ' a bien été supprimé.'
+            'Le Menu de la semaine ' . $numeroSemaine . ' a bien été supprimé.'
         );
         return $this->redirectToRoute('admin_consultation');
     }
@@ -245,6 +245,16 @@ class MenuGestionController extends AbstractController
 
         $serializeSemaine = $serializer->serialize($semaine, 'json', ['groups' => 'semaine']);
         $jsonContent = json_decode($serializeSemaine, true);
+        usort($jsonContent, function ($a, $b) {
+            // Convert date strings to timestamps
+            $timestampA = strtotime($a['dateDebut']);
+            $timestampB = strtotime($b['dateDebut']);
+            // Compare timestamps
+            if ($timestampA === $timestampB) {
+                return 0;
+            }
+            return ($timestampA < $timestampB) ? -1 : 1;
+        });
         return new JsonResponse($jsonContent);
     }
 }
