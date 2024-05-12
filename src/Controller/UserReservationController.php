@@ -46,7 +46,6 @@ class UserReservationController extends AbstractController
         //SET TIMEZONE TO LA REUNION 
         date_default_timezone_set("Indian/Reunion");
 
-
         if (!$request->isMethod('POST')) {
             $this->addFlash(
                 'error',
@@ -65,6 +64,8 @@ class UserReservationController extends AbstractController
         $semaineSelect =  $formData['semaine'];
         $semaine = $semaineReservationRepo->find($semaineSelect);
         $dateLimit = $semaine->getDateLimit();
+
+        //Verifie date validité de la reservation
         if ($dateJour >= $dateLimit) {
             $this->addFlash(
                 'error',
@@ -73,11 +74,11 @@ class UserReservationController extends AbstractController
             return new Response('Error', Response::HTTP_CONFLICT);
         } else {
             $repasArray =  $this->fetchRepas($semaine);
+            //verifie que la reservation n'existe pas
             $existingReservation = $reservationRepo->findOneBy([
                 'semaine' => $semaine,
                 'Utilisateur' => $user
             ]);
-
             if ($existingReservation) {
                 $this->addFlash(
                     'error',
@@ -89,11 +90,12 @@ class UserReservationController extends AbstractController
             $Reservation = new Reservation;
             $Reservation->setSemaine($semaine);
             $Reservation->setUtilisateur($user);
-
             $repasRes = [];
+            //pour chaque jour
             foreach ($formData['day'] as $jourIndex => $day) {
+                //pour chaque repas
                 foreach ($day as $key => $repasCommande) {
-
+                    //si repas est réservé 
                     if ($repasCommande !== 'false') {
                         $RepasReserve = new RepasReserve;
                         $RepasReserve->setReservation($Reservation);
@@ -108,13 +110,13 @@ class UserReservationController extends AbstractController
                     }
                 }
             }
-
+            //Si il y a un repas Validate
             if (count($repasRes) > 0) {
                 $total = $this->calculateTotal($repasRes, $tarifReduit);
-
                 $Reservation->setMontantTotal($total);
                 $userInfo = $user->getUserInfo();
                 $violation = $validator->validate($Reservation);
+                //Si il ya pas de violation
                 if (count($violation) < 1) {
                     $em->persist($Reservation);
                     $montantglobal = $this->calculateMontantGlobal($user);
@@ -345,12 +347,9 @@ class UserReservationController extends AbstractController
     {
         date_default_timezone_set("Indian/Reunion");
         $dateJour = new \DateTime();
-
         $jourReservations = $jourReservationRepo->findAll();
-
         // Initialize an array to store semaine entities
         $semaines = [];
-
         // Iterate through each JourReservation entity
         foreach ($jourReservations as $jourReservation) {
             // Retrieve the Semaine associated with this JourReservation
@@ -381,7 +380,6 @@ class UserReservationController extends AbstractController
     }
 
     //JSON FOR THE MENU
-
     #[Route('/user/reservation/repasJson/{id}', name: 'user_reservation_repasJson')]
     public function repasJson(int $id, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {
@@ -392,7 +390,6 @@ class UserReservationController extends AbstractController
     }
 
     //JSON FOR MENU MODIF
-
     #[Route('/user/reservation/repasModifJson/{idSemaine}', name: 'user_reservation_repasJson_modif')]
     public function repasModifJson(int $idSemaine, SerializerInterface $serializer, SemaineReservationRepository $semaineReservationRepo): JsonResponse
     {

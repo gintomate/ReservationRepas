@@ -49,7 +49,6 @@ function insertOption(data) {
 }
 
 // function to fetch the menu
-
 function fetchMenu(value) {
   axios
     .get("/user/reservation/repasJson/" + value)
@@ -59,13 +58,11 @@ function fetchMenu(value) {
     .catch(function (error) {
       // en cas d’échec de la requête
       console.log(error);
-    })
-    .finally(function () {
-      // dans tous les cas
     });
 }
 
 function insertRepas(data) {
+  // Definit la date du jour et la date limite
   const dateJour = new Date();
   const dateLimit = new Date(data.dateLimit);
   const options = { timeZone: "Indian/Reunion" };
@@ -74,6 +71,7 @@ function insertRepas(data) {
   const dateRéu = formatter.format(dateSub);
   dateContainer.innerHTML = dateRéu;
 
+  //Definit si la réservation est ouverte
   const isReservationClosed = dateJour >= dateLimit;
 
   // Add event listener only if reservation is closed and listener not added
@@ -96,15 +94,15 @@ function insertRepas(data) {
   for (const jour of jours) {
     const date = new Date(jour.dateJour);
     const jourIndex = date.toLocaleDateString("en-EN", { weekday: "long" });
-
+    //Affiche spécial pour jour sans repas
     if (jour.ferie) {
       hideAndShowElements(jourIndex, true);
       continue;
     }
-
     const repas = jour.repas;
+    //retourne toutes les div du jour
     const dayArray = getDayClass(jourIndex);
-
+    //Insere le repas dans le menu
     for (const repasItem of repas) {
       const type = repasItem.typeRepas.type;
       const userJs = document.querySelector(".js-user");
@@ -116,7 +114,7 @@ function insertRepas(data) {
       const formattedText =
         description.replace(/\n/g, "<br>") +
         `<br><span class='prix'>${tarif} €</span>`;
-
+      //Insertion par type
       switch (type) {
         case "petit_déjeuner":
           dayArray[0].innerHTML = formattedText;
@@ -228,7 +226,6 @@ function calculatePrice() {
 }
 
 // FORM CONTROL
-
 function callValid(event) {
   var errorMsg = document.getElementById("errorMsg");
   if (!validateForm()) {
@@ -241,7 +238,6 @@ function callValid(event) {
 }
 
 //Validator
-
 function validateForm() {
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   var validForm = false;
@@ -285,4 +281,3 @@ window.addEventListener("DOMContentLoaded", () => {
   //call form control
   form.addEventListener("submit", callValid);
 });
-
