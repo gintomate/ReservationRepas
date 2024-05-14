@@ -16,6 +16,7 @@ class UserFixture extends Fixture
 {
     private $promoRepository;
     private $passwordHasher;
+    //Declare les variables à inserer
     public function __construct(PromoRepository $promoRepository,  UserPasswordHasherInterface $passwordHasher)
     {
         $this->promoRepository = $promoRepository;
@@ -23,15 +24,17 @@ class UserFixture extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+        //Library Faker
         $faker = Factory::create('en_US');
         $faker->addProvider(new Company($faker));
         $faker->addProvider(new DateTimeProvider($faker));
-        // Loop through every promo using promoRepo
+
+        //On prend toutes les promotions de stagiaire
         $promos = $this->promoRepository->findAll();
         foreach ($promos as $promoEn) {
+            //on cree 4 à 12 stagiaire par promo
             for ($h = 0; $h < rand(4, 12); $h++) {
                 $identifiant = $this->generateUniqueIdentifier();
-
                 //User
                 $user = new User();
                 $hashedPassword = $this->passwordHasher->hashPassword(
@@ -67,5 +70,6 @@ class UserFixture extends Fixture
         } while (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $identifier));
 
         return $identifier;
+        
     }
 }
