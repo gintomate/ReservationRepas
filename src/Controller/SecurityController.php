@@ -79,9 +79,7 @@ class SecurityController extends AbstractController
         ]);
     }
     //CONNECTION
-
     #[Route('/connection', name: 'login')]
-
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -92,6 +90,8 @@ class SecurityController extends AbstractController
             'error'         => $error,
         ]);
     }
+    
+    //Deconnection
     #[Route('/deconnection', name: 'logout')]
 
     public function logout()

@@ -40,7 +40,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    // FIND SEMAINE NOT ALREADY WITH A MENU CREATE
+    // FIND USER BY THEIR PROMOTION
     public function findByPromo($promo): array
     {
         return $this->createQueryBuilder('u')

@@ -1,7 +1,6 @@
-{% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %} {%
-block importmap %}
-{{ importmap(["app", "menu"]) }}
-{% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
+{% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %}
+{%block importmap %}{{ importmap(["app", "menu"]) }}{% endblock %} {% block body
+%} {% include "nav/AdminNav.html.twig" %}
 
 <main>
   <h1>Créer un Menu</h1>
@@ -32,7 +31,8 @@ block importmap %}
           />
         </label>
         {% if jour == 'Lundi' %} {% set repas = ['Déjeuner A', 'Déjeuner B',
-        'Diner'] %} {% elseif jour == 'Vendredi' %} {% set repas = ['Petit Déjeuner'] %} {% else %} {% set repas = ['Petit Déjeuner', 'Déjeuner A',
+        'Diner'] %} {% elseif jour == 'Vendredi' %} {% set repas = ['Petit
+        Déjeuner'] %} {% else %} {% set repas = ['Petit Déjeuner', 'Déjeuner A',
         'Déjeuner B', 'Diner'] %} {% endif %} {% for repas_type in repas %}
         <div class="repas">
           <h4>{{ repas_type }}</h4>
