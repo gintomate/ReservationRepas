@@ -13,12 +13,13 @@ importmap %}
   </div>
   {% endfor %}
   <div class="d-flex flex-lg-row flex-column">
-    <!-- Personnel Info -->
+    <!-- Personnal Info -->
     <div id="infoPerso">
       <h3>Info Personnel</h3>
       <div class="d-flex flex-column justify-content-evenly">
         <div class="infoColumn">
           <label for="nom">Nom</label>
+          {# Utilisation de l'orm pour les données #}
           <p id="nom ">{{ user.userInfo.nom }}</p>
         </div>
         <div class="infoColumn">

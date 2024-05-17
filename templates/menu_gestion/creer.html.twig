@@ -12,12 +12,14 @@
     <div
       class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
     >
+    {# Definit les jour  #}
       {% set jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] %} {%
       for jour in jours %}
       <div class="cardMenu">
         <h3>{{ jour }}</h3>
         <label
           >Pas de Repas
+          {# Input caché pour envoyer une value false  #}
           <input
             type="hidden"
             name="day[{{ jour | lower }}][ferie]"
@@ -30,6 +32,7 @@
             value="true"
           />
         </label>
+        {# Condition et boucle pour créer Menu #}
         {% if jour == 'Lundi' %} {% set repas = ['Déjeuner A', 'Déjeuner B',
         'Diner'] %} {% elseif jour == 'Vendredi' %} {% set repas = ['Petit
         Déjeuner'] %} {% else %} {% set repas = ['Petit Déjeuner', 'Déjeuner A',

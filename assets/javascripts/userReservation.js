@@ -74,7 +74,7 @@ function insertRepas(data) {
   //Definit si la réservation est ouverte
   const isReservationClosed = dateJour >= dateLimit;
 
-  // Add event listener only if reservation is closed and listener not added
+  // Ajoute une event listener si la reservation est termine
   if (isReservationClosed && !isEventListenerAdded) {
     btnValider.addEventListener("click", preventDefaultOnClick, false);
     isEventListenerAdded = true;
@@ -83,7 +83,7 @@ function insertRepas(data) {
     isEventListenerAdded = false;
   }
 
-  // Display error message if reservation is closed
+  // Montre un message d'erreur
   if (isReservationClosed) {
     errorMsg.textContent = "Réservation Terminée.";
     errorMsg.classList.remove("alert");
