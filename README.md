@@ -1,1 +1,1 @@
-Cette application contient toutes le code source de mon projet DWWM. 
+Cette application contient tous le code source de mon projet DWWM. 
