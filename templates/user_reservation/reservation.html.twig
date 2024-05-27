@@ -11,7 +11,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
     <div id="menuContainer">
       <div
         class="d-flex flex-sm-row flex-column justify-content-around align-items-center">
-      
+      {# Define all meal dor each Day #}
       {% set days = [
         {'name': 'Lundi', 'id': 'Monday', 'repas': [
             {'name': 'Pas de Petit Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
@@ -44,7 +44,7 @@ block body %} {% include "nav/UserNav.html.twig" %}
             {'name': 'Pas de Diner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''}
         ]}
     ] %}
-    
+    {# Call meal for day #}
     {% for day in days %}
         <div class="jourContainer">
             <h3>{{ day.name }}</h3>
