@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
+endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Récapitulatif des Réservations</h1>
+  <div
+    class="d-flex flex-sm-row flex-column justify-content-between"
+    id="selectContainer"
+  >
+    <div class="selectPart">
+      <label for="section" class="responsiveHide">Selectionnez la section</label
+      ><select name="section" id="section"></select>
+    </div>
+    <div class="selectPart">
+      <label for="semaine" class="responsiveHide">Selectionnez la semaine</label
+      ><select name="semaine" id="semaine"></select>
+    </div>
+  </div>
+  <div style="overflow-x: auto">
+    <table id="recapContainer">
+      <thead class="responsiveHide">
+        <th class="nomColumn"></th>
+        <th colspan="3">Lundi</th>
+        <th colspan="4">Mardi</th>
+        <th colspan="4">Mercredi</th>
+        <th colspan="4">Jeudi</th>
+        <th>Vend</th>
+        <th></th>
+      </thead>
+      <tbody id="recap">
+        <tr id="repasRow">
+          <td class="nomColumn">Nom</td>
+          <td class='responsiveHide'>Déj A</td>
+          <td class="responsiveHide">Déj B</td>
+          <td class="responsiveHide">Din</td>
+          <td class="responsiveHide">Pet Déj</td>
+          <td class="responsiveHide">Déj A</td>
+          <td class="responsiveHide">Déj b</td>
+          <td class="responsiveHide">Din</td>
+          <td class="responsiveHide">Pet Déj</td>
+          <td class="responsiveHide">Déj A</td>
+          <td class="responsiveHide">Déj B</td>
+          <td class="responsiveHide">Din</td>
+          <td class="responsiveHide">Pet Déj</td>
+          <td class="responsiveHide">Déj A</td>
+          <td class="responsiveHide">Déj B</td>
+          <td class="responsiveHide">Din</td>
+          <td class="responsiveHide">Pet Déj</td>
+          <td>Total</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="button" id="btnPrint">Imprimer</button>
+</main>
+{% endblock %}

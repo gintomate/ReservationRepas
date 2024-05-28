@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %} {% block title %}Utilisateurs{% endblock %} {%
+block importmap %} {# do NOT call parent() #}
+
+{{ importmap(["app", "adminGestionUser"]) }}
+{% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
+
+<main>
+  <h1>Consulter la fiche d'un Utilisateur</h1>
+
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
+
+  <div
+    class="d-flex flex-sm-row flex-column justify-content-between"
+    id="selectContainer"
+  >
+    <div class="selectPart">
+      <label for="section">Selectionnez une section :</label
+      ><select name="promoSelect" id="promoSelect"></select>
+    </div>
+    <div class="selectPart">
+      <label for="user">Selectionnez un Utilisateur :</label
+      ><select name="user" id="userSelect"></select>
+    </div>
+  </div>
+  <div class="d-flex flex-lg-row flex-column">
+    <div id="infoPerso">
+      <h3>Info Personnel</h3>
+      <div class="d-flex flex-column justify-content-evenly">
+        <div class="infoColumn d-flex flex-row justify-content-between">
+          <label>Nom:</label>
+          <p id="nom"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Prénom</label>
+          <p id="prenom"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Date de Naissance</label>
+          <p id="dateDeNaissance"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Email</label>
+          <p id="email"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Identifiant</label>
+          <p id="identifiant"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Délégué</label>
+          <div id="delegue">
+            <input type="checkbox" id="delegueBtn" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="infoAfpar">
+      <h3>Info Afpar</h3>
+      <div class="d-flex flex-column justify-content-around">
+        <div class="infoColumn">
+          <label>Section</label>
+          <p id="section"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Promo</label>
+          <p id="promo"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Date de Début</label>
+          <p id="dateDeDebut"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Date de Fin</label>
+          <p id="dateDeFin"></p>
+        </div>
+        <div class="infoColumn">
+          <label>Somme Total Dépenser</label>
+          <p id="montantGlobal"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-end">
+    <button
+      type="button"
+      class="btnCreer"
+      data-bs-toggle="modal"
+      data-bs-target="#deleteModal"
+      id="btnSupprimer"
+    >
+      Supprimer
+    </button>
+    <button id="btnModifier">Modifier</button>
+  </div>
+</main>
+
+<!-- Modal -->
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Supprimer cette Utilisateur ?
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Etes-vous sûr de vouloir supprimer cette Utilisateur? Cette action est
+        definitif.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="btnDelete">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

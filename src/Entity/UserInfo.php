@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserInfoRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserInfoRepository::class)]
 class UserInfo
@@ -11,25 +14,35 @@ class UserInfo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?string $prenom = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $age = null;
-
-    #[ORM\Column]
-    private ?float $somme = null;
 
     #[ORM\OneToOne(mappedBy: 'userInfo', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userInfos')]
+    #[Groups(['userInfo', 'secureUserInfo'])]
     private ?Promo $promo = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['userInfo', 'secureUserInfo'])]
+    #[Assert\NotNull]
+    #[Assert\Date]
+
+    private ?\DateTimeInterface $dateDeNaissance = null;
+
+    #[ORM\Column]
+    #[Groups(['userInfo', 'secureUserInfo'])]
+    #[Assert\PositiveOrZero]
+    private ?float $montantGlobal = null;
 
     public function getId(): ?int
     {
@@ -60,29 +73,6 @@ class UserInfo
         return $this;
     }
 
-    public function getAge(): ?int
-    {
-        return $this->age;
-    }
-
-    public function setAge(?int $age): static
-    {
-        $this->age = $age;
-
-        return $this;
-    }
-
-    public function getSomme(): ?float
-    {
-        return $this->somme;
-    }
-
-    public function setSomme(float $somme): static
-    {
-        $this->somme = $somme;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -114,6 +104,30 @@ class UserInfo
     public function setPromo(?Promo $promo): static
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    public function getDateDeNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateDeNaissance;
+    }
+
+    public function setDateDeNaissance(\DateTimeInterface $dateDeNaissance): static
+    {
+        $this->dateDeNaissance = $dateDeNaissance;
+
+        return $this;
+    }
+
+    public function getMontantGlobal(): ?float
+    {
+        return $this->montantGlobal;
+    }
+
+    public function setMontantGlobal(float $montantGlobal): static
+    {
+        $this->montantGlobal = $montantGlobal;
 
         return $this;
     }

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %}
+{%block importmap %}{{ importmap(["app", "menu"]) }}{% endblock %} {% block body
+%} {% include "nav/AdminNav.html.twig" %}
+
+<main>
+  <h1>Créer un Menu</h1>
+  <form method="post">
+    <div id="semaineContainer">
+      <label for="semaine">Créer un menu pour la Semaine: </label>
+      <select name="semaine" id="semaine"></select>
+    </div>
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
+    >
+    {# Definit les jour  #}
+      {% set jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] %} {%
+      for jour in jours %}
+      <div class="cardMenu">
+        <h3>{{ jour }}</h3>
+        <label
+          >Pas de Repas
+          {# Input caché pour envoyer une value false  #}
+          <input
+            type="hidden"
+            name="day[{{ jour | lower }}][ferie]"
+            value="false"
+          />
+          <input
+            type="checkbox"
+            name="day[{{ jour | lower }}][ferie]"
+            class="{{ jour | lower }}"
+            value="true"
+          />
+        </label>
+        {# Condition et boucle pour créer Menu #}
+        {% if jour == 'Lundi' %} {% set repas = ['Déjeuner A', 'Déjeuner B',
+        'Diner'] %} {% elseif jour == 'Vendredi' %} {% set repas = ['Petit
+        Déjeuner'] %} {% else %} {% set repas = ['Petit Déjeuner', 'Déjeuner A',
+        'Déjeuner B', 'Diner'] %} {% endif %} {% for repas_type in repas %}
+        <div class="repas">
+          <h4>{{ repas_type }}</h4>
+          <textarea
+            type="text"
+            name="day[{{
+              jour | lower
+            }}][{{ repas_type|lower|replace({' ': '_'}) }}]"
+            placeholder="{{ repas_type }}"
+            cols="25"
+            rows="{% if jour == 'Petit Déjeuner' %}2{% else %}3{% endif %}"
+            wrap="off"
+            maxlength="{% if jour == 'Petit Déjeuner' %}100{% else %}300{% endif %}"
+            class="{{ jour | lower }}"
+          ></textarea>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {% for message in app.flashes('error') %}
+    <div role="alert" class="errorMsg">
+      {{ message }}
+    </div>
+    {% endfor %}
+    <div role="alert" id="errorMsg" class="errorMsg"></div>
+    <div class="d-flex justify-content-sm-end justify-content-around">
+      <button type="button" class="btnCreer" id="btnReset">Annuler</button>
+      <button type="submit" class="btnCreer" id="btnValider">Valider</button>
+    </div>
+  </form>
+</main>
+
+{% endblock %}

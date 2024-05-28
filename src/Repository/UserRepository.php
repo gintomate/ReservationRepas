@@ -40,6 +40,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // FIND USER BY THEIR PROMOTION
+    public function findByPromo($promo): array
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.userInfo', 'ui')
+            ->innerJoin('ui.promo', 'p')
+            ->where('p.id = :promo ')
+            ->setParameter('promo', $promo)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

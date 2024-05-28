@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %} {% block title %}Accueil - Connection{% endblock
+%} {% block body %} {% include "nav/AccueilNav.html.twig" %}
+<main>
+  <h1>Connection</h1>
+  <form action="{{ path('login') }}" method="post">
+    <div class="d-flex flex-column card-section">
+      <div class="m-3">
+        <label for="username" class="form-label">Identifiant *</label
+        ><input type="text" id="username" name="_username" class="form-control"/>
+      </div>
+      <div class="m-3">
+        <label for="password" class="form-label">Mot de Passe *</label>
+        <input type="password" id="password" name="_password" class="form-control"/>
+      </div >
+      <a href="">Mot de passe oublié ?</a>
+      <button type="submit">Se connecter</button>
+    </div>
+  </form>
+  {% if error %}
+  <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+  {% endif %}
+</main>
+{% endblock %}

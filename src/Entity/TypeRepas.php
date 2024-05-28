@@ -6,6 +6,8 @@ use App\Repository\TypeRepasRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TypeRepasRepository::class)]
 class TypeRepas
@@ -13,15 +15,23 @@ class TypeRepas
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
+    #[Assert\PositiveOrZero]
+    #[Assert\NotBlank]
     private ?float $tarifPlein = null;
 
     #[ORM\Column]
+    #[Groups(['reservation', 'semaineResa', 'consultation'])]
+    #[Assert\PositiveOrZero]
+    #[Assert\NotBlank]
     private ?float $tarifReduit = null;
 
     #[ORM\OneToMany(targetEntity: Repas::class, mappedBy: 'typeRepas')]

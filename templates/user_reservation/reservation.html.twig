@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %} {% block title %}Réservation - Réserver{% endblock
+%} {% block importmap %} {{ importmap(["app", "reservation"]) }}{% endblock %}{%
+block body %} {% include "nav/UserNav.html.twig" %}
+<main>
+  <h1>Réserver un Repas</h1>
+  <form action="{{ path('user_reservation_submit') }}" method="post">
+    <div id="semaineContainer">
+      <label for="semaine">Réserver pour la Semaine: </label>
+      <select name="semaine" id="semaine"></select>
+    </div>
+    <div id="menuContainer">
+      <div
+        class="d-flex flex-sm-row flex-column justify-content-around align-items-center">
+      {# Define all meal dor each Day #}
+      {% set days = [
+        {'name': 'Lundi', 'id': 'Monday', 'repas': [
+            {'name': 'Pas de Petit Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Déjeuner A', 'class': 'grey', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Monday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'grey', 'input_name': 'day[Monday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Monday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Mardi', 'id': 'Tuesday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'grey', 'input_name': 'day[Tuesday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'green', 'input_name': 'day[Tuesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'grey', 'input_name': 'day[Tuesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'green', 'input_name': 'day[Tuesday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Tuesday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Mercredi', 'id': 'Wednesday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'green', 'input_name': 'day[Wednesday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'grey', 'input_name': 'day[Wednesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'green', 'input_name': 'day[Wednesday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'grey', 'input_name': 'day[Wednesday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Wednesday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Jeudi', 'id': 'Thursday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'grey', 'input_name': 'day[Thursday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Déjeuner A', 'class': 'green', 'input_name': 'day[Thursday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][dejeuner]', 'checkbox_value': 'déjeuner_a'},
+            {'name': 'Déjeuner B', 'class': 'grey', 'input_name': 'day[Thursday][dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][dejeuner]', 'checkbox_value': 'déjeuner_b'},
+            {'name': 'Diner', 'class': 'green', 'input_name': 'day[Thursday][diner]', 'input_value': 'false', 'checkbox_name': 'day[Thursday][diner]', 'checkbox_value': 'diner'}
+        ]},
+        {'name': 'Vendredi', 'id': 'Friday', 'repas': [
+            {'name': 'Petit Déjeuner', 'class': 'green', 'input_name': 'day[Friday][petit_dejeuner]', 'input_value': 'false', 'checkbox_name': 'day[Friday][petit_dejeuner]', 'checkbox_value': 'petit_déjeuner'},
+            {'name': 'Pas de Déjeuner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Pas de Déjeuner', 'class': 'green repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''},
+            {'name': 'Pas de Diner', 'class': 'grey repasVide', 'input_name': '', 'input_value': '', 'checkbox_name': '', 'checkbox_value': ''}
+        ]}
+    ] %}
+    {# Call meal for day #}
+    {% for day in days %}
+        <div class="jourContainer">
+            <h3>{{ day.name }}</h3>
+            <div class="repasContainer" id="{{ day.id }}Repas">
+                {% for repas in day.repas %}
+                    <div class="repas {{ repas.class }}">
+                        <h4>{{ repas.name }}</h4>
+                        <p class="{{ day.id }}"></p>
+                        {% if repas.input_name != '' %}
+                        {% if repas.name == 'Petit Déjeuner'or repas.name == 'Déjeuner A'or repas.name == 'Diner'  %}
+                        <input type="hidden" name="{{ repas.input_name }}" class="" value="{{ repas.input_value }}" />
+                        {% endif %}
+
+                            <input type="checkbox" name="{{ repas.checkbox_name }}" class="" value="{{ repas.checkbox_value }}" />
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="ferie hidden" id="{{ day.id }}">
+                <div class="d-flex flex-column justify-content-center">
+                    <h3 class="ferieText">Pas de Repas</h3>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+      </div>
+      <div role="alert" id="errorMsg" class="errorMsg alert"></div>
+      {% for message in app.flashes('error') %}
+      <div role="alert" class="errorMsg">
+        {{ message }}
+      </div>
+      {% endfor %}
+      <div
+        class="d-flex flex-lg-row flex-column justify-content-between"
+        id="menuBottomBar"
+      >
+        <div>
+          Total:
+          <input
+            type="text"
+            class="text-end"
+            id="caseTotal"
+            value="0"
+            disabled
+          />
+          €
+        </div>
+        <div class="limitDiv">
+          <p>Date limite de Réservation :</p>
+          <span id="dateLimit"> </span>
+        </div>
+        <div>
+          <a href=""><button type="button" id="btnReset">Annuler</button></a>
+          <button type="submit" id="btnValider">Valider</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+{% include "nav/footer.html.twig" %}
+<div class="js-user" data-tarif="{{ tarifReduit }}"></div>
+{% endblock %}

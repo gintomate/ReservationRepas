@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %} {% block title %}Ajouter une Section{%
+endblock %} {% block importmap %} {# do NOT call parent() #}
+{{ importmap(["app"]) }}
+{% endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Créer une Section</h1>
+  <p>Le nom de la section doit faire plus de 7 lettres.</p>
+  {{ form_start(form,{'attr': {'class': 'formMdp'}}) }}
+  {{
+    form_label(form.nomSection, null, {
+      label_attr: { class: "form-label" }
+    })
+  }}
+  {{ form_widget(form.nomSection,{'attr': {'class': 'form-control'}}) }}
+  {{ form_errors(form.nomSection) }}
+  <p>L'abréviation doit faire entre 3 et 7 lettres.</p>
+  {{
+    form_label(form.abreviation, null, {
+      label_attr: { class: "form-label" }
+    })
+  }}
+  {{ form_widget(form.abreviation,{'attr': {'class': 'form-control'}}) }}
+  {{ form_errors(form.abreviation) }}
+  <div>
+    <button type="reset">Réinitialiser</button
+    ><button type="submit">Valider</button>
+  </div>
+  {{ form_end(form) }}
+</main>
+
+{% endblock %}

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PromoRepository::class)]
 class Promo
@@ -14,23 +16,36 @@ class Promo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['section', 'userInfo','secureUserInfo'])]
     private ?\DateTimeInterface $dateFin = null;
 
-    #[ORM\Column]
-    private ?int $numero = null;
 
     #[ORM\ManyToOne(inversedBy: 'promos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['userInfo' ,'secureUserInfo'])]
     private ?Section $Section = null;
 
     #[ORM\OneToMany(targetEntity: UserInfo::class, mappedBy: 'promo')]
     private Collection $userInfos;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['section', 'userInfo' ,'secureUserInfo'])]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Le nom doit faire au moins {{ limit }} charactères.',
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} charactères.',
+    )]
+
+    private ?string $nomPromo = null;
 
     public function __construct()
     {
@@ -66,17 +81,6 @@ class Promo
         return $this;
     }
 
-    public function getNumero(): ?int
-    {
-        return $this->numero;
-    }
-
-    public function setNumero(int $numero): static
-    {
-        $this->numero = $numero;
-
-        return $this;
-    }
 
     public function getSection(): ?Section
     {
@@ -116,6 +120,18 @@ class Promo
                 $userInfo->setPromo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNomPromo(): ?string
+    {
+        return $this->nomPromo;
+    }
+
+    public function setNomPromo(string $nomPromo): static
+    {
+        $this->nomPromo = $nomPromo;
 
         return $this;
     }

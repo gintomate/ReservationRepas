@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}{% block title %}Récapitulatif des Réservations{%
+endblock %}{% block importmap %} {{ importmap(["app", "recapitulatif"]) }}{%
+endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main id="cont">
+  <h1>Gérer les Sections</h1>
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
+  <table id="recapContainer">
+    <thead>
+      <th>Abréviation</th>
+      <th>Nom Complet</th>
+      <th>Dernière Promo</th>
+      <th>Nombre de Stagiaire</th>
+      <th>Consulter</th>
+    </thead>
+    <tbody id="recap">
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.abreviation }}</td>
+        <td>{{ section.nomSection }}</td>
+
+        {# Initialize variables to store the latest promo and its date #} {% set
+        latestPromo = null %} {% set latestPromoDate = null %} {% for promo in
+        section.promos %} {# Check if the current promo date is greater than the
+        latest promo date #} {% if latestPromoDate is null or promo.dateDebut >
+        latestPromoDate %} {# Update the latest promo and its date #} {% set
+        latestPromo = promo %} {% set latestPromoDate = promo.dateDebut %} {%
+        endif %} {% endfor %} {# Output the details of the latest promo #}
+        <td>{{ latestPromo ? latestPromo.nomPromo }}</td>
+        {# Calculate the number of users within the latest promo #} {% if
+        latestPromo %} {% set numberOfUsers = latestPromo.userInfos | length %}
+        {% else %} {% set numberOfUsers = 0 %} {% endif %}
+        <td>{{ numberOfUsers }}</td>
+        <td>
+          <a href="{{ path('admin_section_solo', { id: section.id }) }}"
+            >Consulter</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ path('admin_section_new') }}">
+    <button type="button" id="btnSection">
+      Ajouter une nouvelle Section
+    </button></a
+  >
+</main>
+{% endblock %}

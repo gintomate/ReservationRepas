@@ -1,0 +1,153 @@
+/* CSS Select Semaine */
+
+#semaineContainer {
+  background-color: var(--main-color);
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid var(--tertiary-color);
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 5px 5px 3px grey;
+}
+#semaine {
+  background-color: var(--main-color);
+  color: white;
+  border: 1px solid var(--tertiary-color);
+}
+
+/* CSS Menu */
+
+.cardMenu {
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  width: 19%;
+  height: fit-content;
+  box-shadow: 10px 10px 5px grey;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+.repas {
+  background-color: var(--secondary-color);
+  text-align: center;
+  color: black;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid white;
+  height: 140px;
+}
+textarea {
+  max-width: 95%;
+  background-color: var(--main-color);
+  border: 2px solid var(--tertiary-color);
+  color: white;
+  max-height: 5em;
+}
+::placeholder {
+  color: var(--grey-color);
+  opacity: 1; /* Firefox */
+}
+::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: var(--grey-color);
+}
+
+h3 {
+  margin: 5px;
+}
+#errorMsg {
+  display: none;
+}
+.errorMsg {
+  background-color: var(--alert-color);
+  color: white;
+  border: 2px solid var(--tertiary-color);
+  box-shadow: 5px 5px 3px grey;
+  padding: 16px;
+  text-align: center;
+  margin: 3px;
+}
+.btnCreer {
+  width: 15%;
+  text-align: center;
+  font-size: 28px;
+  margin: 10px;
+  padding: 5px;
+  box-shadow: 5px 5px 3px grey;
+}
+
+@media screen and (max-width: 1300px) {
+  .cardMenu {
+    margin: 0;
+    margin-top: 5px;
+    width: 20%;
+    box-shadow: 5px 5px 3px grey;
+    padding: 0;
+  }
+  .repas {
+    margin: 5px;
+  }
+  .btnCreer {
+    font-size: 22px;
+  }
+  .errorMsg {
+    padding: 16px;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .cardMenu {
+    width: 33%;
+    box-shadow: 5px 5px 3px grey;
+    padding: 2px;
+  }
+  .btnCreer {
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 768px) {
+  .cardMenu {
+    width: 50%;
+    padding: 2px;
+  }
+  .repas {
+    margin: 5px auto;
+    padding: 2px;
+    height: 125px;
+    width: 90%;
+  }
+}
+@media screen and (max-width: 666px) {
+}
+@media screen and (max-width: 576px) {
+  #semaineContainer {
+    display: block;
+    text-align: center;
+    margin: 7px;
+    padding: 5px 10px;
+  }
+  .cardMenu {
+    width: 80%;
+    margin: 5px auto 5px;
+    padding: 5px;
+    box-shadow: 5px 5px 3px grey;
+    align-items: center;
+  }
+
+  .repas {
+    margin: 7px;
+    padding: 2px;
+    height: 120px;
+    width: 100%;
+    
+  }
+  textarea {
+    width: 95%;
+  }
+}

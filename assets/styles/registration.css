@@ -1,0 +1,17 @@
+.card-section {
+  background-color: var(--main-color);
+  border: 3px solid var(--tertiary-color);
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  box-shadow: 5px 5px 3px grey;
+  margin: 10px;
+  padding: 7px;
+}
+#infoUser,
+#infoAfpar {
+  width: 50%;
+}
+#infoSite {
+  width: 100%;
+}

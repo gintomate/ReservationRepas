@@ -21,6 +21,14 @@ class PromoRepository extends ServiceEntityRepository
         parent::__construct($registry, Promo::class);
     }
 
+    //Group by Section id
+    public function groupBySection(): array
+    {
+        return $this->createQueryBuilder('p')
+        ->groupBy('p.Section')
+        ->getQuery()
+        ->getResult();
+    }
     //    /**
     //     * @return Promo[] Returns an array of Promo objects
     //     */

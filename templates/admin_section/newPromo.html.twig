@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %} {% block title %}Ajouter une Promotion{% endblock
+%} {% block importmap %} {# do NOT call parent() #}
+{{ importmap(["app"]) }}
+{% endblock %}{% block body %} {% include "nav/AdminNav.html.twig" %}
+<main>
+  <h1>Créer une Promotion</h1>
+
+  {{ form_start(form,{'attr': {'class': 'formMdp'}}) }}
+  <p>Le nom de la Section doit faire plus de 7 lettres.</p>
+
+  {{
+    form_label(form.nomPromo, null, {
+      label_attr: { class: "form-label" }
+    })
+  }}
+  {{ form_widget(form.nomPromo,{'attr': {'class': 'form-control'}}) }}
+  {{ form_errors(form.nomPromo) }}
+  <p>Le nom de la Section doit faire plus de 7 lettres.</p>
+  {{
+    form_label(form.dateDebut, null, {
+      label_attr: { class: "form-label" }
+    })
+  }}
+  {{ form_widget(form.dateDebut,{'attr': {'class': 'form-control'}}) }}
+  {{ form_errors(form.dateDebut) }}
+  <p>L'abréviation doit faire plus de 3 lettres.</p>
+  {{
+    form_label(form.dateFin, null, {
+      label_attr: { class: "form-label" }
+    })
+  }}
+  {{ form_widget(form.dateFin,{'attr': {'class': 'form-control'}}) }}
+  {{ form_errors(form.dateFin) }}
+  <div>
+    <button type="reset">Réinitialiser</button
+    ><button type="submit">Valider</button>
+  </div>
+  {{ form_end(form) }}
+</main>
+{% endblock %}

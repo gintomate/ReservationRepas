@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %} {% block title %}Profil{% endblock %} {% block
+importmap %}
+
+{{ importmap(["app", "profil"]) }}
+{% endblock %} {% block body %} {% include "nav/UserNav.html.twig" %}
+
+<main>
+  <h1>Mon Profil</h1>
+
+  {% for message in app.flashes('success') %}
+  <div role="alert" class="alert text-center" id="successMsg">
+    {{ message }}
+  </div>
+  {% endfor %}
+  <div class="d-flex flex-lg-row flex-column">
+    <!-- Personnal Info -->
+    <div id="infoPerso">
+      <h3>Info Personnel</h3>
+      <div class="d-flex flex-column justify-content-evenly">
+        <div class="infoColumn">
+          <label for="nom">Nom</label>
+          {# Utilisation de l'orm pour les données #}
+          <p id="nom ">{{ user.userInfo.nom }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="prenom">Prénom</label>
+          <p id="prenom">{{ user.userInfo.prenom }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="dateNaissance">Date de Naissance</label>
+          <p id="dateNaissance">
+            {{ user.userInfo.dateDeNaissance | date('d-m-Y') }}
+          </p>
+        </div>
+        <div class="infoColumn">
+          <label for="email">Email</label>
+          <p id="email">{{ user.email }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="identifiant">Identifiant</label>
+          <p id="identifiant">{{ user.identifiant }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="btnModifier">Mot de passe</label>
+          <button id="btnModifier">Modifier</button>
+        </div>
+      </div>
+    </div>
+    <!-- Afpar Info -->
+    <div id="infoAfpar">
+      <h3>Info Afpar</h3>
+      <div class="d-flex flex-column justify-content-around">
+        <div class="infoColumn">
+          <label for="section">Section</label>
+          <p id="section">{{ user.userInfo.promo.section.nomSection }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="promo">Promo</label>
+          <p id="promo">{{ user.userInfo.promo.nomPromo }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="dateDebut">Date de Début</label>
+          <p id="dateDebut">
+            {{ user.userInfo.promo.dateDebut | date('d-m-Y') }}
+          </p>
+        </div>
+        <div class="infoColumn">
+          <label for="dateFin">Date de Fin</label>
+          <p id="dateFin">{{ user.userInfo.promo.dateFin | date('d-m-Y') }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="somme">Somme Total Dépensé</label>
+          <p id="somme">{{ user.userInfo.montantGlobal }}</p>
+        </div>
+        <div class="infoColumn">
+          <label for="delegue">Délégué</label>
+          <div id="delegue">
+            <input type="checkbox" id="delegueBtn" disabled {% if delegue ==
+            true %} checked {% endif %} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  Fin cadre -->
+  <p id="textDisclaimer">
+    Si vous constater que ces informations sont érronés ou qu'elles ont changer,
+    veuillez contacter l'administration.
+  </p>
+</main>
+{% include "nav/footer.html.twig" %} {% endblock %}

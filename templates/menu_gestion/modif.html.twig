@@ -1,0 +1,412 @@
+{% extends 'base.html.twig' %} {% block title %}Créer un Menu{% endblock %} {%
+block importmap %} {# do NOT call parent() #}
+
+{{ importmap(["app", "menu"]) }}
+{% endblock %} {% block body %} {% include "nav/AdminNav.html.twig" %}
+
+<main>
+  <h1>Modifier le menu de la semaine {{ semaine.numeroSemaine }}</h1>
+
+  <form method="post">
+    <div id="semaineContainer" ->
+      <label for="semaine">{{semaine.dateDebut|date('d-m-Y')}}</label>
+    </div>
+
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-evenly flex-wrap"
+    >
+      <div class="cardMenu">
+        <h3>Lundi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[Monday][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[Monday][ferie]"
+            class="lundi"
+            value="true"
+            {%
+            if
+            semaine.jourReservation[0].ferie
+            is
+            same
+            as(true)
+            %}
+            checked
+            {%
+            endif
+            %}
+        /></label>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            id="lundiDejA"
+            name="day[Monday][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          >
+{% if semaine.jourReservation[0].repas is defined and semaine.jourReservation[0].repas|length > 0  %}{{
+              semaine.jourReservation[0].repas[0].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[Monday][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          >
+{% if semaine.jourReservation[0].repas is defined and semaine.jourReservation[0].repas|length > 0  %}{{
+              semaine.jourReservation[0].repas[1].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[Monday][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="lundi"
+          >
+{% if semaine.jourReservation[0].repas is defined and semaine.jourReservation[0].repas|length > 0  %}{{
+              semaine.jourReservation[0].repas[2].description
+            }}{% endif %}</textarea
+          >
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Mardi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[Tuesday][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[Tuesday][ferie]"
+            class="mardi"
+            value="true"
+            {%
+            if
+            semaine.jourReservation[1].ferie
+            is
+            same
+            as(true)
+            %}
+            checked
+            {%
+            endif
+            %}
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[Tuesday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="mardi"
+          >
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+              semaine.jourReservation[1].repas[0].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[Tuesday][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          >
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+              semaine.jourReservation[1].repas[1].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[Tuesday][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          >
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+              semaine.jourReservation[1].repas[2].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            name="day[Tuesday][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mardi"
+          >
+{% if semaine.jourReservation[1].repas is defined and semaine.jourReservation[1].repas|length > 0  %}{{
+              semaine.jourReservation[1].repas[3].description
+            }}{% endif %}</textarea
+          >
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Mercredi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[Wednesday][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[Wednesday][ferie]"
+            class="mercredi"
+            value="true"
+            {%
+            if
+            semaine.jourReservation[2].ferie
+            is
+            same
+            as(true)
+            %}
+            checked
+            {%
+            endif
+            %}
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[Wednesday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="mercredi"
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[0].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[Wednesday][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[1].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[Wednesday][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[2].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[Wednesday][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="mercredi"
+          >
+{% if semaine.jourReservation[2].repas is defined and semaine.jourReservation[2].repas|length > 0  %}{{
+              semaine.jourReservation[2].repas[3].description
+            }}{% endif %}</textarea
+          >
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Jeudi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[Thursday][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[Thursday][ferie]"
+            class="jeudi"
+            value="true"
+            {%
+            if
+            semaine.jourReservation[3].ferie
+            is
+            same
+            as(true)
+            %}
+            checked
+            {%
+            endif
+            %}
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[Thursday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="jeudi"
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[0].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner A</h4>
+          <textarea
+            type="text"
+            name="day[Thursday][dejeuner_a]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[1].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Déjeuner B</h4>
+          <textarea
+            type="text"
+            name="day[Thursday][dejeuner_b]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[2].description
+            }}{% endif %}</textarea
+          >
+        </div>
+        <div class="repas">
+          <h4>Diner</h4>
+          <textarea
+            type="text"
+            name="day[Thursday][diner]"
+            placeholder="Entrée: ...&#10;Repas:...&#10;Dessert:..."
+            cols="25"
+            rows="3"
+            wrap="off"
+            maxlength="300"
+            class="jeudi"
+          >
+{% if semaine.jourReservation[3].repas is defined and semaine.jourReservation[3].repas|length > 0  %}{{
+              semaine.jourReservation[3].repas[3].description
+            }}{% endif %}</textarea
+          >
+        </div>
+      </div>
+      <div class="cardMenu">
+        <h3>Vendredi</h3>
+        <label
+          >Férié
+          <input type="hidden" name="day[Friday][ferie]" value="false" />
+          <input
+            type="checkbox"
+            name="day[Friday][ferie]"
+            class="vendredi"
+            value="true"
+            {%
+            if
+            semaine.jourReservation[4].ferie
+            is
+            same
+            as(true)
+            %}
+            checked
+            {%
+            endif
+            %}
+        /></label>
+        <div class="repas">
+          <h4>Petit Déjeuner</h4>
+          <textarea
+            type="text"
+            name="day[Friday][petit_dejeuner]"
+            placeholder="Petit Déjeuner..."
+            cols="25"
+            rows="2"
+            wrap="off"
+            maxlength="100"
+            class="vendredi"
+          >
+{% if semaine.jourReservation[4].repas is defined and semaine.jourReservation[4].repas|length > 0  %}{{
+              semaine.jourReservation[4].repas[0].description
+            }}{% endif %}</textarea
+          >
+        </div>
+      </div>
+    </div>
+    <div role="alert" id="errorMsg"></div>
+    <div class="text-end">
+      <button type="reset" class="btnCreer" id="btnReset">Réinitialiser</button>
+      <button type="submit" class="btnCreer" id="btnValider">Valider</button>
+    </div>
+  </form>
+</main>
+{% endblock %}

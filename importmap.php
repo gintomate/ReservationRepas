@@ -27,4 +27,69 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'bootstrap' => [
+        'version' => '5.3.3',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.3',
+        'type' => 'css',
+    ],
+    'menu' => [
+        'path' => './assets/javascripts/menu.js',
+        'entrypoint' => true,
+    ],
+    'registration' => [
+        'path' => './assets/javascripts/registration.js',
+        'entrypoint' => true,
+    ],
+    'recapitulatif' => [
+        'path' => './assets/javascripts/adminRecap.js',
+        'entrypoint' => true,
+    ],
+    'reservation' => [
+        'path' => './assets/javascripts/userReservation.js',
+        'entrypoint' => true,
+    ],
+    'axios' => [
+        'version' => '1.6.8',
+    ],
+    'delegue' => [
+        'path' => './assets/javascripts/delegue.js',
+        'entrypoint' => true,
+    ],
+    'profil' => [
+        'path' => './assets/javascripts/profil.js',
+        'entrypoint' => true,
+    ],
+    'userConsultation' => [
+        'path' => './assets/javascripts/userConsultation.js',
+        'entrypoint' => true,
+    ],
+    'userModif' => [
+        'path' => './assets/javascripts/userModif.js',
+        'entrypoint' => true,
+    ],
+    'adminConsultation' => [
+        'path' => './assets/javascripts/adminConsultation.js',
+        'entrypoint' => true,
+    ],
+    'adminGestionUser' => [
+        'path' => './assets/javascripts/adminGestionUser.js',
+        'entrypoint' => true,
+    ],
+    'section' => [
+        'path' => './assets/javascripts/section.js',
+        'entrypoint' => true,
+    ],
+    'cuisine' => [
+        'path' => './assets/javascripts/cuisine.js',
+        'entrypoint' => true,
+    ],
+    'index' => [
+        'path' => './assets/javascripts/index.js',
+        'entrypoint' => true,
+    ],
 ];
