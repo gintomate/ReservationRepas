@@ -143,7 +143,6 @@ function hideAndShowElements(dayIndex, isHoliday) {
 }
 
 // Function to make checkbox behave like Radio
-
 weekday.forEach((day) => {
   var checkboxes = document.querySelectorAll(
     'input[type="checkbox"][name="day[' + day + '][dejeuner]"]'
@@ -168,7 +167,6 @@ function preventDefaultOnClick(event) {
 }
 
 //FUNCTION TO SUBSTRACT THE DAY TO SHOW THE LAST DAY OF THE RESERVATION
-
 function subtractDays(date, days) {
   var result = new Date(date);
   result.setDate(result.getDate() - days);
@@ -176,7 +174,6 @@ function subtractDays(date, days) {
 }
 
 //FUNCTION TO RETURN AN ARRAY OF EVERY INPUT
-
 function getDayClass(day) {
   var dayClass = document.getElementsByClassName(day);
   const dayArray = Array.from(dayClass);
@@ -184,7 +181,6 @@ function getDayClass(day) {
 }
 
 // RESET THE SYLE ON CHANGE
-
 function resetStyles() {
   var repasArray = Array.from(repasContainer);
   var ferieArray = Array.from(ferieContainer);
@@ -207,17 +203,14 @@ function resetStyles() {
 }
 
 //afficher total avec JS
-
 function calculatePrice() {
   var caseTotal = document.getElementById("caseTotal");
   var total = 0;
   //When unchecked the checkbox disapear from the list
   var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-
   checkboxes.forEach(function (input) {
     var associatedPrice = input.parentNode.querySelector("p span");
     var prixSeul = parseFloat(associatedPrice.textContent);
-
     if (!isNaN(prixSeul)) {
       total += prixSeul;
     }
@@ -254,7 +247,6 @@ function validateForm() {
 }
 
 //FUNCTION TO Hide/SHOW THE ERROR MSG
-
 function resetError() {
   var errorMsgC = document.getElementsByClassName("errorMsg");
   for (var i = 0; i < errorMsgC.length; i++) {
@@ -264,7 +256,6 @@ function resetError() {
 }
 
 //call select change
-
 window.addEventListener("DOMContentLoaded", () => {
   fetchSemaine();
   semaine.addEventListener("change", function () {

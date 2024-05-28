@@ -13,7 +13,7 @@ axios
   .finally(function () {
     // dans tous les cas
   });
-
+//Select
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
@@ -67,7 +67,7 @@ function fetchMenu(value) {
       // dans tous les cas
     });
 }
-
+//Insert Menu
 function insertMenu(menu) {
   const jourReservation = menu.jourReservation;
   const repasByDay = {

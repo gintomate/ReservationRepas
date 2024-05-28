@@ -14,6 +14,7 @@ function fetchSemaine() {
     });
 }
 
+//Select
 function insertOption(data) {
   var semaine = document.getElementById("semaine");
   semaine.innerHTML = "";
@@ -44,7 +45,7 @@ function fetchReservation(value) {
       console.log(error);
     });
 }
-
+//insert HTML
 function insertReservation(reservation) {
   insertMontant(reservation);
   const repasReserves = reservation.repasReserves;
